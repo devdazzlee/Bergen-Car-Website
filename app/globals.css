@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ *
+ * Bergen Car Company — design tokens
+ * Deep navy / near-black primary, Bergen red accent, warm gold for
+ * pricing + key CTAs, generous neutral surfaces.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-ink: #090c14;
+  --color-navy: #0c1424;
+  --color-navy-700: #142138;
+  --color-navy-600: #1d2f4d;
+  --color-navy-500: #2a3f63;
+  --color-navy-400: #5a6b86;
+
+  --color-red: #e11d2e;
+  --color-red-600: #c2151f;
+  --color-red-400: #f24653;
+
+  --color-gold: #f4b740;
+  --color-gold-300: #f8cd73;
+  --color-gold-600: #d2971d;
+
+  --color-mist: #f4f5f8;
+  --color-cloud: #eaecf1;
+  --color-line: #e4e7ee;
+
+  --font-heading: var(--font-sora), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(9, 12, 20, 0.04),
+    0 14px 34px -14px rgba(9, 12, 20, 0.18);
+  --shadow-lift: 0 2px 6px rgba(9, 12, 20, 0.07),
+    0 30px 55px -18px rgba(9, 12, 20, 0.32);
+  --shadow-widget: 0 4px 12px rgba(9, 12, 20, 0.08),
+    0 40px 80px -28px rgba(9, 12, 20, 0.45);
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #090c14;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* keep anchor targets clear of the fixed header */
+  scroll-padding-top: 88px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Layout helper — consistent page gutter + max width everywhere */
+.container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1240px;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+/* Fluid display type scale — confident headline sizes */
+.display-1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.6rem, 6.4vw, 4.75rem);
+}
+.display-2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+}
+.display-3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+}
+.eyebrow {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* Hide scrollbars on the horizontal filter-chip rail */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes bcc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes bcc-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-up {
+  animation: bcc-fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-fade {
+  animation: bcc-fade 0.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-fade-up,
+  .animate-fade {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
