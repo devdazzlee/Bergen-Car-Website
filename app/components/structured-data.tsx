@@ -16,7 +16,7 @@ export default function StructuredData() {
       email: "sales@bergencarcompany.com",
       priceRange: "$$",
       image:
-        "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=70",
+        "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=70",
       address: {
         "@type": "PostalAddress",
         streetAddress: "412 Route 46",

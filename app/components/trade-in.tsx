@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Reveal } from "./motion";
 import { IconArrowRight, IconCheck } from "./icons";
 
 const POINTS = [
-  "Firm written offer in about 20 minutes",
-  "Valid for 7 days — no obligation to buy",
-  "We handle the payoff on your existing loan",
-  "Applies straight to your next car, or take the check",
+  "A written offer, usually in about 20 minutes",
+  "Good for 7 days, with no obligation to buy",
+  "We take care of paying off your current loan",
+  "Use it toward your next car, or take the check",
 ];
 
 export default function TradeIn() {
@@ -19,12 +20,12 @@ export default function TradeIn() {
         <Reveal>
           <p className="eyebrow text-gold">Trade-ins</p>
           <h2 className="display-2 mt-2 text-white">
-            Your trade is worth more than a rushed guess
+            We&apos;ll give you a fair number for your trade-in
           </h2>
           <p className="mt-4 max-w-lg text-lg leading-8 text-white/70">
-            We appraise on current auction and retail data — not whatever gets
-            you off the lot fastest. Bring the car, the keys, and the title if
-            you have it.
+            We base it on what your car is actually worth today, and we put the
+            offer in writing. Bring it by with the keys and the title if you
+            have them.
           </p>
 
           <ul className="mt-6 space-y-3">
@@ -42,13 +43,13 @@ export default function TradeIn() {
               placeholder="Plate or VIN"
               className="w-full rounded-xl border border-white/15 bg-navy-700 px-4 py-3 text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-gold/60"
             />
-            <a
-              href="#contact"
+            <Link
+              href="/trade"
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3 text-sm font-bold text-ink transition-colors hover:bg-gold-300 active:scale-[0.98]"
             >
-              Value my trade
+              Get my trade estimate
               <IconArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         </Reveal>
 
@@ -60,8 +61,8 @@ export default function TradeIn() {
           className="relative aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-white/10"
         >
           <Image
-            src="https://images.unsplash.com/photo-1607853554439-0069ec0f29b6?auto=format&fit=crop&w=1200&q=70"
-            alt="A well-kept used car being appraised for trade-in at Bergen Car Company"
+            src="https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3?auto=format&fit=crop&w=1200&q=70"
+            alt="A well-kept used sedan being appraised for trade-in at Bergen Car Company"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"

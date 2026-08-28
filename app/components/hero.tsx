@@ -24,16 +24,16 @@ export default function Hero() {
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=2400&q=70"
-            alt="Detailed used car parked at Bergen Car Company in Lodi, New Jersey"
+            src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=2400&q=70"
+            alt="A clean, well-kept used SUV parked outside Bergen Car Company in Lodi, New Jersey"
             fill
             preload
             sizes="100vw"
             className="object-cover object-center"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/55 to-ink/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/70 to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/25 to-transparent" />
       </div>
 
       <motion.div
@@ -48,19 +48,20 @@ export default function Hero() {
             className="eyebrow flex items-center gap-2 text-gold"
           >
             <span className="h-px w-8 bg-gold/70" />
-            Lodi, New Jersey
+            Family-owned in Lodi, New Jersey
           </motion.p>
           <motion.h1 variants={item} className="display-1 mt-5 text-white">
-            The used car search
+            Dependable used cars
             <br />
-            that respects your time.
+            from a family you can trust.
           </motion.h1>
           <motion.p
             variants={item}
             className="mt-6 max-w-xl text-lg leading-8 text-white/75"
           >
-            Every vehicle inspected, priced up front, and ready to drive home.
-            Start with the search below.
+            We&apos;ve been helping families and commuters around Lodi find
+            good, reliable cars since 2008. Fair prices right on the window,
+            financing we&apos;ll walk you through, and nobody rushing you.
           </motion.p>
 
           <motion.div
@@ -73,12 +74,12 @@ export default function Hero() {
                   <IconStar key={i} className="h-4 w-4" />
                 ))}
               </span>
-              4.9 / 5 · 600+ reviews
+              4.9 out of 5 from 600+ local reviews
             </span>
             <span className="hidden h-4 w-px bg-white/20 sm:block" />
-            <span>18 years in Bergen County</span>
+            <span>Family-owned since 2008</span>
             <span className="hidden h-4 w-px bg-white/20 sm:block" />
-            <span>7,400+ cars delivered</span>
+            <span>7,400+ cars sold to neighbors</span>
           </motion.div>
         </div>
       </motion.div>

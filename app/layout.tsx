@@ -16,9 +16,11 @@ const sora = Sora({
 });
 
 const SITE_URL = "https://bergencarcompany.com";
-const TITLE = "Bergen Car Company | Quality Used Cars in Lodi, New Jersey";
+const TITLE = "Bergen Car Company | Family-Owned Used Car Dealer in Lodi, NJ";
 const DESCRIPTION =
-  "Shop inspected, ready-to-drive used cars at Bergen Car Company in Lodi, NJ. Up-front pricing, financing through 12 lenders, honest trade-in offers, and a warranty on every vehicle. Serving Bergen County, Passaic County, and the greater NYC metro.";
+  "Bergen Car Company is a family-owned used car dealership in Lodi, NJ. We've sold inspected, dependable used cars to families across Bergen County since 2008 — with prices up front, financing help, and fair trade-in offers.";
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&h=630&q=70";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -55,10 +57,10 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&h=630&q=70",
+        url: HERO_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Bergen Car Company showroom in Lodi, New Jersey",
+        alt: "A dependable used SUV at Bergen Car Company in Lodi, New Jersey",
       },
     ],
   },
@@ -66,9 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: [
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&h=630&q=70",
-    ],
+    images: [HERO_IMAGE],
   },
   robots: {
     index: true,

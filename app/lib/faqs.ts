@@ -7,11 +7,11 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Are your used cars inspected before they're sold?",
-    a: "Yes. Every vehicle goes through a 150-point mechanical and safety inspection by our ASE-certified technicians before it's listed. You get a copy of the inspection report and a free vehicle history report with each car.",
+    a: "Yes. Every vehicle goes through a full mechanical and safety inspection by our own certified technicians before it's listed. You get a copy of the inspection report and a free vehicle history report with each car.",
   },
   {
     q: "Can I get financing if my credit isn't perfect?",
-    a: "Often, yes. We submit one application to a network of 12 lenders, including local credit unions and first-time-buyer programs. Getting pre-qualified takes about two minutes and uses a soft credit pull, so it won't affect your score.",
+    a: "Often, yes. We submit one application to about a dozen lenders, including local credit unions and first-time-buyer programs. Getting pre-qualified takes about two minutes and uses a soft credit pull, so it won't affect your score.",
   },
   {
     q: "Do you accept trade-ins?",

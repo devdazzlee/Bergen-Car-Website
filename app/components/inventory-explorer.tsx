@@ -1,30 +1,43 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import {
   BODY_STYLES,
   MAKES,
   PRICE_RANGES,
   SORTS,
+  FEATURED_VEHICLES,
   VEHICLES,
   YEARS,
   modelsForMake,
   type SortValue,
   type Vehicle,
 } from "../lib/inventory";
-import { IconArrowRight, IconChevronDown, IconSearch } from "./icons";
+import { IconArrowRight, IconSearch } from "./icons";
 import { Reveal } from "./motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import QuickViewModal from "./quick-view-modal";
 import VehicleCard from "./vehicle-card";
 
 const TAG_RANK = ["New Arrival", "Price Drop", "Certified", "Low Miles"];
 
-function Field({
+function WidgetSelect({
   label,
+  value,
+  onValue,
   children,
 }: {
   label: string;
+  value: string;
+  onValue: (v: string) => void;
   children: React.ReactNode;
 }) {
   return (
@@ -32,16 +45,15 @@ function Field({
       <span className="text-[12px] font-semibold uppercase tracking-wide text-navy-500">
         {label}
       </span>
-      <div className="relative">
-        {children}
-        <IconChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-500" />
-      </div>
+      <Select value={value} onValueChange={onValue}>
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>{children}</SelectContent>
+      </Select>
     </label>
   );
 }
-
-const selectClass =
-  "w-full appearance-none rounded-xl border border-line bg-white py-3 pl-3.5 pr-9 text-[15px] font-medium text-ink outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/15";
 
 export default function InventoryExplorer() {
   const [year, setYear] = useState("");
@@ -58,7 +70,7 @@ export default function InventoryExplorer() {
 
   const filtered = useMemo(() => {
     const range = PRICE_RANGES[priceIdx];
-    const list = VEHICLES.filter((v) => {
+    const list = FEATURED_VEHICLES.filter((v) => {
       if (year && v.year !== Number(year)) return false;
       if (make && v.make !== make) return false;
       if (model && v.model !== model) return false;
@@ -128,75 +140,69 @@ export default function InventoryExplorer() {
             <div className="mb-4 flex items-center gap-2">
               <IconSearch className="h-5 w-5 text-red" />
               <h2 className="font-heading text-lg font-bold text-ink">
-                Search our inventory
+                Find your next car
               </h2>
               <span className="ml-auto hidden text-sm text-navy-500 sm:block">
-                {VEHICLES.length} vehicles in stock
+                {VEHICLES.length} cars on the lot
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-[repeat(4,1fr)_auto]">
-              <Field label="Year">
-                <select
-                  className={selectClass}
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                >
-                  <option value="">Any year</option>
-                  {YEARS.map((y) => (
-                    <option key={y} value={y}>
-                      {y}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+              <WidgetSelect
+                label="Year"
+                value={year || "any"}
+                onValue={(v) => setYear(v === "any" ? "" : v)}
+              >
+                <SelectItem value="any">Any year</SelectItem>
+                {YEARS.map((y) => (
+                  <SelectItem key={y} value={String(y)}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </WidgetSelect>
 
-              <Field label="Make">
-                <select
-                  className={selectClass}
-                  value={make}
-                  onChange={(e) => {
-                    setMake(e.target.value);
-                    setModel("");
-                  }}
-                >
-                  <option value="">Any make</option>
-                  {MAKES.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+              <WidgetSelect
+                label="Make"
+                value={make || "any"}
+                onValue={(v) => {
+                  setMake(v === "any" ? "" : v);
+                  setModel("");
+                }}
+              >
+                <SelectItem value="any">Any make</SelectItem>
+                {MAKES.map((m) => (
+                  <SelectItem key={m} value={m}>
+                    {m}
+                  </SelectItem>
+                ))}
+              </WidgetSelect>
 
-              <Field label="Model">
-                <select
-                  className={selectClass}
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                >
-                  <option value="">{make ? "Any model" : "All models"}</option>
-                  {models.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+              <WidgetSelect
+                label="Model"
+                value={model || "any"}
+                onValue={(v) => setModel(v === "any" ? "" : v)}
+              >
+                <SelectItem value="any">
+                  {make ? "Any model" : "All models"}
+                </SelectItem>
+                {models.map((m) => (
+                  <SelectItem key={m} value={m}>
+                    {m}
+                  </SelectItem>
+                ))}
+              </WidgetSelect>
 
-              <Field label="Price range">
-                <select
-                  className={selectClass}
-                  value={priceIdx}
-                  onChange={(e) => setPriceIdx(Number(e.target.value))}
-                >
-                  {PRICE_RANGES.map((r, i) => (
-                    <option key={r.label} value={i}>
-                      {r.label}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+              <WidgetSelect
+                label="Price range"
+                value={String(priceIdx)}
+                onValue={(v) => setPriceIdx(Number(v))}
+              >
+                {PRICE_RANGES.map((r, i) => (
+                  <SelectItem key={r.label} value={String(i)}>
+                    {r.label}
+                  </SelectItem>
+                ))}
+              </WidgetSelect>
 
               <button
                 type="button"
@@ -222,30 +228,34 @@ export default function InventoryExplorer() {
         <div className="container-page" ref={resultsRef}>
           <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow text-red">Featured inventory</p>
+              <p className="eyebrow text-red">Our current inventory</p>
               <h2 className="display-2 mt-2 text-ink">
-                {filtered.length} {filtered.length === 1 ? "vehicle" : "vehicles"}{" "}
-                ready to drive
+                {filtered.length} featured{" "}
+                {filtered.length === 1 ? "pick" : "picks"}
               </h2>
             </div>
 
-            <label className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-sm">
               <span className="font-medium text-navy-600">Sort</span>
-              <div className="relative">
-                <select
-                  className="appearance-none rounded-lg border border-line bg-white py-2 pl-3 pr-8 text-sm font-medium text-ink outline-none focus:border-navy focus:ring-2 focus:ring-navy/15"
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value as SortValue)}
+              <Select
+                value={sort}
+                onValueChange={(v) => setSort(v as SortValue)}
+              >
+                <SelectTrigger
+                  aria-label="Sort"
+                  className="h-9 w-auto min-w-[9.5rem] rounded-lg text-sm"
                 >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
                   {SORTS.map((s) => (
-                    <option key={s.value} value={s.value}>
+                    <SelectItem key={s.value} value={s.value}>
                       {s.label}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-                <IconChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-500" />
-              </div>
-            </label>
+                </SelectContent>
+              </Select>
+            </div>
           </Reveal>
 
           {/* Body-style quick filters */}
@@ -328,13 +338,19 @@ export default function InventoryExplorer() {
             </div>
           )}
 
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/inventory"
+              className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 active:scale-[0.98]"
+            >
+              See all {VEHICLES.length} vehicles
+              <IconArrowRight className="h-4 w-4" />
+            </Link>
             <a
               href="#contact"
               className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
             >
-              Don&apos;t see it? Tell us what you want
-              <IconArrowRight className="h-4 w-4" />
+              Don&apos;t see the right one? Tell us what you&apos;re after
             </a>
           </div>
         </div>

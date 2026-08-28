@@ -97,6 +97,52 @@ export const IconSearch = (p: IconProps) => (
   </svg>
 );
 
+export const IconChat = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M20 15a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2Z" />
+    <path d="M8 9h8M8 13h5" />
+  </svg>
+);
+
+export const IconOil = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M12 3s5 5.5 5 9a5 5 0 0 1-10 0c0-3.5 5-9 5-9Z" />
+    <path d="M9.5 13a2.5 2.5 0 0 0 2.5 2.5" />
+  </svg>
+);
+
+export const IconDisc = (p: IconProps) => (
+  <svg {...base(p)}>
+    <circle cx="12" cy="12" r="8.5" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" />
+  </svg>
+);
+
+export const IconTire = (p: IconProps) => (
+  <svg {...base(p)}>
+    <circle cx="12" cy="12" r="8.5" />
+    <circle cx="12" cy="12" r="3.2" />
+    <path d="m12 4 1.6 4.4M12 20l-1.6-4.4M4 12l4.4-1.6M20 12l-4.4 1.6M6.3 6.3l3.3 3.3M17.7 17.7l-3.3-3.3M17.7 6.3l-3.3 3.3M6.3 17.7l3.3-3.3" />
+  </svg>
+);
+
+export const IconCalendar = (p: IconProps) => (
+  <svg {...base(p)}>
+    <rect x="3.5" y="5" width="17" height="16" rx="2" />
+    <path d="M3.5 10h17M8 3.5v3M16 3.5v3" />
+  </svg>
+);
+
+export const IconSliders = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M18 18h2" />
+    <circle cx="16" cy="6" r="2" fill="currentColor" stroke="none" />
+    <circle cx="10" cy="12" r="2" fill="currentColor" stroke="none" />
+    <circle cx="18" cy="18" r="2" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 export const IconArrowRight = (p: IconProps) => (
   <svg {...base(p)}>
     <path d="M5 12h14" />

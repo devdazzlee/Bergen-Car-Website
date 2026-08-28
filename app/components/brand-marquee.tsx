@@ -3,22 +3,22 @@
 import { motion } from "framer-motion";
 
 const BRANDS = [
-  "BMW",
-  "Porsche",
-  "Tesla",
-  "Mercedes-Benz",
   "Toyota",
   "Honda",
   "Ford",
-  "Audi",
-  "Nissan",
-  "Chevrolet",
-  "Volkswagen",
-  "Jeep",
   "Subaru",
+  "Nissan",
   "Hyundai",
-  "Lexus",
+  "Chevrolet",
+  "Kia",
   "Mazda",
+  "Jeep",
+  "GMC",
+  "Volkswagen",
+  "Audi",
+  "BMW",
+  "Tesla",
+  "Lexus",
 ];
 
 export default function BrandMarquee() {
@@ -30,7 +30,7 @@ export default function BrandMarquee() {
     >
       <div className="container-page">
         <p className="text-center text-[12px] font-semibold uppercase tracking-[0.2em] text-navy-400">
-          Recent arrivals from the brands you know
+          The dependable brands we carry most
         </p>
       </div>
       <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">

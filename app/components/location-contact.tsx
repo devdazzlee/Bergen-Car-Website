@@ -1,19 +1,39 @@
 "use client";
 
-import { useState } from "react";
-import { IconClock, IconMail, IconPhone, IconPin, IconCheck } from "./icons";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import {
+  IconArrowRight,
+  IconCheck,
+  IconClock,
+  IconMail,
+  IconPhone,
+  IconPin,
+  IconShield,
+} from "./icons";
 import { Reveal } from "./motion";
 
 const HOURS = [
-  { day: "Monday – Friday", time: "9:00 AM – 8:00 PM" },
-  { day: "Saturday", time: "9:00 AM – 6:00 PM" },
-  { day: "Sunday", time: "11:00 AM – 4:00 PM" },
+  { label: "Monday – Friday", time: "9:00 AM – 8:00 PM", days: [1, 2, 3, 4, 5] },
+  { label: "Saturday", time: "9:00 AM – 6:00 PM", days: [6] },
+  { label: "Sunday", time: "11:00 AM – 4:00 PM", days: [0] },
 ];
 
 const ADDRESS = "412 Route 46, Lodi, NJ 07644";
+const MAPS_LINK = "https://www.google.com/maps/dir/?api=1&destination=Lodi,+New+Jersey";
+
+const inputClass =
+  "rounded-xl border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-navy-400 focus:border-navy focus:ring-2 focus:ring-navy/15";
 
 export default function LocationContact() {
   const [sent, setSent] = useState(false);
+  const [today, setToday] = useState<number | null>(null);
+
+  // Set after mount so static prerender doesn't freeze "today".
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setToday(new Date().getDay()));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <section id="contact" className="scroll-mt-24 bg-mist py-20 sm:py-24">
@@ -30,82 +50,121 @@ export default function LocationContact() {
         </Reveal>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
-          {/* Left: map + details */}
-          <div className="flex flex-col gap-6">
-            <div className="overflow-hidden rounded-2xl ring-1 ring-line shadow-[var(--shadow-card)]">
+          {/* Left: one card — map, details, hours */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-72px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden rounded-3xl bg-white ring-1 ring-line shadow-[var(--shadow-card)]"
+          >
+            <div className="relative">
               <iframe
                 title="Map to Bergen Car Company in Lodi, New Jersey"
                 src="https://www.google.com/maps?q=Lodi,+New+Jersey&z=13&output=embed"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-[300px] w-full border-0 sm:h-[360px]"
+                className="h-[280px] w-full border-0 sm:h-[320px]"
               />
+              <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-semibold text-ink shadow-md backdrop-blur">
+                <IconPin className="h-3.5 w-3.5 text-red" />
+                Bergen Car Company · Route 46
+              </span>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl bg-white p-5 ring-1 ring-line">
-                <IconPin className="h-5 w-5 text-red" />
-                <p className="mt-2 font-heading text-sm font-semibold text-ink">
-                  Showroom
-                </p>
-                <p className="mt-1 text-[14px] leading-6 text-navy-600">
-                  {ADDRESS}
-                </p>
+            <div className="p-6 sm:p-7">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex gap-3">
+                  <IconPin className="mt-0.5 h-5 w-5 shrink-0 text-red" />
+                  <div>
+                    <p className="font-heading text-sm font-semibold text-ink">
+                      Showroom
+                    </p>
+                    <p className="mt-0.5 text-[14px] leading-6 text-navy-600">
+                      {ADDRESS}
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href={MAPS_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-mist px-3 py-2 text-[13px] font-semibold text-navy-700 transition-colors hover:bg-navy hover:text-white"
+                >
+                  Directions
+                  <IconArrowRight className="h-3.5 w-3.5" />
+                </a>
               </div>
-              <div className="rounded-2xl bg-white p-5 ring-1 ring-line">
-                <IconPhone className="h-5 w-5 text-red" />
-                <p className="mt-2 font-heading text-sm font-semibold text-ink">
-                  Sales
-                </p>
+
+              <div className="my-5 h-px bg-line" />
+
+              <div className="flex flex-wrap gap-x-8 gap-y-3">
                 <a
                   href="tel:+19735550142"
-                  className="mt-1 block text-[14px] text-navy-600 hover:text-ink"
+                  className="flex items-center gap-2 text-[14px] font-medium text-navy-700 transition-colors hover:text-red"
                 >
+                  <IconPhone className="h-4 w-4 text-red" />
                   (973) 555-0142
                 </a>
                 <a
                   href="mailto:sales@bergencarcompany.com"
-                  className="mt-1 flex items-center gap-1.5 text-[13px] text-navy-500 hover:text-ink"
+                  className="flex items-center gap-2 text-[14px] font-medium text-navy-700 transition-colors hover:text-red"
                 >
-                  <IconMail className="h-3.5 w-3.5" />
+                  <IconMail className="h-4 w-4 text-red" />
                   sales@bergencarcompany.com
                 </a>
               </div>
-              <div className="rounded-2xl bg-white p-5 ring-1 ring-line sm:col-span-2">
-                <div className="flex items-center gap-2">
-                  <IconClock className="h-5 w-5 text-red" />
-                  <p className="font-heading text-sm font-semibold text-ink">
-                    Hours
-                  </p>
-                </div>
-                <dl className="mt-3 divide-y divide-line">
-                  {HOURS.map((h) => (
+
+              <div className="my-5 h-px bg-line" />
+
+              <div className="flex items-center gap-2">
+                <IconClock className="h-5 w-5 text-red" />
+                <p className="font-heading text-sm font-semibold text-ink">
+                  Hours
+                </p>
+              </div>
+              <dl className="mt-3 space-y-1">
+                {HOURS.map((h) => {
+                  const isToday = today !== null && h.days.includes(today);
+                  return (
                     <div
-                      key={h.day}
-                      className="flex justify-between py-2 text-[14px]"
+                      key={h.label}
+                      className={`flex items-center justify-between rounded-lg px-3 py-2 text-[14px] transition-colors ${
+                        isToday ? "bg-gold/15" : ""
+                      }`}
                     >
-                      <dt className="text-navy-600">{h.day}</dt>
+                      <dt className="flex items-center gap-2 text-navy-600">
+                        {h.label}
+                        {isToday && (
+                          <span className="rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ink">
+                            Today
+                          </span>
+                        )}
+                      </dt>
                       <dd className="font-medium text-ink">{h.time}</dd>
                     </div>
-                  ))}
-                </dl>
-              </div>
+                  );
+                })}
+              </dl>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right: low-friction form */}
-          <div className="rounded-2xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8">
+          {/* Right: contact form */}
+          <Reveal
+            delay={0.08}
+            className="rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8"
+          >
             {sent ? (
               <div className="flex h-full flex-col items-center justify-center py-12 text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gold/20 text-gold-600">
                   <IconCheck className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 font-heading text-xl font-bold text-ink">
-                  Got it — thanks!
+                  Thanks — we&apos;ll be in touch
                 </h3>
                 <p className="mt-2 max-w-xs text-[15px] text-navy-600">
-                  A Bergen Car Company advisor will reach out today during
-                  business hours.
+                  Someone from our Lodi showroom will get back to you today
+                  during business hours.
                 </p>
                 <button
                   type="button"
@@ -123,9 +182,14 @@ export default function LocationContact() {
                 }}
                 className="flex flex-col gap-4"
               >
-                <h3 className="font-heading text-lg font-bold text-ink">
-                  Ask us anything
-                </h3>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red/10 text-red">
+                    <IconMail className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-heading text-lg font-bold text-ink">
+                    Ask us anything
+                  </h3>
+                </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="flex flex-col gap-1.5">
                     <span className="text-[13px] font-semibold text-navy-600">
@@ -135,7 +199,7 @@ export default function LocationContact() {
                       required
                       name="name"
                       autoComplete="name"
-                      className="rounded-xl border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/15"
+                      className={inputClass}
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
@@ -147,19 +211,20 @@ export default function LocationContact() {
                       name="phone"
                       type="tel"
                       autoComplete="tel"
-                      className="rounded-xl border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/15"
+                      className={inputClass}
                     />
                   </label>
                 </div>
                 <label className="flex flex-col gap-1.5">
                   <span className="text-[13px] font-semibold text-navy-600">
-                    Email <span className="font-normal text-navy-400">(optional)</span>
+                    Email{" "}
+                    <span className="font-normal text-navy-400">(optional)</span>
                   </span>
                   <input
                     name="email"
                     type="email"
                     autoComplete="email"
-                    className="rounded-xl border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/15"
+                    className={inputClass}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
@@ -172,7 +237,7 @@ export default function LocationContact() {
                     rows={4}
                     defaultValue=""
                     placeholder="A vehicle you're interested in, a trade-in question, financing…"
-                    className="resize-none rounded-xl border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-navy-400 focus:border-navy focus:ring-2 focus:ring-navy/15"
+                    className={`resize-none ${inputClass}`}
                   />
                 </label>
                 <button
@@ -181,12 +246,19 @@ export default function LocationContact() {
                 >
                   Send message
                 </button>
-                <p className="text-center text-[12px] text-navy-500">
-                  No spam, no call-center. Replies come from our Lodi showroom.
-                </p>
+                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-[12px] text-navy-500">
+                  <span className="inline-flex items-center gap-1.5">
+                    <IconClock className="h-3.5 w-3.5 text-navy-400" />
+                    Same-day reply
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <IconShield className="h-3.5 w-3.5 text-navy-400" />
+                    No spam, no call-center
+                  </span>
+                </div>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

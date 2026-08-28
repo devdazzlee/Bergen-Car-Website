@@ -123,7 +123,8 @@ export default function QuickViewModal({
             </a>
           </div>
           <p className="mt-3 text-center text-[12px] text-navy-500">
-            Payment estimate: 72 mo · 7.5% APR · 10% down. On approved credit.
+            Rough estimate — 72 months, 7.5% APR, 10% down. Your actual terms
+            depend on your credit and the lender.
           </p>
         </div>
       </div>

@@ -11,33 +11,33 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 const POINTS = [
   {
     icon: IconShield,
-    title: "150-point inspection",
-    body: "Every car is inspected by our own ASE-certified techs before it hits the lot. The report comes with it.",
+    title: "Every car gets inspected",
+    body: "Our own certified technicians go through each vehicle before it goes up for sale. You get the inspection report and a free history report with the car.",
   },
   {
     icon: IconWallet,
-    title: "Financing that fits",
-    body: "We send one application to 12 lenders and bring you the real numbers — including credit unions and first-time buyers.",
+    title: "We'll help with the financing",
+    body: "We work with a dozen lenders, including local credit unions, and fill out the application with you. Good credit, rebuilding it, or buying your first car — we'll find what works.",
   },
   {
     icon: IconSwap,
-    title: "Straight trade-in offers",
-    body: "Firm written offer in about 20 minutes. Apply it to your next car or take the check.",
+    title: "A fair price for your trade",
+    body: "Bring your car in and we'll give you a written offer, usually in about twenty minutes. Put it toward your next car or just take the check.",
   },
   {
     icon: IconWrench,
-    title: "Warranty on every car",
-    body: "A 3-month / 3,000-mile limited warranty is standard, with extended coverage available on most vehicles.",
+    title: "A warranty comes standard",
+    body: "Every car includes a 3-month / 3,000-mile warranty, and you can add longer coverage on most of them if you want the extra peace of mind.",
   },
   {
     icon: IconKey,
-    title: "Up-front pricing",
-    body: "The price online is the price. No document surprises, no four-square, no back-and-forth.",
+    title: "The price is the price",
+    body: "What you see on the window and online is what you pay, plus the usual state fees. No surprise add-ons once you sit down.",
   },
   {
     icon: IconGauge,
-    title: "On-site service center",
-    body: "Bought here or not, our shop keeps your car running — oil, brakes, tires, diagnostics, and NJ inspection prep.",
+    title: "We're here after the sale",
+    body: "Our service shop handles oil changes, brakes, tires, and state inspections for any car — whether you bought it from us or not.",
   },
 ];
 
@@ -46,20 +46,36 @@ export default function WhyChooseUs() {
     <section id="why" className="scroll-mt-24 bg-white py-20 sm:py-24">
       <div className="container-page">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-red">Why Bergen</p>
+          <p className="eyebrow text-red">Why people buy here</p>
           <h2 className="display-2 mt-2 text-ink">
-            A used car process built to be boring
+            We treat you the way we&apos;d want to be treated
           </h2>
           <p className="mt-4 text-lg leading-8 text-navy-600">
-            The stressful parts of buying a used car are the parts we removed on
-            purpose.
+            A lot of our customers were sent here by a friend or a relative.
+            Here&apos;s what keeps them coming back for the next one.
           </p>
         </Reveal>
 
-        <Stagger className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {POINTS.map(({ icon: Icon, title, body }) => (
-            <StaggerItem key={title}>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy text-gold">
+        <Stagger
+          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          stagger={0.08}
+        >
+          {POINTS.map(({ icon: Icon, title, body }, i) => (
+            <StaggerItem
+              key={title}
+              className="group relative overflow-hidden rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-transparent hover:shadow-[var(--shadow-lift)]"
+            >
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-red transition-transform duration-300 group-hover:scale-x-100"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute right-5 top-5 font-heading text-sm font-bold text-cloud"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy text-gold transition-colors duration-300 group-hover:bg-red group-hover:text-white">
                 <Icon className="h-6 w-6" />
               </div>
               <h3 className="mt-4 font-heading text-lg font-semibold text-ink">
@@ -69,6 +85,13 @@ export default function WhyChooseUs() {
             </StaggerItem>
           ))}
         </Stagger>
+
+        <Reveal
+          delay={0.1}
+          className="mt-8 border-l-2 border-gold pl-5 text-[15px] italic leading-7 text-navy-700"
+        >
+          And the people at the counter are the same people who own the place.
+        </Reveal>
       </div>
     </section>
   );

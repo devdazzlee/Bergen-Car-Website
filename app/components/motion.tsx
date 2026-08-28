@@ -49,11 +49,6 @@ export function Reveal({
   );
 }
 
-const groupVariants: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
-};
-
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 22 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
@@ -64,16 +59,23 @@ export function Stagger({
   children,
   className,
   as = "div",
+  stagger = 0.09,
+  delayChildren = 0.05,
 }: {
   children: ReactNode;
   className?: string;
   as?: Tag;
+  stagger?: number;
+  delayChildren?: number;
 }) {
   const Comp = TAGS[as];
   return (
     <Comp
       className={className}
-      variants={groupVariants}
+      variants={{
+        hidden: {},
+        show: { transition: { staggerChildren: stagger, delayChildren } },
+      }}
       initial="hidden"
       whileInView="show"
       viewport={VIEWPORT}
