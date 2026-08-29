@@ -183,11 +183,10 @@ export const CONTACT_SEO: SeoBlock = {
 };
 
 export const ABOUT_SEO: SeoBlock = {
-  heading: "About the dealership",
-  kicker: "In short",
+  heading: "Common questions about Bergen Car Company",
+  kicker: "Before you visit",
   intro: [
-    "Bergen Car Company is a family-owned used car dealership that has operated from the same corner of Route 46 in Lodi, New Jersey since 2008. It was started by Sal Ferrante after nineteen years as a franchise service manager; his daughter Gina runs it day to day now.",
-    "The approach hasn't changed: buy decent used cars, inspect them properly, put a fair price on the window and leave it there, and be straight with people. See it for yourself in the [inventory](/inventory), the [reviews](/reviews), or by reading the [blog](/blog).",
+    "A few quick answers people ask before making the drive to Lodi. For the full picture, see the [inventory](/inventory), the [reviews](/reviews), or the [blog](/blog).",
   ],
   faqs: [
     {

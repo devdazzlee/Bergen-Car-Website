@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import TestDriveClient from "./test-drive-client";
-import SeoFaq from "../components/seo-faq";
+import { FaqJsonLd } from "../components/seo-faq";
 import { TESTDRIVE_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
@@ -22,12 +22,12 @@ export const metadata: Metadata = {
 export default function TestDrivePage() {
   return (
     <>
+      <FaqJsonLd faqs={TESTDRIVE_SEO.faqs} />
       <SiteHeader solid />
       <main className="flex-1">
         <Suspense fallback={<div className="min-h-screen bg-mist" />}>
           <TestDriveClient />
         </Suspense>
-        <SeoFaq {...TESTDRIVE_SEO} />
       </main>
       <SiteFooter />
     </>

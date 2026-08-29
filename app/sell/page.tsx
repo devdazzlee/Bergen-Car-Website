@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
-import SellClient from "./sell-client";
-import SeoFaq from "../components/seo-faq";
-import { SELL_SEO } from "../lib/seo-faq-content";
+import SellClient, { FAQS } from "./sell-client";
+import { FaqJsonLd } from "../components/seo-faq";
 
 export const metadata: Metadata = {
   title: "Sell Us Your Car — No Purchase Required | Lodi, NJ",
@@ -21,10 +20,10 @@ export const metadata: Metadata = {
 export default function SellPage() {
   return (
     <>
+      <FaqJsonLd faqs={FAQS} />
       <SiteHeader solid />
       <main className="flex-1">
         <SellClient />
-        <SeoFaq {...SELL_SEO} />
       </main>
       <SiteFooter />
     </>

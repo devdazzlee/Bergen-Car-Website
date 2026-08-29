@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
-import TradeClient from "./trade-client";
-import SeoFaq from "../components/seo-faq";
-import { TRADE_SEO } from "../lib/seo-faq-content";
+import TradeClient, { FAQS } from "./trade-client";
+import { FaqJsonLd } from "../components/seo-faq";
 
 export const metadata: Metadata = {
   title: "Value Your Trade-In in Lodi, NJ",
@@ -21,10 +20,10 @@ export const metadata: Metadata = {
 export default function TradePage() {
   return (
     <>
+      <FaqJsonLd faqs={FAQS} />
       <SiteHeader solid />
       <main className="flex-1">
         <TradeClient />
-        <SeoFaq {...TRADE_SEO} />
       </main>
       <SiteFooter />
     </>

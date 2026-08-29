@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
-import WarrantyClient from "./warranty-client";
-import SeoFaq from "../components/seo-faq";
-import { WARRANTY_SEO } from "../lib/seo-faq-content";
+import WarrantyClient, { FAQS } from "./warranty-client";
+import { FaqJsonLd } from "../components/seo-faq";
 
 export const metadata: Metadata = {
   title: "Used Car Warranty Coverage — Lodi, NJ",
@@ -21,10 +20,10 @@ export const metadata: Metadata = {
 export default function WarrantyPage() {
   return (
     <>
+      <FaqJsonLd faqs={FAQS} />
       <SiteHeader solid />
       <main className="flex-1">
         <WarrantyClient />
-        <SeoFaq {...WARRANTY_SEO} />
       </main>
       <SiteFooter />
     </>
