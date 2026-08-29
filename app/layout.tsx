@@ -18,7 +18,7 @@ const sora = Sora({
 const SITE_URL = "https://bergencarcompany.com";
 const TITLE = "Bergen Car Company | Family-Owned Used Car Dealer in Lodi, NJ";
 const DESCRIPTION =
-  "Bergen Car Company is a family-owned used car dealership in Lodi, NJ. We've sold inspected, dependable used cars to families across Bergen County since 2008 — with prices up front, financing help, and fair trade-in offers.";
+  "Family-owned used car dealership in Lodi, NJ since 2008. Inspected pre-owned cars, up-front pricing, financing for any credit, and fair trade-in offers.";
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&h=630&q=70";
 
@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   applicationName: "Bergen Car Company",
   authors: [{ name: "Bergen Car Company" }],
+  publisher: "Bergen Car Company",
+  creator: "Bergen Car Company",
   generator: "Next.js",
   keywords: [
     "used cars Lodi NJ",
@@ -81,9 +83,8 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  // Favicons come from the app/ file conventions: favicon.ico, icon.png,
+  // apple-icon.png — all generated from the Bergen Car Company logo.
 };
 
 export const viewport: Viewport = {

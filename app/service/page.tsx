@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import ServiceClient from "./service-client";
+import SeoFaq from "../components/seo-faq";
+import { SERVICE_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "Service & Parts in Lodi, NJ",
@@ -22,6 +24,7 @@ export default function ServicePage() {
       <SiteHeader solid />
       <main className="flex-1">
         <ServiceClient />
+        <SeoFaq {...SERVICE_SEO} />
       </main>
       <SiteFooter />
     </>

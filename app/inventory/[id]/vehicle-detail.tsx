@@ -239,7 +239,7 @@ export default function VehicleDetail({
 
   return (
     <div className="bg-mist pb-28 lg:pb-24">
-      <div className="container-page pt-32">
+      <div className="container-page pt-36 sm:pt-40">
         <motion.nav
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -305,7 +305,7 @@ export default function VehicleDetail({
 
               <div className="mt-5 flex flex-col gap-2.5">
                 <Link
-                  href="/contact"
+                  href={`/test-drive?vehicle=${v.id}`}
                   className="inline-flex items-center justify-center rounded-full bg-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98]"
                 >
                   Schedule a test drive
@@ -547,7 +547,7 @@ export default function VehicleDetail({
             Call
           </a>
           <Link
-            href="/contact"
+            href={`/test-drive?vehicle=${v.id}`}
             className="inline-flex flex-[1.4] items-center justify-center rounded-full bg-red px-4 py-3 text-sm font-semibold text-white active:scale-[0.98]"
           >
             Schedule test drive

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import AboutClient from "./about-client";
+import SeoFaq from "../components/seo-faq";
+import { ABOUT_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "About Bergen Car Company — Lodi, NJ",
@@ -22,6 +24,7 @@ export default function AboutPage() {
       <SiteHeader solid />
       <main className="flex-1">
         <AboutClient />
+        <SeoFaq {...ABOUT_SEO} background="bg-mist" />
       </main>
       <SiteFooter />
     </>

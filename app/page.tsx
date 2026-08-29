@@ -12,6 +12,8 @@ import ServiceCenter from "./components/service-center";
 import Reviews from "./components/reviews";
 import Faq from "./components/faq";
 import SeoAbout from "./components/seo-about";
+import SeoFaq from "./components/seo-faq";
+import { HOME_SEO } from "./lib/seo-faq-content";
 import CtaBand from "./components/cta-band";
 import LocationContact from "./components/location-contact";
 import SiteFooter from "./components/site-footer";
@@ -36,6 +38,7 @@ export default function Home() {
         <Reviews />
         <Faq />
         <SeoAbout />
+        <SeoFaq {...HOME_SEO} background="bg-mist" />
         <CtaBand />
         <LocationContact />
       </main>

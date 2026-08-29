@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FAQS } from "../lib/faqs";
@@ -62,6 +63,7 @@ export default function Faq() {
           </Reveal>
         </div>
 
+        <div className="min-w-0">
         <Stagger
           className="h-max overflow-hidden rounded-3xl bg-white ring-1 ring-line shadow-[var(--shadow-card)]"
           stagger={0.05}
@@ -128,6 +130,17 @@ export default function Faq() {
             );
           })}
         </Stagger>
+
+          <Reveal delay={0.1} className="mt-6">
+            <Link
+              href="/faq"
+              className="group inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
+            >
+              See all FAQs — search by topic
+              <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

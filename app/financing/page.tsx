@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import FinancingClient from "./financing-client";
+import SeoFaq from "../components/seo-faq";
+import { FINANCING_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "Car Financing & Pre-Qualification in Lodi, NJ",
@@ -22,6 +24,7 @@ export default function FinancingPage() {
       <SiteHeader solid />
       <main className="flex-1">
         <FinancingClient />
+        <SeoFaq {...FINANCING_SEO} />
       </main>
       <SiteFooter />
     </>

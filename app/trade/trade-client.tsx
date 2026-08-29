@@ -4,9 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
+import { SectionHeading } from "../components/section-heading";
+import PageBanner, { BannerPills } from "../components/page-banner";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Field, StepStrip, ringFor, EASE } from "../components/ui/form-parts";
+import { Field, FieldGroup, FormShell, ringFor, EASE } from "../components/ui/form-parts";
 import {
   Select,
   SelectContent,
@@ -24,6 +26,7 @@ import {
   IconArrowRight,
   IconCheck,
   IconClock,
+  IconClose,
   IconPhone,
   IconShield,
   IconWallet,
@@ -52,6 +55,66 @@ const STEPS = [
   },
 ];
 
+const BREAKDOWN = [
+  {
+    label: "What comparable cars retail for near Lodi",
+    pct: 100,
+    tone: "muted",
+    caption: "The retail comps — what your car would sell for on a lot, reconditioned and warrantied.",
+  },
+  {
+    label: "Today's wholesale (auction) value for your exact car",
+    pct: 78,
+    tone: "muted",
+    caption: "Year, trim, mileage, and condition, priced against live auction data.",
+  },
+  {
+    label: "Our cost to recondition, inspect & warranty it",
+    pct: 15,
+    tone: "cost",
+    caption: "Subtracted — the real spend to get it lot-ready and covered.",
+  },
+  {
+    label: "A fair trade offer lands here",
+    pct: 72,
+    tone: "offer",
+    caption: "We start from these numbers, not a guess, and we show you each one.",
+  },
+];
+
+const COMPARE = [
+  {
+    label: "Best-case money",
+    us: "A fair market trade value",
+    them: "Often a few hundred to a couple thousand more",
+    themWins: true,
+  },
+  {
+    label: "Time until it's done",
+    us: "Same day",
+    them: "Days to weeks of listing and calls",
+    themWins: false,
+  },
+  {
+    label: "Strangers at your home",
+    us: "None",
+    them: "Test drives with people you don't know",
+    themWins: false,
+  },
+  {
+    label: "NJ sales-tax savings",
+    us: "Trade value lowers the tax on your next car",
+    them: "No tax benefit",
+    themWins: false,
+  },
+  {
+    label: "Loan payoff & title",
+    us: "We deal with your lender and the DMV",
+    them: "You handle the payoff and paperwork",
+    themWins: false,
+  },
+];
+
 const WHY = [
   {
     icon: IconShield,
@@ -75,7 +138,7 @@ const WHY = [
   },
 ];
 
-const FAQS = [
+export const FAQS = [
   {
     q: "How do you decide what my car is worth?",
     a: "Three things: the current wholesale (auction) value for your exact year, trim, mileage, and condition; what comparable cars are actually selling for at dealers near Lodi right now; and our realistic cost to recondition, inspect, and warranty it. We start from those numbers, not from a guess, and we'll walk you through each one.",
@@ -206,8 +269,9 @@ function TradeForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+      <FieldGroup title="Your vehicle">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="t-year"
           label="Year"
@@ -227,7 +291,7 @@ function TradeForm() {
               id="t-year"
               className={ringFor(!!touched.year, errors.year)}
             >
-              <SelectValue placeholder="Select…" />
+              <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
               {YEARS.map((y) => (
@@ -257,7 +321,7 @@ function TradeForm() {
               id="t-make"
               className={ringFor(!!touched.make, errors.make)}
             >
-              <SelectValue placeholder="Select…" />
+              <SelectValue placeholder="Make" />
             </SelectTrigger>
             <SelectContent>
               {MAKES.map((m) => (
@@ -268,9 +332,6 @@ function TradeForm() {
             </SelectContent>
           </Select>
         </Field>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
         <Field
           id="t-model"
           label="Model"
@@ -280,29 +341,30 @@ function TradeForm() {
         >
           <Input
             id="t-model"
+            placeholder="e.g. Camry"
             value={v.model}
             onChange={(e) => set("model")(e.target.value)}
             onBlur={blur("model")}
             className={ringFor(!!touched.model, errors.model)}
           />
         </Field>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="t-trim"
           label="Trim"
-          hint="Optional — e.g. LE, Sport, Limited."
           touched={!!touched.trim}
           filled={!!v.trim}
         >
           <Input
             id="t-trim"
+            placeholder="Optional"
             value={v.trim}
             onChange={(e) => set("trim")(e.target.value)}
             onBlur={blur("trim")}
           />
         </Field>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
         <Field
           id="t-mileage"
           label="Mileage"
@@ -313,7 +375,7 @@ function TradeForm() {
           <Input
             id="t-mileage"
             inputMode="numeric"
-            placeholder="e.g. 68,000"
+            placeholder="68,000"
             value={v.mileage}
             onChange={(e) => set("mileage")(e.target.value)}
             onBlur={blur("mileage")}
@@ -323,7 +385,6 @@ function TradeForm() {
         <Field
           id="t-condition"
           label="Condition"
-          hint="Excellent = no needs · Good = minor wear · Fair = needs some work · Poor = mechanical issues."
           touched={!!touched.condition}
           error={errors.condition}
           filled={!!v.condition}
@@ -340,7 +401,7 @@ function TradeForm() {
               id="t-condition"
               className={ringFor(!!touched.condition, errors.condition)}
             >
-              <SelectValue placeholder="Select…" />
+              <SelectValue placeholder="Condition" />
             </SelectTrigger>
             <SelectContent>
               {["Excellent", "Good", "Fair", "Poor"].map((o) => (
@@ -351,86 +412,82 @@ function TradeForm() {
             </SelectContent>
           </Select>
         </Field>
-      </div>
-
-      <Field
-        id="t-zip"
-        label="ZIP code"
-        hint="So we price against your local market."
-        touched={!!touched.zip}
-        error={errors.zip}
-        filled={!!v.zip}
-      >
-        <Input
+        <Field
           id="t-zip"
-          inputMode="numeric"
-          maxLength={5}
-          value={v.zip}
-          onChange={(e) => set("zip")(e.target.value.replace(/\D/g, ""))}
-          onBlur={blur("zip")}
-          className={`sm:max-w-[10rem] ${ringFor(!!touched.zip, errors.zip)}`}
-        />
-      </Field>
-
-      <div className="mt-1 border-t border-line pt-4">
-        <p className="text-[13px] font-semibold text-navy-600">
-          Where do we send the estimate?
-        </p>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field
-          id="t-name"
-          label="Full name"
-          touched={!!touched.name}
-          error={errors.name}
-          filled={!!v.name}
+          label="ZIP code"
+          touched={!!touched.zip}
+          error={errors.zip}
+          filled={!!v.zip}
         >
           <Input
+            id="t-zip"
+            inputMode="numeric"
+            maxLength={5}
+            placeholder="07644"
+            value={v.zip}
+            onChange={(e) => set("zip")(e.target.value.replace(/\D/g, ""))}
+            onBlur={blur("zip")}
+            className={ringFor(!!touched.zip, errors.zip)}
+          />
+        </Field>
+      </div>
+
+      </FieldGroup>
+
+      <FieldGroup title="Where to send the estimate">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field
             id="t-name"
-            autoComplete="name"
-            value={v.name}
-            onChange={(e) => set("name")(e.target.value)}
-            onBlur={blur("name")}
-            className={ringFor(!!touched.name, errors.name)}
-          />
-        </Field>
-        <Field
-          id="t-phone"
-          label="Phone"
-          touched={!!touched.phone}
-          error={errors.phone}
-          filled={!!v.phone}
-        >
-          <Input
+            label="Full name"
+            touched={!!touched.name}
+            error={errors.name}
+            filled={!!v.name}
+          >
+            <Input
+              id="t-name"
+              autoComplete="name"
+              value={v.name}
+              onChange={(e) => set("name")(e.target.value)}
+              onBlur={blur("name")}
+              className={ringFor(!!touched.name, errors.name)}
+            />
+          </Field>
+          <Field
             id="t-phone"
-            type="tel"
-            autoComplete="tel"
-            value={v.phone}
-            onChange={(e) => set("phone")(e.target.value)}
-            onBlur={blur("phone")}
-            className={ringFor(!!touched.phone, errors.phone)}
-          />
-        </Field>
-      </div>
-
-      <Field
-        id="t-email"
-        label="Email"
-        touched={!!touched.email}
-        error={errors.email}
-        filled={!!v.email}
-      >
-        <Input
-          id="t-email"
-          type="email"
-          autoComplete="email"
-          value={v.email}
-          onChange={(e) => set("email")(e.target.value)}
-          onBlur={blur("email")}
-          className={ringFor(!!touched.email, errors.email)}
-        />
-      </Field>
+            label="Phone"
+            touched={!!touched.phone}
+            error={errors.phone}
+            filled={!!v.phone}
+          >
+            <Input
+              id="t-phone"
+              type="tel"
+              autoComplete="tel"
+              value={v.phone}
+              onChange={(e) => set("phone")(e.target.value)}
+              onBlur={blur("phone")}
+              className={ringFor(!!touched.phone, errors.phone)}
+            />
+          </Field>
+          <Field
+            id="t-email"
+            label="Email"
+            touched={!!touched.email}
+            error={errors.email}
+            filled={!!v.email}
+          >
+            <Input
+              id="t-email"
+              type="email"
+              autoComplete="email"
+              value={v.email}
+              onChange={(e) => set("email")(e.target.value)}
+              onBlur={blur("email")}
+              className={ringFor(!!touched.email, errors.email)}
+            />
+          </Field>
+        </div>
+      </FieldGroup>
 
       <Button type="submit" size="lg" className="mt-1 w-full">
         Get my trade-in estimate
@@ -448,89 +505,202 @@ function TradeForm() {
 export default function TradeClient() {
   return (
     <div className="bg-mist">
-      <section className="relative overflow-hidden bg-navy pb-16 pt-32">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,white_1px,transparent_1px)] [background-size:22px_22px]"
-        />
-        <div
-          aria-hidden
-          className="absolute -left-24 top-4 h-72 w-72 rounded-full bg-gold/10 blur-3xl"
-        />
-        <div className="container-page relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="max-w-2xl"
+      <PageBanner
+        eyebrow="Trade-in"
+        title="Get a real value for your trade-in"
+        description={
+          <p>
+            Tell us about your car and we&apos;ll send a fair,{" "}
+            <span className="text-white">no-obligation</span> estimate the same
+            day — with the numbers we used to get there. Trade it toward
+            anything on the lot, or just take the cash.
+          </p>
+        }
+        image="https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="A used car arriving for a trade-in appraisal at Bergen Car Company"
+      >
+        <BannerPills items={["No-obligation", "Same-day estimate", "We show our math"]} />
+      </PageBanner>
+
+      <section id="trade-form" className="scroll-mt-24 py-14 sm:py-20">
+        <div className="container-page">
+          <FormShell
+            asideTitle="How it works"
+            steps={STEPS}
+            formTitle="Tell us about your car"
+            formNote={
+              <>
+                Quick and straightforward. Just selling — not shopping?{" "}
+                <Link
+                  href="/sell"
+                  className="font-semibold text-navy underline-offset-2 hover:text-red hover:underline"
+                >
+                  Use Sell Your Car instead
+                </Link>
+                .
+              </>
+            }
+            footNote="No obligation, no hard credit check. We never sell your information."
           >
-            <p className="eyebrow text-gold">Trade-in</p>
-            <h1 className="display-2 mt-3 text-white">
-              Get a real value for your trade-in
-            </h1>
-            <p className="mt-4 text-lg leading-8 text-white/70">
-              Tell us about your car and we&apos;ll send a fair,{" "}
-              <span className="text-white">no-obligation</span> estimate the same
-              day — with the numbers we used to get there. Trade it toward
-              anything on the lot, or just take the cash.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2 text-[12px] font-semibold text-white/75">
-              {["No-obligation", "Same-day estimate", "We show our math"].map(
-                (t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5"
-                  >
-                    {t}
-                  </span>
-                ),
-              )}
-            </div>
-          </motion.div>
+            <TradeForm />
+          </FormShell>
         </div>
       </section>
 
-      <section id="trade-form" className="scroll-mt-24 py-14 sm:py-16">
-        <div className="container-page mx-auto max-w-3xl">
-          <StepStrip steps={STEPS} />
-          <Reveal
-            delay={0.05}
-            className="mt-8 rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8"
-          >
-            <h2 className="font-heading text-xl font-bold text-ink">
-              Tell us about your car
-            </h2>
-            <p className="mt-1 text-[14px] text-navy-600">
-              Quick and straightforward. The more accurate the details, the
-              closer the estimate.
-            </p>
-            <div className="mt-6">
-              <TradeForm />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
+      {/* how we get to your number */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">Why trade with us</p>
-            <h2 className="display-2 mt-2 text-ink">
-              The part people usually dread, minus the games
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              Trading a car in is where it&apos;s easiest to feel taken advantage
-              of. Here&apos;s how we try not to be that dealer.
-            </p>
+          <SectionHeading
+            kicker="No black box"
+            title="How we get to your number"
+          >
+            A trade offer isn&apos;t a vibe. It&apos;s built from three real
+            figures, and you get to see all three.
+          </SectionHeading>
+
+          <div className="mt-12 space-y-6">
+            {BREAKDOWN.map((row, i) => (
+              <motion.div
+                key={row.label}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
+                className={
+                  row.tone === "offer"
+                    ? "rounded-2xl border border-gold/40 bg-gold/[0.06] p-5"
+                    : ""
+                }
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p
+                    className={`text-[14px] font-semibold ${
+                      row.tone === "offer" ? "text-ink" : "text-navy-700"
+                    }`}
+                  >
+                    {row.tone === "cost" ? "− " : ""}
+                    {row.label}
+                  </p>
+                </div>
+                <div className="mt-2 h-3 overflow-hidden rounded-full bg-mist">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${row.pct}%` }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{
+                      duration: 0.9,
+                      delay: 0.15 + i * 0.1,
+                      ease: EASE,
+                    }}
+                    className={`h-full rounded-full ${
+                      row.tone === "offer"
+                        ? "bg-gradient-to-r from-gold-600 to-gold"
+                        : row.tone === "cost"
+                          ? "bg-red/70"
+                          : "bg-navy/70"
+                    }`}
+                  />
+                </div>
+                <p className="mt-2 text-[12.5px] leading-6 text-navy-500">
+                  {row.caption}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-[12.5px] leading-6 text-navy-500">
+            Bars are illustrative. Your car&apos;s actual figures are itemized on
+            the written estimate we send the same day.
+          </p>
+        </div>
+      </section>
+
+      {/* trade vs private sale */}
+      <section className="bg-mist py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="An honest comparison"
+            title="Trade with us, or sell it yourself"
+          >
+            A private sale usually nets a bit more money. Almost everything else
+            tips the other way. Here&apos;s the trade-off, laid out straight.
+          </SectionHeading>
+
+          <Reveal
+            delay={0.05}
+            className="mt-10 overflow-hidden rounded-3xl border border-line-strong bg-white shadow-[var(--shadow-card)]"
+          >
+            <div className="grid grid-cols-[1.1fr_1fr_1fr] bg-navy text-white">
+              <div className="px-4 py-3.5 text-[12px] font-semibold uppercase tracking-wide text-white/50 sm:px-6">
+                &nbsp;
+              </div>
+              <div className="px-4 py-3.5 text-center text-[13px] font-bold sm:px-6">
+                Trade with us
+              </div>
+              <div className="px-4 py-3.5 text-center text-[13px] font-semibold text-white/70 sm:px-6">
+                Sell it privately
+              </div>
+            </div>
+            {COMPARE.map((row) => (
+              <div
+                key={row.label}
+                className="grid grid-cols-[1.1fr_1fr_1fr] border-t border-line text-[13px] leading-6"
+              >
+                <div className="px-4 py-4 font-semibold text-navy-700 sm:px-6">
+                  {row.label}
+                </div>
+                <div className="flex items-start gap-2 bg-gold/[0.05] px-4 py-4 text-navy-700 sm:px-6">
+                  <span
+                    className={`mt-0.5 shrink-0 ${row.themWins ? "text-navy-300" : "text-gold-600"}`}
+                  >
+                    {row.themWins ? (
+                      <IconClose className="h-3.5 w-3.5" />
+                    ) : (
+                      <IconCheck className="h-3.5 w-3.5" />
+                    )}
+                  </span>
+                  {row.us}
+                </div>
+                <div className="flex items-start gap-2 px-4 py-4 text-navy-600 sm:px-6">
+                  <span
+                    className={`mt-0.5 shrink-0 ${row.themWins ? "text-gold-600" : "text-navy-300"}`}
+                  >
+                    {row.themWins ? (
+                      <IconCheck className="h-3.5 w-3.5" />
+                    ) : (
+                      <IconClose className="h-3.5 w-3.5" />
+                    )}
+                  </span>
+                  {row.them}
+                </div>
+              </div>
+            ))}
           </Reveal>
+          <p className="mt-4 text-[12.5px] text-navy-500">
+            If your car is one that sells well privately, we&apos;ll tell you so —
+            and you&apos;re always free to get other offers and bring them back.
+          </p>
+        </div>
+      </section>
+
+      {/* why trade with us */}
+      <section className="bg-white py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="Why trade with us"
+            title="The part people dread, minus the games"
+          >
+            Trading a car in is where it&apos;s easiest to feel taken advantage
+            of. Here&apos;s how we try not to be that dealer.
+          </SectionHeading>
 
           <Stagger className="mt-12 grid gap-6 sm:grid-cols-2" stagger={0.09}>
             {WHY.map(({ icon: Icon, title, body }) => (
               <StaggerItem
                 key={title}
-                className="flex gap-4 rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+                className="group flex gap-4 rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-[var(--shadow-lift)]"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy text-gold">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy text-gold transition-colors duration-300 group-hover:bg-red group-hover:text-white">
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
@@ -547,6 +717,7 @@ export default function TradeClient() {
         </div>
       </section>
 
+      {/* straight talk + FAQ */}
       <section className="bg-mist py-20 sm:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
@@ -591,22 +762,26 @@ export default function TradeClient() {
         </div>
       </section>
 
-      <section className="bg-navy py-16 sm:py-20">
+      <section className="bg-mist pb-16 sm:pb-20">
         <div className="container-page">
-          <Reveal className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <div className="max-w-xl">
-              <h2 className="display-3 text-white">See what your car is worth</h2>
-              <p className="mt-2 text-[15px] leading-7 text-white/70">
-                A couple of minutes now, a real number back today. No obligation
-                to trade, sell, or buy anything.
-              </p>
+          <Reveal className="overflow-hidden rounded-3xl bg-navy p-8 sm:p-12">
+            <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="max-w-xl">
+                <p className="eyebrow text-gold">No obligation to trade, sell, or buy</p>
+                <h2 className="display-3 mt-3 text-white">
+                  See what your car is worth
+                </h2>
+                <p className="mt-3 text-[15px] leading-7 text-white/70">
+                  A couple of minutes now, a real number back today.
+                </p>
+              </div>
+              <Button asChild variant="gold" size="lg" className="shrink-0">
+                <Link href="#trade-form">
+                  Value my trade
+                  <IconArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
-            <Button asChild variant="gold" size="lg" className="shrink-0">
-              <Link href="#trade-form">
-                Value my trade
-                <IconArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
           </Reveal>
         </div>
       </section>

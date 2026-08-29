@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import ContactClient from "./contact-client";
+import SeoFaq from "../components/seo-faq";
+import { CONTACT_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "Contact Bergen Car Company — Lodi, NJ",
@@ -22,6 +24,7 @@ export default function ContactPage() {
       <SiteHeader solid />
       <main className="flex-1">
         <ContactClient />
+        <SeoFaq {...CONTACT_SEO} background="bg-mist" />
       </main>
       <SiteFooter />
     </>

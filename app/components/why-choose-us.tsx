@@ -41,19 +41,24 @@ const POINTS = [
   },
 ];
 
-export default function WhyChooseUs() {
+export default function WhyChooseUs({
+  eyebrow = "Why people buy here",
+  heading = "We treat you the way we’d want to be treated",
+  intro = "A lot of our customers were sent here by a friend or a relative. Here’s what keeps them coming back for the next one.",
+  background = "bg-white",
+}: {
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  background?: string;
+} = {}) {
   return (
-    <section id="why" className="scroll-mt-24 bg-white py-20 sm:py-24">
+    <section id="why" className={`scroll-mt-24 py-20 sm:py-24 ${background}`}>
       <div className="container-page">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-red">Why people buy here</p>
-          <h2 className="display-2 mt-2 text-ink">
-            We treat you the way we&apos;d want to be treated
-          </h2>
-          <p className="mt-4 text-lg leading-8 text-navy-600">
-            A lot of our customers were sent here by a friend or a relative.
-            Here&apos;s what keeps them coming back for the next one.
-          </p>
+          <p className="eyebrow text-red">{eyebrow}</p>
+          <h2 className="display-2 mt-2 text-ink">{heading}</h2>
+          <p className="mt-4 text-lg leading-8 text-navy-600">{intro}</p>
         </Reveal>
 
         <Stagger

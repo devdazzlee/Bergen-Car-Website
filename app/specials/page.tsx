@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import SpecialsClient from "./specials-client";
+import SeoFaq from "../components/seo-faq";
+import { SPECIALS_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "This Month's Specials — Lodi, NJ",
@@ -22,6 +24,7 @@ export default function SpecialsPage() {
       <SiteHeader solid />
       <main className="flex-1">
         <SpecialsClient />
+        <SeoFaq {...SPECIALS_SEO} />
       </main>
       <SiteFooter />
     </>

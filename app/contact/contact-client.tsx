@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
+import PageBanner from "../components/page-banner";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
@@ -240,8 +241,8 @@ function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-3">
+      <div className="grid gap-3 sm:grid-cols-3">
         <Field
           id="c-name"
           label="Name"
@@ -260,7 +261,7 @@ function ContactForm() {
         </Field>
         <Field
           id="c-phone"
-          label="Phone (optional)"
+          label="Phone"
           touched={!!touched.phone}
           error={errors.phone}
           filled={!!v.phone}
@@ -269,31 +270,31 @@ function ContactForm() {
             id="c-phone"
             type="tel"
             autoComplete="tel"
+            placeholder="Optional"
             value={v.phone}
             onChange={(e) => set("phone")(e.target.value)}
             onBlur={blur("phone")}
             className={ringFor(!!touched.phone, errors.phone)}
           />
         </Field>
-      </div>
-
-      <Field
-        id="c-email"
-        label="Email"
-        touched={!!touched.email}
-        error={errors.email}
-        filled={!!v.email}
-      >
-        <Input
+        <Field
           id="c-email"
-          type="email"
-          autoComplete="email"
-          value={v.email}
-          onChange={(e) => set("email")(e.target.value)}
-          onBlur={blur("email")}
-          className={ringFor(!!touched.email, errors.email)}
-        />
-      </Field>
+          label="Email"
+          touched={!!touched.email}
+          error={errors.email}
+          filled={!!v.email}
+        >
+          <Input
+            id="c-email"
+            type="email"
+            autoComplete="email"
+            value={v.email}
+            onChange={(e) => set("email")(e.target.value)}
+            onBlur={blur("email")}
+            className={ringFor(!!touched.email, errors.email)}
+          />
+        </Field>
+      </div>
 
       <div>
         <p className="text-[13px] font-semibold text-navy-600">
@@ -361,55 +362,31 @@ export default function ContactClient() {
 
   return (
     <div className="bg-mist">
-      {/* header */}
-      <section className="relative overflow-hidden bg-navy pb-14 pt-32">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,white_1px,transparent_1px)] [background-size:22px_22px]"
-        />
-        <div
-          aria-hidden
-          className="absolute -right-24 top-4 h-72 w-72 rounded-full bg-gold/10 blur-3xl"
-        />
-        <div className="container-page relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="max-w-2xl"
-          >
-            <p className="eyebrow text-gold">Contact</p>
-            <h1 className="display-2 mt-3 text-white">Get in touch</h1>
-            <p className="mt-4 text-lg leading-8 text-white/70">
-              A real person at our Lodi showroom will get back to you — usually
-              within about 15 minutes during business hours. Pick whatever&apos;s
-              easiest below.
-            </p>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[13px] font-semibold"
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                {status?.open && (
-                  <span
-                    className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70"
-                    style={{ background: "#34d399" }}
-                  />
-                )}
-                <span
-                  className="relative inline-flex h-2.5 w-2.5 rounded-full"
-                  style={{ background: status?.open ? "#34d399" : "#94a3b8" }}
-                />
-              </span>
-              <span className={status?.open ? "text-white" : "text-white/60"}>
-                {status ? status.label : "Checking hours…"}
-              </span>
-            </motion.div>
-          </motion.div>
+      <PageBanner
+        eyebrow="Contact"
+        title="Get in touch"
+        description="A real person at our Lodi showroom will get back to you — usually within about 15 minutes during business hours. Pick whatever's easiest below."
+        image="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="A used car on the lot at Bergen Car Company in Lodi, New Jersey"
+      >
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[13px] font-semibold">
+          <span className="relative flex h-2.5 w-2.5">
+            {status?.open && (
+              <span
+                className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70"
+                style={{ background: "#34d399" }}
+              />
+            )}
+            <span
+              className="relative inline-flex h-2.5 w-2.5 rounded-full"
+              style={{ background: status?.open ? "#34d399" : "#94a3b8" }}
+            />
+          </span>
+          <span className={status?.open ? "text-white" : "text-white/60"}>
+            {status ? status.label : "Checking hours…"}
+          </span>
         </div>
-      </section>
+      </PageBanner>
 
       {/* contact methods */}
       <section className="py-14 sm:py-16">
@@ -452,14 +429,14 @@ export default function ContactClient() {
       {/* form | map + hours */}
       <section id="message" className="scroll-mt-24 pb-16 sm:pb-20">
         <div className="container-page grid gap-8 lg:grid-cols-2 lg:gap-10">
-          <Reveal className="rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8">
-            <h2 className="font-heading text-xl font-bold text-ink">
+          <Reveal className="rounded-3xl bg-white p-5 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-6">
+            <h2 className="font-heading text-lg font-bold text-ink sm:text-xl">
               Send a message
             </h2>
-            <p className="mt-1 text-[14px] text-navy-600">
+            <p className="mt-1 text-[13px] text-navy-600 sm:text-[14px]">
               Four fields. It goes to the showroom, not a queue.
             </p>
-            <div className="mt-6">
+            <div className="mt-5">
               <ContactForm />
             </div>
           </Reveal>

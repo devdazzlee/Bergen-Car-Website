@@ -163,6 +163,38 @@ body {
   animation: accordion-up 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Infinite marquee row (lender chips, town chips, trust badges) */
+@keyframes bcc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: bcc-marquee 34s linear infinite;
+}
+.animate-marquee-slow {
+  animation: bcc-marquee 52s linear infinite;
+}
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 7%,
+    #000 93%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 7%,
+    #000 93%,
+    transparent
+  );
+}
+
 /* Radix popovers / selects */
 @keyframes pop-in {
   from {
@@ -229,7 +261,9 @@ body {
   .animate-fade,
   .animate-accordion-down,
   .animate-accordion-up,
-  .animate-pop-in {
+  .animate-pop-in,
+  .animate-marquee,
+  .animate-marquee-slow {
     animation: none;
   }
   * {

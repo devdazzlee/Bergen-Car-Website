@@ -1,4 +1,5 @@
-import { IconStar } from "./icons";
+import Link from "next/link";
+import { IconArrowRight, IconStar } from "./icons";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 
 const REVIEWS = [
@@ -144,6 +145,16 @@ export default function Reviews() {
             );
           })}
         </Stagger>
+
+        <Reveal delay={0.1} className="mt-10">
+          <Link
+            href="/reviews"
+            className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
+          >
+            Read all 612 reviews
+            <IconArrowRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

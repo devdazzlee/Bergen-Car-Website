@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
+import { SectionHeading } from "../components/section-heading";
+import { Marquee } from "../components/marquee";
+import PageBanner from "../components/page-banner";
 import { Button } from "../components/ui/button";
 import CountUp from "../components/count-up";
 import {
@@ -28,6 +31,33 @@ const STORY = [
   "The first year was rough. We sold eleven cars in 2008 and nearly closed in 2009, when the credit markets froze and nobody could get a loan. What kept the doors open was a handful of families who came back a second and third time and sent their neighbors. That's still how most of our business walks in — someone's cousin, someone's coworker, someone whose dad bought a truck here in 2012.",
   "Sal still comes in most mornings and still does a lot of the appraisals himself. His daughter Gina runs the place day to day now. The shop out back is the same shop from 2008, just bigger, and the same idea still runs it: we'd rather lose a sale than earn a bad review.",
   "We're not the cheapest lot in the county on every car, and we won't pretend to be. What we try to be is the one you don't have to keep your guard up at.",
+];
+
+const MILESTONES = [
+  {
+    year: "2008",
+    text: "Sal opens the lot in a rented two-bay garage on Route 46. Eleven cars sell that first year.",
+  },
+  {
+    year: "2009",
+    text: "The credit markets freeze and nobody can get a loan. A handful of repeat families and their referrals keep the lights on.",
+  },
+  {
+    year: "2012",
+    text: "The shop out back doubles in size. State inspections and any-make repair become a steady part of the business.",
+  },
+  {
+    year: "2013",
+    text: "Gina Ferrante joins full-time and takes over the sales floor and the day-to-day.",
+  },
+  {
+    year: "2019",
+    text: "The 7,000th car goes home — bought, like most of them, by someone who lives within ten miles of the lot.",
+  },
+  {
+    year: "Today",
+    text: "612 reviews at a 4.9 average, the same corner, and Sal still doing most of the appraisals himself.",
+  },
 ];
 
 const VALUES = [
@@ -86,6 +116,8 @@ const TEAM = [
   },
 ];
 
+const AVATAR = ["bg-navy", "bg-red", "bg-gold-600", "bg-navy-600", "bg-navy"];
+
 const STATS = [
   { value: 18, suffix: "", label: "years on Route 46" },
   { value: 7400, suffix: "+", label: "cars sold to neighbors" },
@@ -103,47 +135,30 @@ const TOWNS = [
   "Elmwood Park",
   "Rochelle Park",
   "Maywood",
+  "Rutherford",
+  "Fair Lawn",
 ];
 
 export default function AboutClient() {
   return (
     <div className="bg-mist">
-      {/* header */}
-      <section className="relative overflow-hidden bg-navy pb-16 pt-32 sm:pb-20">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,white_1px,transparent_1px)] [background-size:22px_22px]"
-        />
-        <div
-          aria-hidden
-          className="absolute -left-24 top-6 h-72 w-72 rounded-full bg-gold/10 blur-3xl"
-        />
-        <div className="container-page relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="max-w-2xl"
-          >
-            <p className="eyebrow text-gold">About us</p>
-            <h1 className="display-1 mt-3 text-white">
-              The people behind Bergen Car Company
-            </h1>
-            <p className="mt-4 text-lg leading-8 text-white/70">
-              A small, family-run used car lot on Route 46 in Lodi. Here&apos;s
-              who we are, how we got here, and why we do a few things
-              differently.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageBanner
+        eyebrow="About us"
+        title="The people behind Bergen Car Company"
+        description="A small, family-run used car lot on Route 46 in Lodi. Here's who we are, how we got here, and why we do a few things differently."
+        image="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="Used cars parked on the lot at Bergen Car Company in Lodi, New Jersey"
+      />
 
       {/* our story */}
       <section className="py-20 sm:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
           <Reveal as="article">
-            <p className="eyebrow text-red">Our story</p>
-            <h2 className="display-2 mt-2 text-ink">
+            <p className="eyebrow flex items-center gap-2.5 text-red">
+              <span className="h-px w-7 bg-red/60" aria-hidden />
+              Our story
+            </p>
+            <h2 className="display-2 mt-3 text-ink">
               It started with a guy who&apos;d had enough
             </h2>
             <div className="mt-6 space-y-4 text-[15px] leading-7 text-navy-700">
@@ -194,29 +209,77 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* values */}
+      {/* timeline */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">What we operate by</p>
-            <h2 className="display-2 mt-2 text-ink">
-              Four rules we don&apos;t bend
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              Not a mission statement. Just the things we decided early on and
-              have stuck to since.
-            </p>
-          </Reveal>
+          <SectionHeading
+            kicker="How we got here"
+            title="From a two-bay garage to the same corner, 18 years on"
+          >
+            The short version of a longer story. Same idea the whole way through.
+          </SectionHeading>
+
+          <div className="relative mt-14 max-w-3xl pl-8">
+            <motion.span
+              aria-hidden
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 1.1, ease: EASE }}
+              className="absolute left-0 top-1.5 h-[calc(100%-0.75rem)] w-0.5 origin-top bg-gradient-to-b from-navy via-navy to-line-strong"
+            />
+            <ol className="space-y-9">
+              {MILESTONES.map((m, i) => (
+                <motion.li
+                  key={m.year}
+                  initial={{ opacity: 0, x: -14 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+                  className="relative"
+                >
+                  <span className="absolute -left-[2.35rem] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-navy ring-4 ring-white">
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+                  </span>
+                  <p className="font-heading text-sm font-bold tracking-wide text-red">
+                    {m.year}
+                  </p>
+                  <p className="mt-1.5 text-[15px] leading-7 text-navy-700">
+                    {m.text}
+                  </p>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* values */}
+      <section className="bg-mist py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="What we operate by"
+            title="Four rules we don&apos;t bend"
+          >
+            Not a mission statement. Just the things we decided early on and have
+            stuck to since.
+          </SectionHeading>
 
           <Stagger
             className="mt-12 grid gap-6 sm:grid-cols-2"
             stagger={0.09}
           >
-            {VALUES.map(({ icon: Icon, title, body }) => (
+            {VALUES.map(({ icon: Icon, title, body }, i) => (
               <StaggerItem
                 key={title}
-                className="flex gap-4 rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+                className="group relative flex gap-4 overflow-hidden rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-[var(--shadow-lift)]"
               >
+                <span
+                  aria-hidden
+                  className="absolute right-5 top-3 font-heading text-4xl font-bold text-cloud transition-colors group-hover:text-gold/25"
+                >
+                  0{i + 1}
+                </span>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy text-gold">
                   <Icon className="h-5 w-5" />
                 </span>
@@ -234,31 +297,58 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* team */}
-      <section className="py-20 sm:py-24">
+      {/* manifesto */}
+      <section className="bg-navy py-20 sm:py-28">
         <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">Meet the team</p>
-            <h2 className="display-2 mt-2 text-ink">
-              The whole company fits in one photo
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              There are eleven of us. These are the people you&apos;ll actually
-              deal with.
+          <motion.blockquote
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="mx-auto max-w-4xl text-center"
+          >
+            <span
+              aria-hidden
+              className="font-heading text-6xl leading-none text-gold/40"
+            >
+              &ldquo;
+            </span>
+            <p className="mt-2 font-heading text-2xl font-bold leading-snug tracking-tight text-white sm:text-4xl">
+              We&apos;d rather lose a sale than earn a bad review.
             </p>
-          </Reveal>
+            <footer className="mt-6 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/45">
+              Sal Ferrante, 2008 — and still the rule
+            </footer>
+          </motion.blockquote>
+        </div>
+      </section>
+
+      {/* team */}
+      <section className="bg-white py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="Meet the team"
+            title="The whole company fits in one photo"
+          >
+            There are eleven of us. These are the people you&apos;ll actually deal
+            with.
+          </SectionHeading>
 
           <Stagger
             className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
             stagger={0.08}
           >
-            {TEAM.map((m) => (
+            {TEAM.map((m, i) => (
               <StaggerItem
                 key={m.name}
                 className="flex flex-col rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
               >
                 <div className="flex items-center gap-4">
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-navy font-heading text-lg font-bold text-gold">
+                  <span
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl font-heading text-lg font-bold text-white ${
+                      AVATAR[i % AVATAR.length]
+                    }`}
+                  >
                     {m.initials}
                   </span>
                   <div>
@@ -283,8 +373,11 @@ export default function AboutClient() {
       <section className="bg-navy py-20 text-white sm:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
           <Reveal>
-            <p className="eyebrow text-gold">In the neighborhood</p>
-            <h2 className="display-2 mt-2 text-white">
+            <p className="eyebrow flex items-center gap-2.5 text-gold">
+              <span className="h-px w-7 bg-gold/60" aria-hidden />
+              In the neighborhood
+            </p>
+            <h2 className="display-2 mt-3 text-white">
               A Bergen County business, start to finish
             </h2>
             <div className="mt-4 space-y-4 text-[15px] leading-7 text-white/75">
@@ -302,16 +395,6 @@ export default function AboutClient() {
                 stranger can walk in and trust us with a big purchase — plenty of
                 people in the area already have.
               </p>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {TOWNS.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[13px] font-medium text-white/75"
-                >
-                  {t}
-                </span>
-              ))}
             </div>
           </Reveal>
 
@@ -338,6 +421,19 @@ export default function AboutClient() {
               </StaggerItem>
             ))}
           </Stagger>
+        </div>
+
+        <div className="mt-14">
+          <Marquee slow>
+            {TOWNS.map((t) => (
+              <span
+                key={t}
+                className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-[13px] font-medium text-white/75"
+              >
+                {t}
+              </span>
+            ))}
+          </Marquee>
         </div>
       </section>
 

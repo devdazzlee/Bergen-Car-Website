@@ -14,6 +14,7 @@ import {
   type Vehicle,
 } from "../lib/inventory";
 import { IconChevronDown, IconSearch, IconSliders } from "../components/icons";
+import PageBanner from "../components/page-banner";
 import {
   Select,
   SelectContent,
@@ -269,28 +270,13 @@ export default function InventoryClient({ vehicles }: { vehicles: Vehicle[] }) {
 
   return (
     <div className="bg-mist">
-      {/* page header */}
-      <div className="relative overflow-hidden bg-navy">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,white_1px,transparent_1px)] [background-size:22px_22px]"
-        />
-        <div className="container-page relative pb-12 pt-32 sm:pb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-          >
-            <p className="eyebrow text-gold">Inventory</p>
-            <h1 className="display-2 mt-3 text-white">Browse our inventory</h1>
-            <p className="mt-4 max-w-xl text-lg leading-8 text-white/70">
-              Every car here has been inspected by our own technicians and is
-              ready to drive. Prices are up front — filter down to what fits, and
-              come take it for a spin.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      <PageBanner
+        eyebrow="Inventory"
+        title="Browse our inventory"
+        description="Every car here has been inspected by our own technicians and is ready to drive. Prices are up front — filter down to what fits, and come take it for a spin."
+        image="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="A row of inspected used cars available at Bergen Car Company in Lodi, New Jersey"
+      />
 
       {/* sticky condensed bar */}
       <AnimatePresence>

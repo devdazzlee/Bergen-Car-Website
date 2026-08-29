@@ -22,22 +22,33 @@ const COLUMNS = [
       { label: "This month's specials", href: "/specials" },
       { label: "Financing", href: "/financing" },
       { label: "Service shop", href: "/service" },
+      { label: "Reviews", href: "/reviews" },
+      { label: "Blog", href: "/blog" },
+      { label: "Service areas", href: "/service-areas" },
       { label: "About us", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "Careers", href: "/contact" },
     ],
   },
   {
     heading: "Help",
     links: [
+      { label: "Schedule a test drive", href: "/test-drive" },
       { label: "Value my trade", href: "/trade" },
+      { label: "Sell your car", href: "/sell" },
       { label: "Pre-qualification", href: "/financing" },
-      { label: "Warranty coverage", href: "/#faq" },
+      { label: "Warranty coverage", href: "/warranty" },
       { label: "NJ inspection", href: "/service" },
-      { label: "Privacy policy", href: "/#" },
-      { label: "Terms", href: "/#" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
+];
+
+const LEGAL_LINKS = [
+  { label: "Privacy policy", href: "/privacy" },
+  { label: "Terms of service", href: "/terms" },
+  { label: "Accessibility", href: "/accessibility" },
+  { label: "Cookie policy", href: "/cookies" },
+  { label: "Sitemap", href: "/sitemap" },
 ];
 
 function SocialIcon({ path, label }: { path: string; label: string }) {
@@ -152,15 +163,31 @@ export default function SiteFooter() {
           ))}
         </Stagger>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-[13px] text-white/45 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} Bergen Car Company, Inc. · Lodi, New
-            Jersey
-          </p>
-          <p className="max-w-xl sm:text-right">
-            Prices exclude tax, title, registration, and a $499 documentary fee.
-            Vehicles subject to prior sale.
-          </p>
+        <div className="mt-12 border-t border-white/10 pt-6">
+          <nav
+            aria-label="Legal"
+            className="flex flex-wrap gap-x-5 gap-y-2 text-[13px]"
+          >
+            {LEGAL_LINKS.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                className="text-white/55 transition-colors hover:text-white"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <div className="mt-5 flex flex-col gap-3 text-[13px] text-white/45 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              © {new Date().getFullYear()} Bergen Car Company, Inc. · Lodi, New
+              Jersey
+            </p>
+            <p className="max-w-xl sm:text-right">
+              Prices exclude tax, title, registration, and a $499 documentary
+              fee. Vehicles subject to prior sale.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

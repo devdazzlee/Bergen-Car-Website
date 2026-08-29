@@ -5,11 +5,13 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { format } from "date-fns";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
+import { SectionHeading } from "../components/section-heading";
+import PageBanner, { BannerPills } from "../components/page-banner";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { DatePicker } from "../components/ui/date-picker";
-import { Field, StepStrip, ringFor, EASE } from "../components/ui/form-parts";
+import { Field, FieldGroup, FormShell, ringFor, EASE } from "../components/ui/form-parts";
 import {
   Select,
   SelectContent,
@@ -92,6 +94,36 @@ const SERVICES = [
     title: "Repairs",
     body: "Suspension, cooling, electrical, belts, and more, for any make. If it's a job we shouldn't take on, we'll tell you and point you somewhere good.",
     meta: "Free estimate",
+  },
+];
+
+const PRICING = [
+  { job: "Oil & filter change", range: "$45 – $95" },
+  { job: "Tire rotation", range: "$30 – $45" },
+  { job: "Front brake pads & rotors (per axle)", range: "$260 – $420" },
+  { job: "Battery, tested & installed", range: "$180 – $320" },
+  { job: "NJ inspection prep & re-test", range: "from $45" },
+  { job: "Check-engine diagnosis", range: "$95 – $140" },
+  { job: "30k / 60k / 90k service", range: "$180 – $650" },
+  { job: "A/C recharge & leak check", range: "$140 – $260" },
+];
+
+const QUOTE_STEPS = [
+  {
+    t: "We diagnose",
+    b: "Scan, road-test, and physically check. We find the actual cause, not just the symptom.",
+  },
+  {
+    t: "You get it in writing",
+    b: "Parts, labor, and time, itemized — sent before anyone picks up a wrench.",
+  },
+  {
+    t: "You approve it",
+    b: "Nothing happens until you say go. Decline any line you want, no attitude.",
+  },
+  {
+    t: "We call before extras",
+    b: "If we open something up and find more, we stop and phone you first. No surprise additions.",
   },
 ];
 
@@ -242,8 +274,9 @@ function ScheduleForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+      <FieldGroup title="Your contact info">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="s-name"
           label="Full name"
@@ -277,27 +310,28 @@ function ScheduleForm() {
             className={ringFor(!!touched.phone, errors.phone)}
           />
         </Field>
-      </div>
-
-      <Field
-        id="s-email"
-        label="Email"
-        touched={!!touched.email}
-        error={errors.email}
-        filled={!!v.email}
-      >
-        <Input
+        <Field
           id="s-email"
-          type="email"
-          autoComplete="email"
-          value={v.email}
-          onChange={(e) => set("email")(e.target.value)}
-          onBlur={blur("email")}
-          className={ringFor(!!touched.email, errors.email)}
-        />
-      </Field>
+          label="Email"
+          touched={!!touched.email}
+          error={errors.email}
+          filled={!!v.email}
+        >
+          <Input
+            id="s-email"
+            type="email"
+            autoComplete="email"
+            value={v.email}
+            onChange={(e) => set("email")(e.target.value)}
+            onBlur={blur("email")}
+            className={ringFor(!!touched.email, errors.email)}
+          />
+        </Field>
+      </div>
+      </FieldGroup>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <FieldGroup title="The car and the appointment">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="s-year"
           label="Year"
@@ -317,7 +351,7 @@ function ScheduleForm() {
               id="s-year"
               className={ringFor(!!touched.year, errors.year)}
             >
-              <SelectValue placeholder="Select…" />
+              <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
               {YEARS.map((y) => (
@@ -337,31 +371,32 @@ function ScheduleForm() {
         >
           <Input
             id="s-make"
+            placeholder="e.g. Honda"
             value={v.make}
             onChange={(e) => set("make")(e.target.value)}
             onBlur={blur("make")}
             className={ringFor(!!touched.make, errors.make)}
           />
         </Field>
+        <Field
+          id="s-model"
+          label="Model"
+          touched={!!touched.model}
+          error={errors.model}
+          filled={!!v.model}
+        >
+          <Input
+            id="s-model"
+            placeholder="e.g. CR-V"
+            value={v.model}
+            onChange={(e) => set("model")(e.target.value)}
+            onBlur={blur("model")}
+            className={ringFor(!!touched.model, errors.model)}
+          />
+        </Field>
       </div>
 
-      <Field
-        id="s-model"
-        label="Model"
-        touched={!!touched.model}
-        error={errors.model}
-        filled={!!v.model}
-      >
-        <Input
-          id="s-model"
-          value={v.model}
-          onChange={(e) => set("model")(e.target.value)}
-          onBlur={blur("model")}
-          className={ringFor(!!touched.model, errors.model)}
-        />
-      </Field>
-
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="s-date"
           label="Preferred date"
@@ -414,9 +449,6 @@ function ScheduleForm() {
       <Field
         id="s-details"
         label="What does it need?"
-        hint={
-          "A sentence is plenty — e.g. “oil change and the brakes squeak when cold.”"
-        }
         touched={!!touched.details}
         error={errors.details}
         filled={!!v.details}
@@ -424,13 +456,15 @@ function ScheduleForm() {
       >
         <Textarea
           id="s-details"
-          rows={4}
+          rows={3}
+          placeholder="e.g. oil change and the brakes squeak when cold"
           value={v.details}
           onChange={(e) => set("details")(e.target.value)}
           onBlur={blur("details")}
           className={ringFor(!!touched.details, errors.details)}
         />
       </Field>
+      </FieldGroup>
 
       <Button type="submit" size="lg" className="mt-1 w-full">
         Request this appointment
@@ -448,81 +482,49 @@ function ScheduleForm() {
 export default function ServiceClient() {
   return (
     <div className="bg-mist">
-      <section className="relative overflow-hidden bg-navy pb-16 pt-32">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,white_1px,transparent_1px)] [background-size:22px_22px]"
+      <PageBanner
+        eyebrow="Service & Parts"
+        title="Keep your car running right"
+        description={
+          <p>
+            Our service team is here for the life of your car, not just the
+            sale — for any make or model, whether you bought it from us or not.
+            You&apos;ll always know the price and the reason{" "}
+            <span className="text-white">before</span> we touch anything.
+          </p>
+        }
+        image="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="A technician servicing a vehicle in the Bergen Car Company shop"
+      >
+        <BannerPills
+          items={["Any make or model", "Only what's needed", "Written estimate first"]}
         />
-        <div
-          aria-hidden
-          className="absolute -right-24 top-4 h-72 w-72 rounded-full bg-gold/10 blur-3xl"
-        />
-        <div className="container-page relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="max-w-2xl"
+      </PageBanner>
+
+      <section id="service-form" className="scroll-mt-24 py-14 sm:py-20">
+        <div className="container-page">
+          <FormShell
+            asideTitle="What to expect"
+            steps={STEPS}
+            formTitle="Schedule service"
+            formNote="Tell us the car and what's going on. We'll call back to pin down the time."
+            footNote="This is a request, not a locked booking. No charge for an estimate, and nothing gets done without your OK."
           >
-            <p className="eyebrow text-gold">Service &amp; Parts</p>
-            <h1 className="display-2 mt-3 text-white">
-              Keep your car running right
-            </h1>
-            <p className="mt-4 text-lg leading-8 text-white/70">
-              Our service team is here for the life of your car, not just the
-              sale — for any make or model, whether you bought it from us or not.
-              You&apos;ll always know the price and the reason{" "}
-              <span className="text-white">before</span> we touch anything.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2 text-[12px] font-semibold text-white/75">
-              {["Any make or model", "Only what's needed", "Written estimate first"].map(
-                (t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5"
-                  >
-                    {t}
-                  </span>
-                ),
-              )}
-            </div>
-          </motion.div>
+            <ScheduleForm />
+          </FormShell>
         </div>
       </section>
 
-      <section id="service-form" className="scroll-mt-24 py-14 sm:py-16">
-        <div className="container-page mx-auto max-w-3xl">
-          <StepStrip steps={STEPS} />
-          <Reveal
-            delay={0.05}
-            className="mt-8 rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8"
-          >
-            <h2 className="font-heading text-xl font-bold text-ink">
-              Schedule service
-            </h2>
-            <p className="mt-1 text-[14px] text-navy-600">
-              Tell us the car and what&apos;s going on. We&apos;ll call back to
-              pin down the time.
-            </p>
-            <div className="mt-6">
-              <ScheduleForm />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
+      {/* services */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">What we do</p>
-            <h2 className="display-2 mt-2 text-ink">
-              Services we handle in-house
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              Routine upkeep through real repairs, for any make. If it&apos;s a
-              job we&apos;re not the right shop for, we&apos;ll say so.
-            </p>
-          </Reveal>
+          <SectionHeading
+            kicker="What we do"
+            title="Services we handle in-house"
+          >
+            Routine upkeep through real repairs, for any make. If it&apos;s a job
+            we&apos;re not the right shop for, we&apos;ll say so.
+          </SectionHeading>
 
           <Stagger
             className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -553,17 +555,98 @@ export default function ServiceClient() {
         </div>
       </section>
 
+      {/* transparent pricing */}
       <section className="bg-mist py-20 sm:py-24">
-        <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">Why service with us</p>
-            <h2 className="display-2 mt-2 text-ink">No upsell, no scare tactics</h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              The thing people dread about a dealership service department is
-              being talked into work they don&apos;t need. Here&apos;s how we keep
-              that from happening.
+        <div className="container-page grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <SectionHeading
+            kicker="No mystery invoices"
+            title="What a visit actually costs"
+            className="lg:sticky lg:top-28"
+          >
+            Typical all-in ranges for the jobs people ask about most. Your car
+            might land outside a range — if it does, you&apos;ll hear it from us
+            before we start, in writing.
+          </SectionHeading>
+
+          <Reveal
+            delay={0.05}
+            className="overflow-hidden rounded-3xl border border-line-strong bg-white shadow-[var(--shadow-card)]"
+          >
+            <ul>
+              {PRICING.map((p, i) => (
+                <li
+                  key={p.job}
+                  className={`flex items-center justify-between gap-4 px-5 py-4 text-[14px] sm:px-6 ${
+                    i > 0 ? "border-t border-line" : ""
+                  }`}
+                >
+                  <span className="font-medium text-navy-700">{p.job}</span>
+                  <span className="shrink-0 font-heading font-bold text-gold-600">
+                    {p.range}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="border-t border-line bg-mist/50 px-5 py-3.5 text-[12px] leading-6 text-navy-500 sm:px-6">
+              Diagnosis fee is credited toward the repair if you have us do the
+              work. No shop-supply padding, no “document fee” on a repair order.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* how we quote */}
+      <section className="bg-white py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="How we quote"
+            title="The oversell stops at step two"
+            align="center"
+          >
+            The thing people dread about a service department is being talked
+            into work. Here&apos;s the order every job goes in.
+          </SectionHeading>
+
+          <ol className="relative mt-14 grid gap-10 sm:grid-cols-4 sm:gap-6">
+            <span
+              aria-hidden
+              className="absolute left-6 right-6 top-6 hidden h-px bg-line-strong sm:block"
+            />
+            {QUOTE_STEPS.map((s, i) => (
+              <motion.li
+                key={s.t}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.12, ease: EASE }}
+                className="relative"
+              >
+                <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-navy font-heading text-base font-bold text-gold ring-4 ring-white">
+                  {i + 1}
+                </span>
+                <h3 className="mt-4 font-heading text-[15px] font-semibold text-ink">
+                  {s.t}
+                </h3>
+                <p className="mt-1.5 text-[13.5px] leading-6 text-navy-600">
+                  {s.b}
+                </p>
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* why service with us */}
+      <section className="bg-mist py-20 sm:py-24">
+        <div className="container-page">
+          <SectionHeading
+            kicker="Why service with us"
+            title="No upsell, no scare tactics"
+          >
+            The thing people dread about a dealership service department is being
+            talked into work they don&apos;t need. Here&apos;s how we keep that
+            from happening.
+          </SectionHeading>
 
           <Stagger
             className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
@@ -584,18 +667,16 @@ export default function ServiceClient() {
         </div>
       </section>
 
+      {/* hours & contact */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container-page">
-          <Reveal className="max-w-2xl">
-            <p className="eyebrow text-red">Hours &amp; contact</p>
-            <h2 className="display-2 mt-2 text-ink">
-              The service desk keeps its own hours
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-navy-600">
-              We open earlier than the showroom so you can drop off before work.
-              Same lot, Route 46 in Lodi.
-            </p>
-          </Reveal>
+          <SectionHeading
+            kicker="Hours &amp; contact"
+            title="The service desk keeps its own hours"
+          >
+            We open earlier than the showroom so you can drop off before work.
+            Same lot, Route 46 in Lodi.
+          </SectionHeading>
 
           <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
             <Reveal className="rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-7">
@@ -681,10 +762,11 @@ export default function ServiceClient() {
         <div className="container-page">
           <Reveal className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-xl">
-              <h2 className="display-3 text-white">Book service online</h2>
+              <p className="eyebrow text-gold">About a minute</p>
+              <h2 className="display-3 mt-3 text-white">Book service online</h2>
               <p className="mt-2 text-[15px] leading-7 text-white/70">
-                About a minute to request a time. We&apos;ll call to confirm, and
-                you&apos;ll see the estimate before any work starts.
+                Request a time and we&apos;ll call to confirm. You&apos;ll see the
+                estimate before any work starts.
               </p>
             </div>
             <Button asChild variant="gold" size="lg" className="shrink-0">

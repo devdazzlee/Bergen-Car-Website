@@ -3,6 +3,8 @@ import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import { VEHICLES } from "../lib/inventory";
 import InventoryClient from "./inventory-client";
+import SeoFaq from "../components/seo-faq";
+import { INVENTORY_SEO } from "../lib/seo-faq-content";
 
 export const metadata: Metadata = {
   title: "Used Car Inventory in Lodi, NJ",
@@ -23,6 +25,7 @@ export default function InventoryPage() {
       <SiteHeader solid />
       <main className="flex-1">
         <InventoryClient vehicles={VEHICLES} />
+        <SeoFaq {...INVENTORY_SEO} />
       </main>
       <SiteFooter />
     </>

@@ -2,34 +2,137 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   IconArrowRight,
+  IconChevronDown,
   IconClock,
   IconClose,
   IconMenu,
   IconPhone,
   IconPin,
 } from "./icons";
+import { areasByRegion } from "../lib/service-areas";
 
-const NAV = [
-  { label: "Inventory", href: "/inventory" },
-  { label: "Specials", href: "/specials" },
-  { label: "Financing", href: "/financing" },
-  { label: "Trade-in", href: "/trade" },
+type NavLink = { label: string; href: string; desc?: string };
+type NavItem = {
+  label: string;
+  href?: string;
+  children?: NavLink[];
+  /** Renders the wide, county-grouped Service Areas mega panel. */
+  mega?: boolean;
+};
+
+const AREA_GROUPS = areasByRegion();
+const AREA_COUNT = AREA_GROUPS.reduce((n, g) => n + g.areas.length, 0);
+
+const NAV: NavItem[] = [
+  {
+    label: "Shop",
+    children: [
+      {
+        label: "Browse inventory",
+        href: "/inventory",
+        desc: "Every car on the lot, filterable",
+      },
+      {
+        label: "This month's specials",
+        href: "/specials",
+        desc: "Current price cuts and rate offers",
+      },
+      {
+        label: "Schedule a test drive",
+        href: "/test-drive",
+        desc: "Pick a car and a time — keys ready",
+      },
+    ],
+  },
+  {
+    label: "Financing",
+    children: [
+      {
+        label: "Get pre-qualified",
+        href: "/financing",
+        desc: "Soft check, no SSN to start",
+      },
+      {
+        label: "Value your trade",
+        href: "/trade",
+        desc: "A real number, same day",
+      },
+      {
+        label: "Sell your car",
+        href: "/sell",
+        desc: "We'll buy it outright — no purchase needed",
+      },
+      {
+        label: "Warranty coverage",
+        href: "/warranty",
+        desc: "What's covered, in plain terms",
+      },
+    ],
+  },
   { label: "Service", href: "/service" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Service Areas", href: "/service-areas", mega: true },
+  {
+    label: "Resources",
+    children: [
+      {
+        label: "Blog",
+        href: "/blog",
+        desc: "Buying, financing & maintenance guides",
+      },
+      { label: "Reviews", href: "/reviews", desc: "612 reviews, unedited" },
+      {
+        label: "FAQ",
+        href: "/faq",
+        desc: "The questions people really ask",
+      },
+    ],
+  },
+  {
+    label: "About",
+    children: [
+      {
+        label: "About us",
+        href: "/about",
+        desc: "The family on Route 46 since 2008",
+      },
+      {
+        label: "Contact",
+        href: "/contact",
+        desc: "Call, text, email, or stop by",
+      },
+    ],
+  },
 ];
 
 const PHONE_DISPLAY = "(973) 555-0142";
 const PHONE_HREF = "tel:+19735550142";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function SiteHeader({ solid: forceSolid = false }: { solid?: boolean }) {
+function isActive(pathname: string, item: NavItem): boolean {
+  if (item.mega) return pathname.startsWith("/service-areas");
+  if (item.href) return pathname === item.href;
+  return (
+    item.children?.some(
+      (c) => pathname === c.href || pathname.startsWith(`${c.href}/`),
+    ) ?? false
+  );
+}
+
+export default function SiteHeader({
+  solid: forceSolid = false,
+}: {
+  solid?: boolean;
+}) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState<string | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -44,6 +147,32 @@ export default function SiteHeader({ solid: forceSolid = false }: { solid?: bool
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // Close every menu on navigation.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      setOpen(false);
+      setMenu(null);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenu(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const hoverOpen = (label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setMenu(label);
+  };
+  const hoverClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setMenu(null), 120);
+  };
 
   const solid = forceSolid || scrolled || open;
 
@@ -76,6 +205,10 @@ export default function SiteHeader({ solid: forceSolid = false }: { solid?: bool
             </span>
           </div>
           <div className="hidden items-center gap-4 lg:flex">
+            <Link href="/test-drive" className="transition-colors hover:text-white">
+              Book a test drive
+            </Link>
+            <span className="h-3 w-px bg-white/15" />
             <Link href="/trade" className="transition-colors hover:text-white">
               Value your trade
             </Link>
@@ -104,26 +237,211 @@ export default function SiteHeader({ solid: forceSolid = false }: { solid?: bool
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 xl:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="group relative rounded-full px-3.5 py-2 text-sm font-medium text-white/80 transition-colors hover:text-white"
-            >
-              {item.label}
-              <span
-                aria-hidden
-                className="absolute inset-x-3.5 bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-gold transition-transform duration-200 group-hover:scale-x-100"
-              />
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-0.5 lg:flex">
+          {NAV.map((item) => {
+            const active = isActive(pathname, item);
+
+            if (item.mega) {
+              const isOpen = menu === item.label;
+              return (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => hoverOpen(item.label)}
+                  onMouseLeave={hoverClose}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                    onClick={() => setMenu(isOpen ? null : item.label)}
+                    className={`group relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-medium transition-colors ${
+                      active || isOpen
+                        ? "text-white"
+                        : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                    <IconChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                    <span
+                      aria-hidden
+                      className={`absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full bg-gold transition-transform duration-200 ${
+                        active
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.16, ease: EASE }}
+                        className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
+                      >
+                        <div className="max-h-[72vh] w-[min(46rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-line bg-white p-5 shadow-[var(--shadow-lift)]">
+                          <div className="mb-3 flex items-center justify-between">
+                            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-navy-400">
+                              Towns we serve
+                            </p>
+                            <Link
+                              href="/service-areas"
+                              className="text-[12px] font-semibold text-red hover:underline"
+                            >
+                              All {AREA_COUNT} towns &rarr;
+                            </Link>
+                          </div>
+                          <div className="gap-x-6 [column-gap:1.5rem] sm:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+                            {AREA_GROUPS.map((g) => (
+                              <div key={g.region}>
+                                <p className="mb-1.5 font-heading text-[12px] font-semibold text-ink">
+                                  {g.region}
+                                </p>
+                                <ul className="space-y-0.5">
+                                  {g.areas.map((a) => {
+                                    const childActive =
+                                      pathname === `/service-areas/${a.slug}`;
+                                    return (
+                                      <li key={a.slug}>
+                                        <Link
+                                          href={`/service-areas/${a.slug}`}
+                                          className={`block rounded-md px-1.5 py-1 text-[12.5px] transition-colors ${
+                                            childActive
+                                              ? "bg-mist font-semibold text-ink"
+                                              : "text-navy-600 hover:bg-mist hover:text-ink"
+                                          }`}
+                                        >
+                                          {a.city}
+                                          {a.state === "NY" ? ", NY" : ""}
+                                        </Link>
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            }
+
+            if (!item.children) {
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href!}
+                  className={`group relative whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-medium transition-colors ${
+                    active ? "text-white" : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    aria-hidden
+                    className={`absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full bg-gold transition-transform duration-200 ${
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </Link>
+              );
+            }
+
+            const isOpen = menu === item.label;
+            return (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => hoverOpen(item.label)}
+                onMouseLeave={hoverClose}
+              >
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-haspopup="true"
+                  onClick={() =>
+                    setMenu(isOpen ? null : item.label)
+                  }
+                  className={`group relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-medium transition-colors ${
+                    active || isOpen
+                      ? "text-white"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                  <IconChevronDown
+                    className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                  <span
+                    aria-hidden
+                    className={`absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full bg-gold transition-transform duration-200 ${
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.16, ease: EASE }}
+                      className="absolute left-0 top-full pt-3"
+                    >
+                      <div className="w-[19rem] overflow-hidden rounded-2xl border border-line bg-white p-1.5 shadow-[var(--shadow-lift)]">
+                        {item.children.map((c) => {
+                          const childActive =
+                            pathname === c.href ||
+                            pathname.startsWith(`${c.href}/`);
+                          return (
+                            <Link
+                              key={c.href}
+                              href={c.href}
+                              className={`block rounded-xl px-3 py-2.5 transition-colors ${
+                                childActive ? "bg-mist" : "hover:bg-mist"
+                              }`}
+                            >
+                              <span className="flex items-center justify-between gap-2">
+                                <span className="font-heading text-[13.5px] font-semibold text-ink">
+                                  {c.label}
+                                </span>
+                                {childActive && (
+                                  <span className="h-1.5 w-1.5 rounded-full bg-red" />
+                                )}
+                              </span>
+                              {c.desc && (
+                                <span className="mt-0.5 block text-[12px] leading-5 text-navy-500">
+                                  {c.desc}
+                                </span>
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             href={PHONE_HREF}
-            className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-white/90 transition-colors hover:text-white md:inline-flex"
+            className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-white/90 transition-colors hover:text-white xl:inline-flex"
           >
             <IconPhone className="h-4 w-4 text-gold" />
             {PHONE_DISPLAY}
@@ -138,7 +456,7 @@ export default function SiteHeader({ solid: forceSolid = false }: { solid?: bool
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-full p-2 text-white hover:bg-white/10 xl:hidden"
+            className="inline-flex items-center justify-center rounded-full p-2 text-white hover:bg-white/10 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
@@ -159,20 +477,89 @@ export default function SiteHeader({ solid: forceSolid = false }: { solid?: bool
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="overflow-hidden border-t border-white/10 bg-navy/98 backdrop-blur-md xl:hidden"
+            className="overflow-hidden border-t border-white/10 bg-navy/98 backdrop-blur-md lg:hidden"
           >
-            <nav className="container-page flex flex-col py-4">
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl px-3 py-3.5 text-base font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="mt-3 flex flex-col gap-3">
+            <nav className="container-page max-h-[calc(100dvh-8rem)] overflow-y-auto py-4">
+              {NAV.map((item) =>
+                item.mega ? (
+                  <details
+                    key={item.label}
+                    className="group border-b border-white/5 py-1"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-3.5 text-base font-semibold text-white [&::-webkit-details-marker]:hidden">
+                      {item.label}
+                      <IconChevronDown className="h-4 w-4 text-white/60 transition-transform duration-200 group-open:rotate-180" />
+                    </summary>
+                    <div className="pb-2 pl-3">
+                      <Link
+                        href="/service-areas"
+                        onClick={() => setOpen(false)}
+                        className="mb-1 block rounded-xl px-3 py-2 text-[13px] font-semibold text-gold"
+                      >
+                        All {AREA_COUNT} towns &rarr;
+                      </Link>
+                      {AREA_GROUPS.map((g) => (
+                        <div key={g.region} className="mt-2">
+                          <p className="px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white/40">
+                            {g.region}
+                          </p>
+                          <div className="flex flex-wrap gap-x-1 gap-y-0.5">
+                            {g.areas.map((a) => (
+                              <Link
+                                key={a.slug}
+                                href={`/service-areas/${a.slug}`}
+                                onClick={() => setOpen(false)}
+                                className="rounded-lg px-3 py-1.5 text-[13px] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+                              >
+                                {a.city}
+                                {a.state === "NY" ? ", NY" : ""}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                ) : item.children ? (
+                  <details
+                    key={item.label}
+                    className="group border-b border-white/5 py-1"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-3.5 text-base font-semibold text-white [&::-webkit-details-marker]:hidden">
+                      {item.label}
+                      <IconChevronDown className="h-4 w-4 text-white/60 transition-transform duration-200 group-open:rotate-180" />
+                    </summary>
+                    <div className="pb-2 pl-3">
+                      {item.children.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          onClick={() => setOpen(false)}
+                          className="block rounded-xl px-3 py-3 text-[15px] text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                        >
+                          {c.label}
+                          {c.desc && (
+                            <span className="mt-0.5 block text-[12px] text-white/45">
+                              {c.desc}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href!}
+                    onClick={() => setOpen(false)}
+                    className="block border-b border-white/5 px-3 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+
+              <div className="mt-4 flex flex-col gap-3">
                 <a
                   href={PHONE_HREF}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white"
