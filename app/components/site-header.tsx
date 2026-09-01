@@ -15,40 +15,62 @@ import {
   IconPin,
 } from "./icons";
 import { areasByRegion } from "../lib/service-areas";
+import { CATEGORY_GROUPS } from "../lib/vehicle-categories";
 
 type NavLink = { label: string; href: string; desc?: string };
+type MegaGroup = { heading: string; links: { label: string; href: string }[] };
+type Mega = {
+  title: string;
+  allHref: string;
+  allLabel: string;
+  groups: MegaGroup[];
+};
 type NavItem = {
   label: string;
   href?: string;
   children?: NavLink[];
-  /** Renders the wide, county-grouped Service Areas mega panel. */
-  mega?: boolean;
+  /** Renders a wide, grouped mega panel (Shop categories, Service Areas). */
+  mega?: Mega;
 };
 
 const AREA_GROUPS = areasByRegion();
 const AREA_COUNT = AREA_GROUPS.reduce((n, g) => n + g.areas.length, 0);
 
+const AREAS_MEGA: Mega = {
+  title: "Towns we serve",
+  allHref: "/service-areas",
+  allLabel: `All ${AREA_COUNT} towns`,
+  groups: AREA_GROUPS.map((g) => ({
+    heading: g.region,
+    links: g.areas.map((a) => ({
+      label: a.state === "NY" ? `${a.city}, NY` : a.city,
+      href: `/service-areas/${a.slug}`,
+    })),
+  })),
+};
+
+const SHOP_MEGA: Mega = {
+  title: "Shop by category",
+  allHref: "/inventory",
+  allLabel: "All inventory",
+  groups: [
+    {
+      heading: "Browse",
+      links: [
+        { label: "All inventory", href: "/inventory" },
+        { label: "This month's specials", href: "/specials" },
+        { label: "Schedule a test drive", href: "/test-drive" },
+      ],
+    },
+    ...CATEGORY_GROUPS.map((g) => ({
+      heading: g.group,
+      links: g.items.map((c) => ({ label: c.navLabel, href: c.permalink })),
+    })),
+  ],
+};
+
 const NAV: NavItem[] = [
-  {
-    label: "Shop",
-    children: [
-      {
-        label: "Browse inventory",
-        href: "/inventory",
-        desc: "Every car on the lot, filterable",
-      },
-      {
-        label: "This month's specials",
-        href: "/specials",
-        desc: "Current price cuts and rate offers",
-      },
-      {
-        label: "Schedule a test drive",
-        href: "/test-drive",
-        desc: "Pick a car and a time — keys ready",
-      },
-    ],
-  },
+  { label: "Shop", mega: SHOP_MEGA },
   {
     label: "Financing",
     children: [
@@ -75,7 +97,7 @@ const NAV: NavItem[] = [
     ],
   },
   { label: "Service", href: "/service" },
-  { label: "Service Areas", href: "/service-areas", mega: true },
+  { label: "Service Areas", mega: AREAS_MEGA },
   {
     label: "Resources",
     children: [
@@ -114,7 +136,13 @@ const PHONE_HREF = "tel:+19735550142";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function isActive(pathname: string, item: NavItem): boolean {
-  if (item.mega) return pathname.startsWith("/service-areas");
+  if (item.mega) {
+    return item.mega.groups.some((g) =>
+      g.links.some(
+        (l) => pathname === l.href || pathname.startsWith(`${l.href}/`),
+      ),
+    );
+  }
   if (item.href) return pathname === item.href;
   return (
     item.children?.some(
@@ -289,37 +317,35 @@ export default function SiteHeader({
                         <div className="max-h-[72vh] w-[min(46rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-line bg-white p-5 shadow-[var(--shadow-lift)]">
                           <div className="mb-3 flex items-center justify-between">
                             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-navy-400">
-                              Towns we serve
+                              {item.mega.title}
                             </p>
                             <Link
-                              href="/service-areas"
+                              href={item.mega.allHref}
                               className="text-[12px] font-semibold text-red hover:underline"
                             >
-                              All {AREA_COUNT} towns &rarr;
+                              {item.mega.allLabel} &rarr;
                             </Link>
                           </div>
                           <div className="gap-x-6 [column-gap:1.5rem] sm:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
-                            {AREA_GROUPS.map((g) => (
-                              <div key={g.region}>
+                            {item.mega.groups.map((g) => (
+                              <div key={g.heading}>
                                 <p className="mb-1.5 font-heading text-[12px] font-semibold text-ink">
-                                  {g.region}
+                                  {g.heading}
                                 </p>
                                 <ul className="space-y-0.5">
-                                  {g.areas.map((a) => {
-                                    const childActive =
-                                      pathname === `/service-areas/${a.slug}`;
+                                  {g.links.map((l) => {
+                                    const childActive = pathname === l.href;
                                     return (
-                                      <li key={a.slug}>
+                                      <li key={l.href}>
                                         <Link
-                                          href={`/service-areas/${a.slug}`}
+                                          href={l.href}
                                           className={`block rounded-md px-1.5 py-1 text-[12.5px] transition-colors ${
                                             childActive
                                               ? "bg-mist font-semibold text-ink"
                                               : "text-navy-600 hover:bg-mist hover:text-ink"
                                           }`}
                                         >
-                                          {a.city}
-                                          {a.state === "NY" ? ", NY" : ""}
+                                          {l.label}
                                         </Link>
                                       </li>
                                     );
@@ -492,27 +518,26 @@ export default function SiteHeader({
                     </summary>
                     <div className="pb-2 pl-3">
                       <Link
-                        href="/service-areas"
+                        href={item.mega.allHref}
                         onClick={() => setOpen(false)}
                         className="mb-1 block rounded-xl px-3 py-2 text-[13px] font-semibold text-gold"
                       >
-                        All {AREA_COUNT} towns &rarr;
+                        {item.mega.allLabel} &rarr;
                       </Link>
-                      {AREA_GROUPS.map((g) => (
-                        <div key={g.region} className="mt-2">
+                      {item.mega.groups.map((g) => (
+                        <div key={g.heading} className="mt-2">
                           <p className="px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white/40">
-                            {g.region}
+                            {g.heading}
                           </p>
                           <div className="flex flex-wrap gap-x-1 gap-y-0.5">
-                            {g.areas.map((a) => (
+                            {g.links.map((l) => (
                               <Link
-                                key={a.slug}
-                                href={`/service-areas/${a.slug}`}
+                                key={l.href}
+                                href={l.href}
                                 onClick={() => setOpen(false)}
                                 className="rounded-lg px-3 py-1.5 text-[13px] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
                               >
-                                {a.city}
-                                {a.state === "NY" ? ", NY" : ""}
+                                {l.label}
                               </Link>
                             ))}
                           </div>

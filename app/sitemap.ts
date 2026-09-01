@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { VEHICLES } from "./lib/inventory";
 import { SERVICE_AREAS } from "./lib/service-areas";
 import { BLOG_POSTS } from "./lib/blog";
+import { VEHICLE_CATEGORIES } from "./lib/vehicle-categories";
 
 const SITE = "https://bergencarcompany.com";
 
@@ -49,6 +50,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,
+    });
+  }
+
+  for (const c of VEHICLE_CATEGORIES) {
+    entries.push({
+      url: `${SITE}${c.permalink}`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
     });
   }
 

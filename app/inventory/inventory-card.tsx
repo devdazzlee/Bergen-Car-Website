@@ -12,7 +12,14 @@ const TAG_STYLES: Record<NonNullable<Vehicle["tag"]>, string> = {
   "Low Miles": "bg-white text-ink ring-1 ring-line",
 };
 
-export default function InventoryCard({ vehicle }: { vehicle: Vehicle }) {
+export default function InventoryCard({
+  vehicle,
+  altText,
+}: {
+  vehicle: Vehicle;
+  /** Overrides the default alt text (used by the category landing pages). */
+  altText?: string;
+}) {
   return (
     <Link
       href={`/inventory/${vehicle.id}`}
@@ -21,7 +28,10 @@ export default function InventoryCard({ vehicle }: { vehicle: Vehicle }) {
       <div className="relative aspect-[16/11] overflow-hidden bg-cloud">
         <Image
           src={vehicle.image}
-          alt={`${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim}`}
+          alt={
+            altText ??
+            `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim}`
+          }
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"

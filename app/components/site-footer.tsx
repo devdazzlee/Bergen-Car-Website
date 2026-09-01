@@ -2,18 +2,15 @@ import Image from "next/image";
 import { IconPhone, IconPin, IconMail } from "./icons";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 import NewsletterForm from "./newsletter-form";
+import { VEHICLE_CATEGORIES } from "../lib/vehicle-categories";
 
 const COLUMNS = [
   {
-    heading: "Shop",
-    links: [
-      { label: "SUVs", href: "/inventory" },
-      { label: "Sedans", href: "/inventory" },
-      { label: "Trucks", href: "/inventory" },
-      { label: "Hatchbacks", href: "/inventory" },
-      { label: "Under $15,000", href: "/inventory" },
-      { label: "Hybrid & Electric", href: "/inventory" },
-    ],
+    heading: "Shop by category",
+    links: VEHICLE_CATEGORIES.map((c) => ({
+      label: c.navLabel,
+      href: c.permalink,
+    })),
   },
   {
     heading: "Company",

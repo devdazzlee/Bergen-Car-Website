@@ -572,6 +572,10 @@ export const BODY_STYLES = Array.from(
   new Set(VEHICLES.map((v) => v.bodyStyle)),
 ).sort();
 
+/** Canonical fuel types, so the filter offers all three even when a type has
+ *  no vehicles in stock right now. */
+export const FUEL_TYPES: Vehicle["fuel"][] = ["Gasoline", "Hybrid", "Electric"];
+
 export function modelsForMake(make: string): string[] {
   const list = VEHICLES.filter((v) => make === "" || v.make === make).map(
     (v) => v.model,
