@@ -3,15 +3,30 @@
  * are taken verbatim from the client brief ("Bergen Car web Revisions.docx").
  *
  * `filter` decides how the reused inventory listing is scoped:
- *   - { kind: "bodyStyle" }  filters by the existing Vehicle.bodyStyle field
- *   - { kind: "fuel" }       filters by the existing Vehicle.fuel field
- *   - { kind: "none" }       no matching field in the data model yet, the page
- *                            renders an honest empty state
+ *   - { kind: "bodyStyle" }  filters by Vehicle.bodyStyle
+ *   - { kind: "fuel" }       filters by Vehicle.fuel
+ *   - { kind: "flag" }       filters by an additive Vehicle flag
+ *                            (commercial / formerPolice / luxury)
+ *   - { kind: "none" }       no matching field yet, renders an empty state
  */
 
 export type CategoryFilter =
-  | { kind: "bodyStyle"; value: "SUV" | "Sedan" | "Truck" | "Coupe" | "Hatchback" }
+  | {
+      kind: "bodyStyle";
+      value:
+        | "SUV"
+        | "Sedan"
+        | "Truck"
+        | "Coupe"
+        | "Hatchback"
+        | "Minivan"
+        | "Cargo Van"
+        | "Passenger Van"
+        | "Wagon"
+        | "Convertible";
+    }
   | { kind: "fuel"; value: "Hybrid" | "Electric" }
+  | { kind: "flag"; value: "commercial" | "formerPolice" | "luxury" }
   | { kind: "none" };
 
 export type CategoryGroup = "Body type" | "Vans & work" | "Fuel" | "Premium";
@@ -101,7 +116,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Browse our used minivans and schedule your test drive in Lodi, NJ.",
     ],
     altNoun: "minivan",
-    filter: { kind: "none" },
+    filter: { kind: "bodyStyle", value: "Minivan" },
     group: "Vans & work",
   },
   {
@@ -119,7 +134,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Contact us to find a used cargo van that supports your business.",
     ],
     altNoun: "cargo van",
-    filter: { kind: "none" },
+    filter: { kind: "bodyStyle", value: "Cargo Van" },
     group: "Vans & work",
   },
   {
@@ -137,7 +152,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Contact Bergen Car Company for vehicle details and test-drive availability.",
     ],
     altNoun: "passenger van",
-    filter: { kind: "none" },
+    filter: { kind: "bodyStyle", value: "Passenger Van" },
     group: "Vans & work",
   },
   {
@@ -155,7 +170,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Contact our team to discuss your commercial transportation requirements.",
     ],
     altNoun: "commercial vehicle",
-    filter: { kind: "none" },
+    filter: { kind: "flag", value: "commercial" },
     group: "Vans & work",
   },
   {
@@ -173,7 +188,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Contact Bergen Car Company to learn more about our available police vehicles.",
     ],
     altNoun: "police car",
-    filter: { kind: "none" },
+    filter: { kind: "flag", value: "formerPolice" },
     group: "Vans & work",
   },
   {
@@ -227,7 +242,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Browse our used convertibles and plan your visit to Bergen Car Company.",
     ],
     altNoun: "convertible",
-    filter: { kind: "none" },
+    filter: { kind: "bodyStyle", value: "Convertible" },
     group: "Body type",
   },
   {
@@ -245,7 +260,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Contact Bergen Car Company to schedule a test drive in Lodi, NJ.",
     ],
     altNoun: "wagon",
-    filter: { kind: "none" },
+    filter: { kind: "bodyStyle", value: "Wagon" },
     group: "Body type",
   },
   {
@@ -263,7 +278,7 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
       "Find your next luxury vehicle at Bergen Car Company in Lodi, NJ.",
     ],
     altNoun: "luxury vehicle",
-    filter: { kind: "none" },
+    filter: { kind: "flag", value: "luxury" },
     group: "Premium",
   },
   {

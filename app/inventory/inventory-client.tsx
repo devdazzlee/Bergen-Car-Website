@@ -242,6 +242,7 @@ export default function InventoryClient({
   outro,
   lockBody,
   lockFuel,
+  lockFlag,
   forceEmpty = false,
   emptyTitle,
   emptyBody,
@@ -254,6 +255,8 @@ export default function InventoryClient({
   outro?: ReactNode;
   lockBody?: string;
   lockFuel?: string;
+  /** Restricts to vehicles carrying this additive classifier flag. */
+  lockFlag?: "commercial" | "formerPolice" | "luxury";
   forceEmpty?: boolean;
   emptyTitle?: string;
   emptyBody?: string;
@@ -286,9 +289,10 @@ export default function InventoryClient({
     return vehicles.filter(
       (v) =>
         (!lockBody || v.bodyStyle === lockBody) &&
-        (!lockFuel || v.fuel === lockFuel),
+        (!lockFuel || v.fuel === lockFuel) &&
+        (!lockFlag || v[lockFlag] === true),
     );
-  }, [vehicles, lockBody, lockFuel, forceEmpty]);
+  }, [vehicles, lockBody, lockFuel, lockFlag, forceEmpty]);
 
   const filtered = useMemo(() => {
     const pr = PRICE_RANGES[f.priceIdx];

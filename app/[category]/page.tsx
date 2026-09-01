@@ -86,6 +86,7 @@ export default async function CategoryPage({ params }: Params) {
   const lockBody =
     c.filter.kind === "bodyStyle" ? c.filter.value : undefined;
   const lockFuel = c.filter.kind === "fuel" ? c.filter.value : undefined;
+  const lockFlag = c.filter.kind === "flag" ? c.filter.value : undefined;
   const forceEmpty = c.filter.kind === "none";
 
   const shortName = c.name.replace(/^Used /, "").toLowerCase();
@@ -125,6 +126,7 @@ export default async function CategoryPage({ params }: Params) {
           outro={outro}
           lockBody={lockBody}
           lockFuel={lockFuel}
+          lockFlag={lockFlag}
           forceEmpty={forceEmpty}
           altNoun={c.altNoun}
           emptyTitle="No vehicles currently available in this category"
