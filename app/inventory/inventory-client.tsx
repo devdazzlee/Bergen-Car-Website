@@ -111,6 +111,7 @@ function FilterFields({
   onSort,
   hideBody = false,
   hideFuel = false,
+  hideMakeModel = false,
 }: {
   f: FiltersState;
   set: (p: Partial<FiltersState>) => void;
@@ -119,6 +120,7 @@ function FilterFields({
   onSort?: (s: InventorySort) => void;
   hideBody?: boolean;
   hideFuel?: boolean;
+  hideMakeModel?: boolean;
 }) {
   return (
     <>
@@ -135,31 +137,37 @@ function FilterFields({
         ))}
       </FilterSelect>
 
-      <FilterSelect
-        label="Make"
-        value={f.make || "any"}
-        onValue={(v) => set({ make: v === "any" ? "" : v, model: "" })}
-      >
-        <SelectItem value="any">Any make</SelectItem>
-        {MAKES.map((m) => (
-          <SelectItem key={m} value={m}>
-            {m}
-          </SelectItem>
-        ))}
-      </FilterSelect>
+      {!hideMakeModel && (
+        <FilterSelect
+          label="Make"
+          value={f.make || "any"}
+          onValue={(v) => set({ make: v === "any" ? "" : v, model: "" })}
+        >
+          <SelectItem value="any">Any make</SelectItem>
+          {MAKES.map((m) => (
+            <SelectItem key={m} value={m}>
+              {m}
+            </SelectItem>
+          ))}
+        </FilterSelect>
+      )}
 
-      <FilterSelect
-        label="Model"
-        value={f.model || "any"}
-        onValue={(v) => set({ model: v === "any" ? "" : v })}
-      >
-        <SelectItem value="any">{f.make ? "Any model" : "All models"}</SelectItem>
-        {models.map((m) => (
-          <SelectItem key={m} value={m}>
-            {m}
+      {!hideMakeModel && (
+        <FilterSelect
+          label="Model"
+          value={f.model || "any"}
+          onValue={(v) => set({ model: v === "any" ? "" : v })}
+        >
+          <SelectItem value="any">
+            {f.make ? "Any model" : "All models"}
           </SelectItem>
-        ))}
-      </FilterSelect>
+          {models.map((m) => (
+            <SelectItem key={m} value={m}>
+              {m}
+            </SelectItem>
+          ))}
+        </FilterSelect>
+      )}
 
       <FilterSelect
         label="Price range"
@@ -243,6 +251,8 @@ export default function InventoryClient({
   lockBody,
   lockFuel,
   lockFlag,
+  lockMake,
+  lockModel,
   forceEmpty = false,
   emptyTitle,
   emptyBody,
@@ -257,6 +267,9 @@ export default function InventoryClient({
   lockFuel?: string;
   /** Restricts to vehicles carrying this additive classifier flag. */
   lockFlag?: "commercial" | "formerPolice" | "luxury";
+  /** Restricts to one make (and hides the make + model filters). */
+  lockMake?: string;
+  lockModel?: string;
   forceEmpty?: boolean;
   emptyTitle?: string;
   emptyBody?: string;
@@ -290,9 +303,11 @@ export default function InventoryClient({
       (v) =>
         (!lockBody || v.bodyStyle === lockBody) &&
         (!lockFuel || v.fuel === lockFuel) &&
-        (!lockFlag || v[lockFlag] === true),
+        (!lockFlag || v[lockFlag] === true) &&
+        (!lockMake || v.make === lockMake) &&
+        (!lockModel || v.model === lockModel),
     );
-  }, [vehicles, lockBody, lockFuel, lockFlag, forceEmpty]);
+  }, [vehicles, lockBody, lockFuel, lockFlag, lockMake, lockModel, forceEmpty]);
 
   const filtered = useMemo(() => {
     const pr = PRICE_RANGES[f.priceIdx];
@@ -352,6 +367,7 @@ export default function InventoryClient({
 
   const hideBody = !!lockBody;
   const hideFuel = !!lockFuel;
+  const hideMakeModel = !!lockMake || !!lockModel;
   const showFilters = !forceEmpty;
   const b = banner ?? DEFAULT_BANNER;
 
@@ -385,24 +401,26 @@ export default function InventoryClient({
                   {filtered.length} {filtered.length === 1 ? "car" : "cars"}
                 </span>
                 <div className="no-scrollbar flex flex-1 gap-2 overflow-x-auto">
-                  <Select
-                    value={f.make || "any"}
-                    onValueChange={(v) =>
-                      set({ make: v === "any" ? "" : v, model: "" })
-                    }
-                  >
-                    <SelectTrigger aria-label="Make" className={miniTrigger}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any">Any make</SelectItem>
-                      {MAKES.map((m) => (
-                        <SelectItem key={m} value={m}>
-                          {m}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {!hideMakeModel && (
+                    <Select
+                      value={f.make || "any"}
+                      onValueChange={(v) =>
+                        set({ make: v === "any" ? "" : v, model: "" })
+                      }
+                    >
+                      <SelectTrigger aria-label="Make" className={miniTrigger}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any make</SelectItem>
+                        {MAKES.map((m) => (
+                          <SelectItem key={m} value={m}>
+                            {m}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                   <Select
                     value={String(f.priceIdx)}
                     onValueChange={(v) => set({ priceIdx: Number(v) })}
@@ -535,6 +553,7 @@ export default function InventoryClient({
                     models={models}
                     hideBody={hideBody}
                     hideFuel={hideFuel}
+                    hideMakeModel={hideMakeModel}
                   />
                 </motion.div>
               </motion.div>
@@ -579,6 +598,7 @@ export default function InventoryClient({
                         onSort={applySort}
                         hideBody={hideBody}
                         hideFuel={hideFuel}
+                        hideMakeModel={hideMakeModel}
                       />
                       {activeCount > 0 && (
                         <button

@@ -3,6 +3,7 @@ import { VEHICLES } from "./lib/inventory";
 import { SERVICE_AREAS } from "./lib/service-areas";
 import { BLOG_POSTS } from "./lib/blog";
 import { VEHICLE_CATEGORIES } from "./lib/vehicle-categories";
+import { MODEL_PAGES } from "./lib/model-pages";
 
 const SITE = "https://bergencarcompany.com";
 
@@ -59,6 +60,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
+    });
+  }
+
+  for (const m of MODEL_PAGES) {
+    entries.push({
+      url: `${SITE}/${m.slug}`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.7,
     });
   }
 

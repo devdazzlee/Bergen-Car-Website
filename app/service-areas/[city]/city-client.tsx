@@ -8,6 +8,7 @@ import WhyChooseUs from "../../components/why-choose-us";
 import VehicleCardLink from "../../components/vehicle-card-link";
 import SeoFaq from "../../components/seo-faq";
 import { citySeo } from "../../lib/seo-faq-content";
+import { VEHICLE_CATEGORIES } from "../../lib/vehicle-categories";
 import { Button } from "../../components/ui/button";
 import type { Vehicle } from "../../lib/inventory";
 import {
@@ -115,6 +116,38 @@ export default function CityClient({
               <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Reveal>
+        </div>
+      </section>
+
+      {/* shop by category */}
+      <section className="bg-mist py-16 sm:py-20">
+        <div className="container-page">
+          <SectionHeading
+            kicker="Shop by category"
+            title="Find your kind of vehicle"
+          >
+            Fifteen dedicated pages, each with a live feed of what&apos;s on the
+            lot. Whatever you drive up from {area.city} for, start here.
+          </SectionHeading>
+
+          <Stagger
+            className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+            stagger={0.04}
+          >
+            {VEHICLE_CATEGORIES.map((c) => (
+              <StaggerItem key={c.slug}>
+                <Link
+                  href={c.permalink}
+                  className="group flex items-center justify-between gap-3 rounded-2xl border border-line bg-white px-5 py-4 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:border-navy hover:shadow-[var(--shadow-lift)]"
+                >
+                  <span className="font-heading text-[15px] font-semibold text-ink">
+                    {c.name}
+                  </span>
+                  <IconArrowRight className="h-4 w-4 shrink-0 text-navy-400 transition-all group-hover:translate-x-0.5 group-hover:text-red" />
+                </Link>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 

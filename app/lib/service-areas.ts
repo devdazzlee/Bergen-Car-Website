@@ -300,6 +300,17 @@ export const SERVICE_AREAS: ServiceArea[] = [
     intro:
       "New Milford is a quiet residential borough along the Hackensack River near Oradell Reservoir. Take River Road south and pick up Route 4 west, and our Lodi lot is under twenty minutes — an easy Saturday errand.",
   },
+  {
+    slug: "fairview",
+    city: "Fairview",
+    state: "NJ",
+    county: "Bergen County",
+    miles: 9,
+    drive: "20–25 minute",
+    approach: "Broad Avenue north to Route 46, or Route 3 west",
+    intro:
+      "Fairview is a compact borough up on the Palisades ridge, closer in feel to Cliffside Park and Fort Lee than to the rest of Bergen County. The Anderson Avenue business strip runs its whole length, and from there it's about nine miles and a little over twenty minutes to Lodi — Broad Avenue north to Route 46, or Route 3 west when the local streets are backed up. It's one of the longer trips we list, but it's a straight one once you're out of the borough.",
+  },
 
   // ---------------- Passaic County ----------------
   {
