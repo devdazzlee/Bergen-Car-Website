@@ -10,7 +10,8 @@ const IMG = (id: string) =>
 const PEX = (id: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1400`;
 
-const PHOTOS = [
+/** Stock photos for auto-generated category filler vehicles. */
+const BOOST_PHOTOS = [
   IMG("photo-1519641471654-76ce0107ad1b"),
   IMG("photo-1621007947382-bb3c3994e3fb"),
   IMG("photo-1605893477799-b99e3b8b93fe"),
@@ -150,6 +151,7 @@ function boostVehicle(
   const year = 2016 + (index % 8);
   const price = 12900 + ((index * 1371 + slug.length * 97) % 28000);
   const mileage = 18000 + ((index * 4219 + slug.length * 311) % 95000);
+  const id = `bcc-boost-${slug}-${index}`;
   const tags: Vehicle["tag"][] = [
     "Certified",
     "New Arrival",
@@ -159,7 +161,7 @@ function boostVehicle(
   ];
 
   return {
-    id: `bcc-boost-${slug}-${index}`,
+    id,
     year,
     make: seed.make,
     model: seed.model,
@@ -172,7 +174,7 @@ function boostVehicle(
     fuel: seed.fuel,
     exteriorColor: seed.exteriorColor,
     mpg: seed.mpg,
-    image: PHOTOS[index % PHOTOS.length],
+    image: BOOST_PHOTOS[index % BOOST_PHOTOS.length],
     tag: tags[index % tags.length],
     commercial: seed.commercial,
     formerPolice: seed.formerPolice,

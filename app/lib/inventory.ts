@@ -1,3 +1,5 @@
+import { boostCategoryInventory } from "./category-inventory-boost";
+
 export type Vehicle = {
   id: string;
   year: number;
@@ -43,8 +45,6 @@ const IMG = (id: string) =>
 /** Pexels CDN photo by id (allow-listed in next.config.ts). */
 const PEX = (id: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1400`;
-
-import { boostCategoryInventory } from "./category-inventory-boost";
 
 const BASE_VEHICLES: Vehicle[] = [
   {
