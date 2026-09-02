@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
+import SeoFaq from "../components/seo-faq";
 import InventoryClient from "../inventory/inventory-client";
 import { VEHICLES } from "../lib/inventory";
+import { categorySeo } from "../lib/seo-faq-content";
 import {
   VEHICLE_CATEGORIES,
   getCategory,
@@ -91,20 +93,6 @@ export default async function CategoryPage({ params }: Params) {
 
   const shortName = c.name.replace(/^Used /, "").toLowerCase();
 
-  // Brief layout: paragraph 1 in the banner, paragraph 2 above the inventory,
-  // paragraph 3 (the closing call to action) below the inventory.
-  const intro = c.body[1] ? (
-    <div className="mx-auto max-w-3xl text-[15px] leading-7 text-navy-600">
-      <p>{c.body[1]}</p>
-    </div>
-  ) : undefined;
-
-  const outro = c.body[2] ? (
-    <div className="mx-auto max-w-3xl text-[15px] leading-7 text-navy-600">
-      <p>{c.body[2]}</p>
-    </div>
-  ) : undefined;
-
   return (
     <>
       <script
@@ -115,15 +103,14 @@ export default async function CategoryPage({ params }: Params) {
       <main className="flex-1">
         <InventoryClient
           vehicles={VEHICLES}
+          bannerCompact
           banner={{
             eyebrow: "Inventory",
             title: c.h1,
-            description: <p>{c.body[0]}</p>,
+            description: c.body[0],
             image: BANNER_IMG,
             imageAlt: `${c.name} for sale at Bergen Car Company in Lodi, New Jersey`,
           }}
-          intro={intro}
-          outro={outro}
           lockBody={lockBody}
           lockFuel={lockFuel}
           lockFlag={lockFlag}
@@ -136,6 +123,7 @@ export default async function CategoryPage({ params }: Params) {
               : `We don't have any ${shortName} in stock at the moment. New inventory arrives every week, so check back soon or browse the full lot.`
           }
         />
+        <SeoFaq {...categorySeo(c)} background="bg-mist" />
       </main>
       <SiteFooter />
     </>

@@ -1,5 +1,6 @@
 import type { Faq } from "../components/seo-faq";
 import type { ServiceArea } from "./service-areas";
+import type { VehicleCategory } from "./vehicle-categories";
 
 export type SeoBlock = {
   heading: string;
@@ -7,6 +8,69 @@ export type SeoBlock = {
   intro: string[];
   faqs: Faq[];
 };
+
+/** Bottom-of-page SEO + FAQ block for vehicle category landing pages. */
+export function categorySeo(c: VehicleCategory): SeoBlock {
+  const label = c.name.replace(/^Used /, "").toLowerCase();
+  return {
+    heading: `Buying ${label} at Bergen Car Company`,
+    kicker: c.navLabel,
+    intro: [
+      ...c.body,
+      "Every vehicle is inspected on our own lift, priced on the window, and sold with a [3-month / 3,000-mile warranty](/warranty). You can [get pre-qualified](/financing) online, value your [trade-in](/trade), and [schedule a test drive](/test-drive) before you visit our Lodi showroom.",
+    ],
+    faqs: categoryFaqs(c),
+  };
+}
+
+function categoryFaqs(c: VehicleCategory): Faq[] {
+  const label = c.name.replace(/^Used /, "");
+  const short = c.navLabel.toLowerCase();
+
+  const shared: Faq[] = [
+    {
+      q: `Do you have ${short} in stock right now?`,
+      a: `Inventory changes weekly. The vehicles listed above are what we have on the lot today — filter by price, mileage, and year, or call (973) 555-0142 and we'll confirm availability on any ${label.toLowerCase()} you're interested in.`,
+    },
+    {
+      q: "Are the online prices the real prices?",
+      a: "Yes. The price shown is the selling price. New Jersey sales tax, title, registration, and one $499 documentary fee are added at signing — that's the entire list. No prep fee and no mandatory add-ons.",
+    },
+    {
+      q: "Can I finance a purchase at Bergen Car Company?",
+      a: "Yes. Our [pre-qualification form](/financing) uses a soft credit check that won't affect your score, and we work with about a dozen lenders for strong, rebuilding, and first-time credit.",
+    },
+    {
+      q: "Can I trade in my current car?",
+      a: "Yes. Use [Value your trade](/trade) for a written same-day offer — trade it toward your purchase or take the check with no obligation to buy from us.",
+    },
+    {
+      q: "Can I test-drive before I buy?",
+      a: "Absolutely. [Schedule a test drive](/test-drive) online and we'll have the car up front with plates on when you arrive at 412 Route 46 in Lodi.",
+    },
+  ];
+
+  const byGroup: Record<VehicleCategory["group"], Faq> = {
+    "Body type": {
+      q: `What should I look for when buying a used ${short.slice(0, -1) || short}?`,
+      a: `Compare mileage, service history, safety features, and total ownership cost — not just the monthly payment. Every car here gets a 150-point inspection and a vehicle history report. Ask for either on any ${label.toLowerCase()} you're considering.`,
+    },
+    "Vans & work": {
+      q: `Can I use a ${label.toLowerCase()} for my business?`,
+      a: "Many of our commercial and fleet vehicles are suited to contracting, delivery, and transportation work. Tell us your payload, seating, or towing needs and we'll help you compare what's on the lot.",
+    },
+    Fuel: {
+      q: `What should I know about owning a used ${short.slice(0, -1) || short}?`,
+      a: `Ask about battery health, estimated range, charging or fuel economy, and maintenance history. Our technicians inspect every unit on the lift and can walk you through what to expect for daily driving in North Jersey.`,
+    },
+    Premium: {
+      q: `Are your ${label.toLowerCase()} inspected differently?`,
+      a: "Every luxury vehicle gets the same 150-point mechanical and safety inspection as the rest of our inventory, plus a closer look at electronics, driver-assistance systems, and interior wear. History reports are available on request.",
+    },
+  };
+
+  return [byGroup[c.group], ...shared];
+}
 
 /* Intros and answers may use inline [label](/href) links — rendered as anchors
  * in the page and stripped to plain text for the FAQ structured data. */

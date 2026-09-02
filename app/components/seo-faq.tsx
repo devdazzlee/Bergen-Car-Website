@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Reveal } from "./motion";
+import ReadMoreContent from "./read-more-content";
 import {
   Accordion,
   AccordionContent,
@@ -108,10 +109,12 @@ export default function SeoFaq({
             {kicker}
           </p>
           <h2 className="display-3 mt-3 text-ink">{heading}</h2>
-          <div className="mt-4 space-y-3 text-[15px] leading-7 text-navy-600">
-            {intro.map((p) => (
-              <p key={p.slice(0, 32)}>{renderRich(p)}</p>
-            ))}
+          <div className="mt-4">
+            <ReadMoreContent
+              paragraphs={intro.map((p) => (
+                <p key={p.slice(0, 32)}>{renderRich(p)}</p>
+              ))}
+            />
           </div>
         </Reveal>
 

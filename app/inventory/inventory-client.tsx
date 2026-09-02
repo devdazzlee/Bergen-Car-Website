@@ -246,6 +246,7 @@ const miniTrigger =
 export default function InventoryClient({
   vehicles,
   banner,
+  bannerCompact = false,
   intro,
   outro,
   lockBody,
@@ -260,6 +261,8 @@ export default function InventoryClient({
 }: {
   vehicles: Vehicle[];
   banner?: BannerProps;
+  /** Shorter hero — used on category landing pages so cars appear above the fold. */
+  bannerCompact?: boolean;
   intro?: ReactNode;
   /** Rendered below the vehicle grid / empty state. */
   outro?: ReactNode;
@@ -379,6 +382,7 @@ export default function InventoryClient({
         description={b.description}
         image={b.image}
         imageAlt={b.imageAlt}
+        compact={bannerCompact}
       />
 
       {intro ? (
@@ -513,9 +517,9 @@ export default function InventoryClient({
 
       {/* body */}
       <div
-        className={`container-page grid gap-8 py-10 lg:gap-10 lg:py-12 ${
-          showFilters ? "lg:grid-cols-[280px_1fr]" : ""
-        }`}
+        className={`container-page grid lg:gap-10 lg:py-12 ${
+          bannerCompact ? "max-md:gap-4 max-md:pb-4 max-md:pt-5 md:gap-8 md:py-10" : "gap-8 py-10"
+        } ${showFilters ? "lg:grid-cols-[280px_1fr]" : ""}`}
       >
         {showFilters && (
           <>
@@ -563,7 +567,9 @@ export default function InventoryClient({
             <div className="lg:hidden">
               <button
                 onClick={() => setMobileOpen((v) => !v)}
-                className="flex w-full items-center justify-between rounded-2xl border border-line bg-white px-4 py-3.5 text-sm font-semibold text-ink shadow-[var(--shadow-card)]"
+                className={`flex w-full items-center justify-between rounded-2xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-[var(--shadow-card)] ${
+                  bannerCompact ? "max-md:py-2.5 md:py-3.5" : "py-3.5"
+                }`}
               >
                 <span className="flex items-center gap-2">
                   <IconSliders className="h-4 w-4 text-red" />
@@ -619,7 +625,11 @@ export default function InventoryClient({
         {/* results */}
         <div>
           {!forceEmpty && (
-            <div className="mb-6 flex items-center justify-between gap-4">
+            <div
+              className={`flex items-center justify-between gap-4 ${
+                bannerCompact ? "mb-4 max-md:mb-3 md:mb-6" : "mb-6"
+              }`}
+            >
               <p className="text-sm text-navy-600">
                 <span className="font-bold text-ink">{filtered.length}</span>{" "}
                 {filtered.length === 1 ? "vehicle" : "vehicles"}
@@ -703,7 +713,7 @@ export default function InventoryClient({
                         Loading…
                       </>
                     ) : (
-                      <>Load more · {filtered.length - visible} to go</>
+                      <>Load more</>
                     )}
                   </button>
                 </div>
