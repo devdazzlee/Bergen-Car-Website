@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { IconPhone, IconPin, IconMail } from "./icons";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 import NewsletterForm from "./newsletter-form";
@@ -143,7 +144,7 @@ export default function SiteFooter() {
               <ul className="mt-4 space-y-2.5 text-[14px]">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <a
+                    <Link
                       href={l.href}
                       className="group inline-flex items-center gap-2 text-white/60 transition-colors hover:text-white"
                     >
@@ -152,7 +153,7 @@ export default function SiteFooter() {
                         className="h-px w-0 bg-gold transition-all duration-200 group-hover:w-3"
                       />
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -166,13 +167,13 @@ export default function SiteFooter() {
             className="flex flex-wrap gap-x-5 gap-y-2 text-[13px]"
           >
             {LEGAL_LINKS.map((l) => (
-              <a
+              <Link
                 key={l.label}
                 href={l.href}
                 className="text-white/55 transition-colors hover:text-white"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
           </nav>
           <div className="mt-5 flex flex-col gap-3 text-[13px] text-white/45 sm:flex-row sm:items-center sm:justify-between">

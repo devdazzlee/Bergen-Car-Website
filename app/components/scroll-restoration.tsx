@@ -3,17 +3,26 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect } from "react";
 
-/** Scroll window to top on every client-side route change. */
+/**
+ * Jump to the top instantly, bypassing the global `scroll-behavior: smooth`.
+ * A smooth scroll here would animate while framer-motion reveals and images
+ * change the page height, so it could be interrupted and leave the user
+ * partway down the page (e.g. on the bottom CTA).
+ */
 function scrollToTop() {
-  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  document.documentElement.scrollTop = 0;
+  const html = document.documentElement;
+  const prev = html.style.scrollBehavior;
+  html.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+  html.scrollTop = 0;
   document.body.scrollTop = 0;
+  html.style.scrollBehavior = prev;
 }
 
 /**
- * Prevents mobile browsers from restoring the previous page's scroll position
- * when navigating (e.g. opening a category page at the bottom after scrolling
- * the homepage). Runs before paint so the new page does not flash mid-scroll.
+ * Resets scroll to the top on every client-side route change so pages never
+ * open partway down (a common mobile SPA issue where the previous scroll
+ * position carries over to the next page).
  */
 export default function ScrollRestoration() {
   const pathname = usePathname();
@@ -26,6 +35,10 @@ export default function ScrollRestoration() {
 
   useLayoutEffect(() => {
     scrollToTop();
+    // Second pass after paint in case late layout shifts (image loads,
+    // reveal animations) nudged the scroll position.
+    const id = requestAnimationFrame(scrollToTop);
+    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
   return null;
