@@ -1,3 +1,5 @@
+import { resolveApiBase } from "./api-base";
+
 export type Vehicle = {
   id: string;
   year: number;
@@ -108,25 +110,25 @@ export function estMonthly(price: number): number {
   return Math.round(m / 5) * 5;
 }
 
-function apiBase(): string {
-  return (
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "") ||
-    "http://localhost:4001"
-  );
-}
-
 export async function fetchInventory(): Promise<Vehicle[]> {
-  const res = await fetch(`${apiBase()}/api/inventory`, {
-    // Static HTML export cannot prerender a no-store fetch. The lot is
-    // snapshotted at build time; the Bergen API still refreshes every 30 min.
-    cache: "force-cache",
-  });
+  const url = `${resolveApiBase()}/api/inventory`;
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      // Static HTML export cannot prerender a no-store fetch. The lot is
+      // snapshotted at build time; the Bergen API still refreshes every 30 min.
+      cache: "force-cache",
+    });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "network error";
+    throw new Error(`Cannot reach Bergen inventory API at ${url} (${detail})`);
+  }
   if (!res.ok) {
-    throw new Error(`Inventory request failed (${res.status})`);
+    throw new Error(`Inventory request failed (${res.status}) from ${url}`);
   }
   const body = (await res.json()) as { data?: Vehicle[] };
   if (!Array.isArray(body.data)) {
-    throw new Error("Inventory response is missing data[]");
+    throw new Error(`Inventory response from ${url} is missing data[]`);
   }
   return body.data;
 }

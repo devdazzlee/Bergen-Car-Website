@@ -1,7 +1,7 @@
 /**
  * Builds a static export and packages it into output/ for Hostinger upload.
  * Each run replaces the previous output (no old zips or duplicates).
- * Run: yarn build
+ * Run: yarn build:hostinger
  */
 import { spawnSync } from "node:child_process";
 import {

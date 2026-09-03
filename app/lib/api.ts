@@ -1,5 +1,6 @@
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "") || "http://localhost:4001";
+import { resolveApiBase } from "./api-base";
+
+const API_BASE = resolveApiBase();
 
 export type FieldErrors = Record<string, string>;
 
