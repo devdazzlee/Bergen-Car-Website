@@ -4,6 +4,7 @@ import SiteFooter from "../components/site-footer";
 import SpecialsClient from "./specials-client";
 import SeoFaq from "../components/seo-faq";
 import { SPECIALS_SEO } from "../lib/seo-faq-content";
+import { getInventory } from "../lib/inventory";
 
 export const metadata: Metadata = {
   title: "This Month's Specials — Lodi, NJ",
@@ -18,12 +19,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SpecialsPage() {
+export default async function SpecialsPage() {
+  const vehicles = await getInventory();
+
   return (
     <>
       <SiteHeader solid />
       <main className="flex-1">
-        <SpecialsClient />
+        <SpecialsClient vehicles={vehicles} />
         <SeoFaq {...SPECIALS_SEO} />
       </main>
       <SiteFooter />

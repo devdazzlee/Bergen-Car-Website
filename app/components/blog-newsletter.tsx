@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { IconArrowRight, IconCheck, IconMail } from "./icons";
+import { isApiError, subscribeNewsletter } from "../lib/api";
 
 export default function BlogNewsletter({
   className = "",
@@ -10,6 +11,8 @@ export default function BlogNewsletter({
   className?: string;
 }) {
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   return (
     <div
@@ -53,14 +56,36 @@ export default function BlogNewsletter({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setDone(true);
+                  const form = e.currentTarget;
+                  const email = String(new FormData(form).get("email") ?? "");
+                  setFormError(null);
+                  setSubmitting(true);
+                  try {
+                    await subscribeNewsletter(email);
+                    setDone(true);
+                  } catch (err) {
+                    setFormError(
+                      isApiError(err)
+                        ? err.message
+                        : "Something went wrong. Please try again.",
+                    );
+                  } finally {
+                    setSubmitting(false);
+                  }
                 }}
-                className="flex w-full max-w-md flex-col gap-2 sm:flex-row"
+                className="flex w-full max-w-md flex-col gap-2"
               >
+                {formError ? (
+                  <p role="alert" className="text-[13px] font-medium text-gold">
+                    {formError}
+                  </p>
+                ) : null}
+                <div className="flex w-full flex-col gap-2 sm:flex-row">
                 <input
                   required
+                  name="email"
                   type="email"
                   autoComplete="email"
                   placeholder="you@email.com"
@@ -69,11 +94,13 @@ export default function BlogNewsletter({
                 />
                 <button
                   type="submit"
-                  className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-gold px-5 py-3 text-sm font-bold text-ink transition-colors hover:bg-gold-300 active:scale-[0.98]"
+                  disabled={submitting}
+                  className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-gold px-5 py-3 text-sm font-bold text-ink transition-colors hover:bg-gold-300 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
                 >
-                  Sign up
+                  {submitting ? "Sending…" : "Sign up"}
                   <IconArrowRight className="h-4 w-4" />
                 </button>
+                </div>
               </motion.form>
             )}
           </AnimatePresence>

@@ -8,6 +8,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Field, ringFor, EASE } from "../components/ui/form-parts";
+import { isApiError, submitLead } from "../lib/api";
 import {
   IconArrowRight,
   IconChat,
@@ -181,17 +182,44 @@ function ContactForm() {
   const [topic, setTopic] = useState<string | null>(null);
   const [touched, setTouched] = useState<Partial<Record<keyof Values, boolean>>>({});
   const [sent, setSent] = useState(false);
-  const errors = useMemo(() => validate(v), [v]);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [serverFields, setServerFields] = useState<Partial<Record<keyof Values, string>>>({});
+  const clientErrors = useMemo(() => validate(v), [v]);
+  const errors = { ...clientErrors, ...serverFields };
 
   const set = (k: keyof Values) => (val: string) =>
     setV((p) => ({ ...p, [k]: val }));
   const blur = (k: keyof Values) => () =>
     setTouched((p) => ({ ...p, [k]: true }));
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched({ name: true, email: true, phone: true, message: true });
-    if (Object.keys(errors).length === 0) setSent(true);
+    setFormError(null);
+    setServerFields({});
+    if (Object.keys(clientErrors).length > 0) return;
+    setSubmitting(true);
+    try {
+      await submitLead({
+        type: "contact",
+        name: v.name,
+        email: v.email,
+        phone: v.phone,
+        message: v.message,
+        topic: topic ?? undefined,
+      });
+      setSent(true);
+    } catch (err) {
+      if (isApiError(err) && err.fields) {
+        setServerFields(err.fields);
+      }
+      setFormError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (sent) {
@@ -231,6 +259,8 @@ function ContactForm() {
               setV(EMPTY);
               setTouched({});
               setTopic(null);
+              setFormError(null);
+              setServerFields({});
             }}
           >
             Send another
@@ -242,6 +272,14 @@ function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-3">
+      {formError ? (
+        <p
+          role="alert"
+          className="rounded-xl bg-red/10 px-3.5 py-2.5 text-[13.5px] font-medium text-red"
+        >
+          {formError}
+        </p>
+      ) : null}
       <div className="grid gap-3 sm:grid-cols-3">
         <Field
           id="c-name"
@@ -344,8 +382,8 @@ function ContactForm() {
         />
       </Field>
 
-      <Button type="submit" size="lg" className="mt-1 w-full">
-        Send message
+      <Button type="submit" size="lg" className="mt-1 w-full" disabled={submitting}>
+        {submitting ? "Sending…" : "Send message"}
         <IconArrowRight className="h-4 w-4" />
       </Button>
       <p className="text-center text-[12px] leading-5 text-navy-500">

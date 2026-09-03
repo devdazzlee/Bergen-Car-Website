@@ -1,4 +1,4 @@
-import { VEHICLES, type Vehicle } from "./inventory";
+import type { Vehicle } from "./inventory";
 
 /**
  * Towns Bergen Car Company regularly sells to, for the /service-areas hub and
@@ -665,16 +665,21 @@ export function getArea(slug: string): ServiceArea | undefined {
 }
 
 /** Deterministic per-city slice of inventory so no two pages are identical. */
-export function vehiclesForCity(slug: string, count = 8): Vehicle[] {
+export function vehiclesForCity(
+  slug: string,
+  vehicles: Vehicle[],
+  count = 8,
+): Vehicle[] {
+  if (vehicles.length === 0) return [];
   let h = 2166136261;
   for (let i = 0; i < slug.length; i++) {
     h ^= slug.charCodeAt(i);
     h = Math.imul(h, 16777619);
   }
-  const start = (h >>> 0) % VEHICLES.length;
+  const start = (h >>> 0) % vehicles.length;
   return Array.from(
-    { length: Math.min(count, VEHICLES.length) },
-    (_, i) => VEHICLES[(start + i) % VEHICLES.length],
+    { length: Math.min(count, vehicles.length) },
+    (_, i) => vehicles[(start + i) % vehicles.length],
   );
 }
 

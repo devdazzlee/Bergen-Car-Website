@@ -17,9 +17,10 @@ const PopoverContent = React.forwardRef<
       align={align}
       sideOffset={sideOffset}
       className={cn(
-        "animate-pop-in z-50 w-auto rounded-2xl border border-line bg-white p-3 shadow-[var(--shadow-lift)] outline-none",
+        "animate-pop-in z-50 w-auto max-w-[calc(100vw-1.5rem)] rounded-2xl border border-line bg-white p-3 shadow-[var(--shadow-lift)] outline-none",
         className,
       )}
+      collisionPadding={16}
       {...props}
     />
   </PopoverPrimitive.Portal>

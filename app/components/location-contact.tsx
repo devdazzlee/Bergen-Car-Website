@@ -12,6 +12,7 @@ import {
   IconShield,
 } from "./icons";
 import { Reveal } from "./motion";
+import { isApiError, submitLead } from "../lib/api";
 
 const HOURS = [
   { label: "Monday – Friday", time: "9:00 AM – 8:00 PM", days: [1, 2, 3, 4, 5] },
@@ -28,6 +29,8 @@ const inputClass =
 export default function LocationContact() {
   const [sent, setSent] = useState(false);
   const [today, setToday] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Set after mount so static prerender doesn't freeze "today".
   useEffect(() => {
@@ -168,7 +171,10 @@ export default function LocationContact() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setSent(false)}
+                  onClick={() => {
+                    setSent(false);
+                    setFormError(null);
+                  }}
                   className="mt-6 text-sm font-semibold text-red hover:underline"
                 >
                   Send another message
@@ -176,12 +182,42 @@ export default function LocationContact() {
               </div>
             ) : (
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setSent(true);
+                  const form = e.currentTarget;
+                  const fd = new FormData(form);
+                  setFormError(null);
+                  setSubmitting(true);
+                  try {
+                    await submitLead({
+                      type: "location-contact",
+                      name: String(fd.get("name") ?? ""),
+                      phone: String(fd.get("phone") ?? ""),
+                      email: String(fd.get("email") ?? ""),
+                      message: String(fd.get("message") ?? ""),
+                    });
+                    setSent(true);
+                    form.reset();
+                  } catch (err) {
+                    setFormError(
+                      isApiError(err)
+                        ? err.message
+                        : "Something went wrong. Please try again.",
+                    );
+                  } finally {
+                    setSubmitting(false);
+                  }
                 }}
                 className="flex flex-col gap-4"
               >
+                {formError ? (
+                  <p
+                    role="alert"
+                    className="rounded-xl bg-red/10 px-3.5 py-2.5 text-[13.5px] font-medium text-red"
+                  >
+                    {formError}
+                  </p>
+                ) : null}
                 <div className="flex items-center gap-3">
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red/10 text-red">
                     <IconMail className="h-5 w-5" />
@@ -242,9 +278,10 @@ export default function LocationContact() {
                 </label>
                 <button
                   type="submit"
-                  className="mt-1 inline-flex items-center justify-center rounded-full bg-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98]"
+                  disabled={submitting}
+                  className="mt-1 inline-flex items-center justify-center rounded-full bg-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
                 >
-                  Send message
+                  {submitting ? "Sending…" : "Send message"}
                 </button>
                 <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-[12px] text-navy-500">
                   <span className="inline-flex items-center gap-1.5">

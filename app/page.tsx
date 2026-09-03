@@ -1,5 +1,6 @@
 import SiteHeader from "./components/site-header";
 import Hero from "./components/hero";
+import DealershipPhotos from "./components/dealership-photos";
 import InventoryExplorer from "./components/inventory-explorer";
 import BrandMarquee from "./components/brand-marquee";
 import TrustBar from "./components/trust-bar";
@@ -16,15 +17,18 @@ import CtaBand from "./components/cta-band";
 import LocationContact from "./components/location-contact";
 import SiteFooter from "./components/site-footer";
 import StructuredData from "./components/structured-data";
+import { getInventory } from "./lib/inventory";
 
-export default function Home() {
+export default async function Home() {
+  const vehicles = await getInventory();
+
   return (
     <>
-      <StructuredData />
+      <StructuredData vehicles={vehicles} />
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <InventoryExplorer />
+        <InventoryExplorer vehicles={vehicles} />
         <BrandMarquee />
         <TrustBar />
         <HowItWorks />
@@ -36,6 +40,7 @@ export default function Home() {
         <Reviews />
         <Faq />
         <SeoAbout />
+        <DealershipPhotos />
         <CtaBand />
         <LocationContact />
       </main>
@@ -43,3 +48,4 @@ export default function Home() {
     </>
   );
 }
+

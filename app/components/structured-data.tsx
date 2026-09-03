@@ -1,10 +1,10 @@
 import { FAQS } from "../lib/faqs";
-import { VEHICLES, currency } from "../lib/inventory";
+import { currency, type Vehicle } from "../lib/inventory";
 
 const SITE_URL = "https://bergencarcompany.com";
 const LOGO = `${SITE_URL}/bergen-logo.png`;
 
-export default function StructuredData() {
+export default function StructuredData({ vehicles }: { vehicles: Vehicle[] }) {
   const graph = [
     {
       "@type": "Organization",
@@ -145,8 +145,8 @@ export default function StructuredData() {
       "@type": "ItemList",
       "@id": `${SITE_URL}/#inventory`,
       name: "Featured used car inventory",
-      numberOfItems: VEHICLES.length,
-      itemListElement: VEHICLES.slice(0, 12).map((v, i) => ({
+      numberOfItems: vehicles.length,
+      itemListElement: vehicles.slice(0, 12).map((v, i) => ({
         "@type": "ListItem",
         position: i + 1,
         item: {

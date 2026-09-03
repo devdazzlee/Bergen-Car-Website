@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SiteHeader from "../../components/site-header";
 import SiteFooter from "../../components/site-footer";
-import { VEHICLES, currency } from "../../lib/inventory";
+import { currency, getInventory } from "../../lib/inventory";
 import VehicleDetail from "./vehicle-detail";
 
 type Params = { params: Promise<{ id: string }> };
 
-export function generateStaticParams() {
-  return VEHICLES.map((v) => ({ id: v.id }));
+export async function generateStaticParams() {
+  const vehicles = await getInventory();
+  return vehicles.map((v) => ({ id: v.id }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params;
-  const v = VEHICLES.find((x) => x.id === id);
+  const vehicles = await getInventory();
+  const v = vehicles.find((x) => x.id === id);
   if (!v) return { title: "Vehicle not found" };
   const name = `${v.year} ${v.make} ${v.model} ${v.trim}`;
   return {
@@ -27,10 +29,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function VehiclePage({ params }: Params) {
   const { id } = await params;
-  const vehicle = VEHICLES.find((v) => v.id === id);
+  const vehicles = await getInventory();
+  const vehicle = vehicles.find((v) => v.id === id);
   if (!vehicle) notFound();
 
-  const similar = VEHICLES.filter((v) => v.id !== vehicle.id)
+  const similar = vehicles
+    .filter((v) => v.id !== vehicle.id)
     .map((v) => ({
       v,
       score:

@@ -1,9 +1,8 @@
 import SiteHeader from "./site-header";
 import SiteFooter from "./site-footer";
 import InventoryClient from "../inventory/inventory-client";
-import { VEHICLES, currency, miles } from "../lib/inventory";
+import { currency, getInventory, miles, type Vehicle } from "../lib/inventory";
 import { stockFor } from "../lib/model-pages";
-import type { Vehicle } from "../lib/inventory";
 
 const SITE = "https://bergencarcompany.com";
 const BANNER_IMG =
@@ -20,8 +19,17 @@ const shared = (stock: Vehicle[], get: (v: Vehicle) => string) => {
   return set.length === 1 ? set[0] : set.join(", ");
 };
 
-function SpecSummary({ make, model }: { make: string; model: string }) {
-  const stock = stockFor(make, model);
+function SpecSummary({
+  make,
+  model,
+  stock,
+}: {
+  make: string;
+  model: string;
+  stock: Vehicle[];
+}) {
+  if (stock.length === 0) return null;
+
   const years = distinct(stock.map((v) => v.year)).sort((a, b) => a - b);
   const yearLabel =
     years.length === 1
@@ -70,7 +78,7 @@ function SpecSummary({ make, model }: { make: string; model: string }) {
   );
 }
 
-export default function ModelLanding({
+export default async function ModelLanding({
   make,
   model,
   slug,
@@ -79,9 +87,10 @@ export default function ModelLanding({
   model: string;
   slug: string;
 }) {
-  const stock = stockFor(make, model);
+  const vehicles = await getInventory();
+  const stock = stockFor(make, model, vehicles);
   const h1 = `Used ${make} ${model} in Lodi, NJ`;
-  const minPrice = Math.min(...stock.map((v) => v.price));
+  const minPrice = stock.length ? Math.min(...stock.map((v) => v.price)) : 0;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -147,7 +156,7 @@ export default function ModelLanding({
       <SiteHeader solid />
       <main className="flex-1">
         <InventoryClient
-          vehicles={VEHICLES}
+          vehicles={vehicles}
           lockMake={make}
           lockModel={model}
           banner={{
@@ -163,7 +172,7 @@ export default function ModelLanding({
             image: BANNER_IMG,
             imageAlt: `Used ${make} ${model} for sale at Bergen Car Company in Lodi, New Jersey`,
           }}
-          intro={<SpecSummary make={make} model={model} />}
+          intro={<SpecSummary make={make} model={model} stock={stock} />}
           emptyTitle={`No ${make} ${model} in stock right now`}
           emptyBody={`We don't have a ${make} ${model} listed at the moment. New inventory arrives every week — check back soon or browse the full lot.`}
         />

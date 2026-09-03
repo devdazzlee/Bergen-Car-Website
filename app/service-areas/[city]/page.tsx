@@ -8,6 +8,7 @@ import {
   getArea,
   vehiclesForCity,
 } from "../../lib/service-areas";
+import { getInventory } from "../../lib/inventory";
 
 type Params = { params: Promise<{ city: string }> };
 
@@ -37,7 +38,8 @@ export default async function CityPage({ params }: Params) {
   const area = getArea(city);
   if (!area) notFound();
 
-  const vehicles = vehiclesForCity(area.slug, 8);
+  const inventory = await getInventory();
+  const vehicles = vehiclesForCity(area.slug, inventory, 8);
 
   const jsonLd = {
     "@context": "https://schema.org",

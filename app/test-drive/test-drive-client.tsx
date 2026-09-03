@@ -22,12 +22,12 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import {
-  VEHICLES,
   currency,
   miles,
   estMonthly,
   type Vehicle,
 } from "../lib/inventory";
+import { isApiError, submitLead } from "../lib/api";
 import {
   IconArrowRight,
   IconCalendar,
@@ -159,11 +159,11 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Booking() {
+function Booking({ vehicles }: { vehicles: Vehicle[] }) {
   const params = useSearchParams();
   const preselected = useMemo(
-    () => VEHICLES.find((v) => v.id === params.get("vehicle")),
-    [params],
+    () => vehicles.find((v) => v.id === params.get("vehicle")),
+    [params, vehicles],
   );
 
   const [vehicle, setVehicle] = useState<Vehicle | undefined>(preselected);
@@ -172,15 +172,21 @@ function Booking() {
     Partial<Record<keyof Values | "vehicle", boolean>>
   >({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [serverFields, setServerFields] = useState<
+    Partial<Record<keyof Values | "vehicle", string>>
+  >({});
 
-  const errors = useMemo(() => validate(v, vehicle), [v, vehicle]);
+  const clientErrors = useMemo(() => validate(v, vehicle), [v, vehicle]);
+  const errors = { ...clientErrors, ...serverFields };
 
   const set = (k: keyof Values) => (val: string) =>
     setV((p) => ({ ...p, [k]: val }));
   const blur = (k: keyof Values | "vehicle") => () =>
     setTouched((p) => ({ ...p, [k]: true }));
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched({
       vehicle: true,
@@ -191,7 +197,34 @@ function Booking() {
       time: true,
       notes: true,
     });
-    if (Object.keys(errors).length === 0) setSubmitted(true);
+    setFormError(null);
+    setServerFields({});
+    if (Object.keys(clientErrors).length > 0) return;
+    setSubmitting(true);
+    try {
+      await submitLead({
+        type: "test-drive",
+        name: v.name,
+        phone: v.phone,
+        email: v.email,
+        date: v.date ? format(v.date, "yyyy-MM-dd") : "",
+        time: v.time,
+        notes: v.notes,
+        vehicleId: vehicle?.id,
+        vehicleYear: vehicle ? String(vehicle.year) : undefined,
+        vehicleMake: vehicle?.make,
+        vehicleModel: vehicle?.model,
+        vehicleTrim: vehicle?.trim,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      if (isApiError(err) && err.fields) setServerFields(err.fields);
+      setFormError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function reset() {
@@ -199,6 +232,8 @@ function Booking() {
     setV(EMPTY);
     setTouched({});
     setVehicle(undefined);
+    setFormError(null);
+    setServerFields({});
   }
 
   return (
@@ -297,6 +332,14 @@ function Booking() {
               transition={{ duration: 0.3, ease: EASE }}
             >
               <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+                {formError ? (
+                  <p
+                    role="alert"
+                    className="rounded-xl bg-red/10 px-3.5 py-2.5 text-[13.5px] font-medium text-red"
+                  >
+                    {formError}
+                  </p>
+                ) : null}
                 <FieldGroup title="Which car?">
                   <Field
                     id="td-vehicle"
@@ -313,7 +356,7 @@ function Booking() {
                   >
                     <VehicleCombobox
                       id="td-vehicle"
-                      vehicles={VEHICLES}
+                      vehicles={vehicles}
                       value={vehicle}
                       onChange={(nv) => {
                         setVehicle(nv);
@@ -497,8 +540,8 @@ function Booking() {
                   </Field>
                 </FieldGroup>
 
-                <Button type="submit" size="lg" className="mt-1 w-full">
-                  Confirm my test drive
+                <Button type="submit" size="lg" className="mt-1 w-full" disabled={submitting}>
+                  {submitting ? "Sending…" : "Confirm my test drive"}
                   <IconArrowRight className="h-4 w-4" />
                 </Button>
                 <p className="text-center text-[12px] leading-5 text-navy-500">
@@ -515,7 +558,7 @@ function Booking() {
   );
 }
 
-export default function TestDriveClient() {
+export default function TestDriveClient({ vehicles }: { vehicles: Vehicle[] }) {
   return (
     <div className="bg-mist">
       <PageBanner
@@ -553,7 +596,7 @@ export default function TestDriveClient() {
               it up front with plates on.
             </p>
           </Reveal>
-          <Booking />
+          <Booking vehicles={vehicles} />
         </div>
       </section>
 

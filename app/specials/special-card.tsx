@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { VEHICLES, currency, estMonthly, miles } from "../lib/inventory";
+import { currency, estMonthly, miles, type Vehicle } from "../lib/inventory";
 import type { VehicleSpecial } from "../lib/specials";
 import { IconArrowRight } from "../components/icons";
 
@@ -14,8 +14,14 @@ const BADGE: Record<VehicleSpecial["badge"], string> = {
   "Under $12k": "bg-gold text-ink",
 };
 
-export default function SpecialCard({ special }: { special: VehicleSpecial }) {
-  const v = VEHICLES.find((x) => x.id === special.vehicleId);
+export default function SpecialCard({
+  special,
+  vehicles,
+}: {
+  special: VehicleSpecial;
+  vehicles: Vehicle[];
+}) {
+  const v = vehicles.find((x) => x.id === special.vehicleId);
   if (!v) return null;
   const save = special.wasPrice ? special.wasPrice - v.price : 0;
 

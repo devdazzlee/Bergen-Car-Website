@@ -4,14 +4,14 @@ import Link from "next/link";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  BODY_STYLES,
   FUEL_TYPES,
   INVENTORY_SORTS,
-  MAKES,
   MILEAGE_RANGES,
   PRICE_RANGES,
-  YEARS,
+  bodyStylesOf,
+  makesOf,
   modelsForMake,
+  yearsOf,
   type InventorySort,
   type Vehicle,
 } from "../lib/inventory";
@@ -107,6 +107,9 @@ function FilterFields({
   f,
   set,
   models,
+  years,
+  makes,
+  bodyStyles,
   sort,
   onSort,
   hideBody = false,
@@ -116,6 +119,9 @@ function FilterFields({
   f: FiltersState;
   set: (p: Partial<FiltersState>) => void;
   models: string[];
+  years: number[];
+  makes: string[];
+  bodyStyles: Vehicle["bodyStyle"][];
   sort?: InventorySort;
   onSort?: (s: InventorySort) => void;
   hideBody?: boolean;
@@ -130,7 +136,7 @@ function FilterFields({
         onValue={(v) => set({ year: v === "any" ? "" : v })}
       >
         <SelectItem value="any">Any year</SelectItem>
-        {YEARS.map((y) => (
+        {years.map((y) => (
           <SelectItem key={y} value={String(y)}>
             {y}
           </SelectItem>
@@ -144,7 +150,7 @@ function FilterFields({
           onValue={(v) => set({ make: v === "any" ? "" : v, model: "" })}
         >
           <SelectItem value="any">Any make</SelectItem>
-          {MAKES.map((m) => (
+          {makes.map((m) => (
             <SelectItem key={m} value={m}>
               {m}
             </SelectItem>
@@ -200,7 +206,7 @@ function FilterFields({
           onValue={(v) => set({ body: v === "any" ? "" : v })}
         >
           <SelectItem value="any">Any body style</SelectItem>
-          {BODY_STYLES.map((b) => (
+          {bodyStyles.map((b) => (
             <SelectItem key={b} value={b}>
               {b}
             </SelectItem>
@@ -298,7 +304,13 @@ export default function InventoryClient({
     setVisible(PAGE);
   };
 
-  const models = useMemo(() => modelsForMake(f.make), [f.make]);
+  const years = useMemo(() => yearsOf(vehicles), [vehicles]);
+  const makes = useMemo(() => makesOf(vehicles), [vehicles]);
+  const bodyStyles = useMemo(() => bodyStylesOf(vehicles), [vehicles]);
+  const models = useMemo(
+    () => modelsForMake(f.make, vehicles),
+    [f.make, vehicles],
+  );
 
   const baseVehicles = useMemo(() => {
     if (forceEmpty) return [];
@@ -417,7 +429,7 @@ export default function InventoryClient({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="any">Any make</SelectItem>
-                        {MAKES.map((m) => (
+                        {makes.map((m) => (
                           <SelectItem key={m} value={m}>
                             {m}
                           </SelectItem>
@@ -456,7 +468,7 @@ export default function InventoryClient({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="any">Any body</SelectItem>
-                        {BODY_STYLES.map((body) => (
+                        {bodyStyles.map((body) => (
                           <SelectItem key={body} value={body}>
                             {body}
                           </SelectItem>
@@ -555,6 +567,9 @@ export default function InventoryClient({
                     f={f}
                     set={set}
                     models={models}
+                    years={years}
+                    makes={makes}
+                    bodyStyles={bodyStyles}
                     hideBody={hideBody}
                     hideFuel={hideFuel}
                     hideMakeModel={hideMakeModel}
@@ -600,6 +615,9 @@ export default function InventoryClient({
                         f={f}
                         set={set}
                         models={models}
+                        years={years}
+                        makes={makes}
+                        bodyStyles={bodyStyles}
                         sort={sort}
                         onSort={applySort}
                         hideBody={hideBody}

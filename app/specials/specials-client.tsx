@@ -8,7 +8,7 @@ import { SectionHeading } from "../components/section-heading";
 import PageBanner from "../components/page-banner";
 import CountUp from "../components/count-up";
 import { Button } from "../components/ui/button";
-import { VEHICLES } from "../lib/inventory";
+import { type Vehicle } from "../lib/inventory";
 import { VEHICLE_SPECIALS } from "../lib/specials";
 import SpecialCard from "./special-card";
 import {
@@ -87,16 +87,16 @@ function useAsOf() {
   return asOf;
 }
 
-export default function SpecialsClient() {
+export default function SpecialsClient({ vehicles }: { vehicles: Vehicle[] }) {
   const asOf = useAsOf();
 
   const totalSaved = VEHICLE_SPECIALS.reduce((sum, s) => {
-    const v = VEHICLES.find((x) => x.id === s.vehicleId);
+    const v = vehicles.find((x) => x.id === s.vehicleId);
     if (!v || !s.wasPrice) return sum;
     return sum + Math.max(0, s.wasPrice - v.price);
   }, 0);
   const markedDown = VEHICLE_SPECIALS.filter((s) => {
-    const v = VEHICLES.find((x) => x.id === s.vehicleId);
+    const v = vehicles.find((x) => x.id === s.vehicleId);
     return v && s.wasPrice && s.wasPrice > v.price;
   }).length;
 
@@ -172,7 +172,7 @@ export default function SpecialsClient() {
           >
             {VEHICLE_SPECIALS.map((s) => (
               <StaggerItem key={s.vehicleId}>
-                <SpecialCard special={s} />
+                <SpecialCard special={s} vehicles={vehicles} />
               </StaggerItem>
             ))}
           </Stagger>

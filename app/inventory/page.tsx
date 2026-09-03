@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
-import { VEHICLES } from "../lib/inventory";
+import { getInventory } from "../lib/inventory";
 import InventoryClient from "./inventory-client";
 import SeoFaq from "../components/seo-faq";
 import { INVENTORY_SEO } from "../lib/seo-faq-content";
@@ -19,12 +19,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InventoryPage() {
+export default async function InventoryPage() {
+  const vehicles = await getInventory();
+
   return (
     <>
       <SiteHeader solid />
       <main className="flex-1">
-        <InventoryClient vehicles={VEHICLES} />
+        <InventoryClient vehicles={vehicles} />
         <SeoFaq {...INVENTORY_SEO} />
       </main>
       <SiteFooter />

@@ -4,7 +4,7 @@ import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
 import SeoFaq from "../components/seo-faq";
 import InventoryClient from "../inventory/inventory-client";
-import { VEHICLES } from "../lib/inventory";
+import { getInventory } from "../lib/inventory";
 import { categorySeo } from "../lib/seo-faq-content";
 import {
   VEHICLE_CATEGORIES,
@@ -85,6 +85,8 @@ export default async function CategoryPage({ params }: Params) {
   const c = getCategory(category);
   if (!c) notFound();
 
+  const vehicles = await getInventory();
+
   const lockBody =
     c.filter.kind === "bodyStyle" ? c.filter.value : undefined;
   const lockFuel = c.filter.kind === "fuel" ? c.filter.value : undefined;
@@ -102,7 +104,7 @@ export default async function CategoryPage({ params }: Params) {
       <SiteHeader solid />
       <main className="flex-1">
         <InventoryClient
-          vehicles={VEHICLES}
+          vehicles={vehicles}
           bannerCompact
           banner={{
             eyebrow: "Inventory",

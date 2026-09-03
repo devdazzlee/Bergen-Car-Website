@@ -11,6 +11,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Field, FormShell, ringFor, EASE } from "../components/ui/form-parts";
 import { currency } from "../lib/inventory";
+import { isApiError, submitLead } from "../lib/api";
 import {
   Select,
   SelectContent,
@@ -313,7 +314,11 @@ function PreQualForm() {
     {},
   );
   const [submitted, setSubmitted] = useState(false);
-  const errors = useMemo(() => validate(v), [v]);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [serverFields, setServerFields] = useState<Partial<Record<keyof Values, string>>>({});
+  const clientErrors = useMemo(() => validate(v), [v]);
+  const errors = { ...clientErrors, ...serverFields };
 
   const set = (k: keyof Values) => (val: string) =>
     setV((p) => ({ ...p, [k]: val }));
@@ -322,7 +327,7 @@ function PreQualForm() {
   const mark = (k: keyof Values) => () =>
     setTouched((p) => ({ ...p, [k]: true }));
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(
       Object.fromEntries(Object.keys(EMPTY).map((k) => [k, true])) as Record<
@@ -330,7 +335,24 @@ function PreQualForm() {
         boolean
       >,
     );
-    if (Object.keys(errors).length === 0) setSubmitted(true);
+    setFormError(null);
+    setServerFields({});
+    if (Object.keys(clientErrors).length > 0) return;
+    setSubmitting(true);
+    try {
+      await submitLead({
+        type: "financing",
+        ...v,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      if (isApiError(err) && err.fields) setServerFields(err.fields);
+      setFormError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -365,6 +387,8 @@ function PreQualForm() {
               setSubmitted(false);
               setV(EMPTY);
               setTouched({});
+              setFormError(null);
+              setServerFields({});
             }}
           >
             Start over
@@ -376,6 +400,14 @@ function PreQualForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-3">
+      {formError ? (
+        <p
+          role="alert"
+          className="rounded-xl bg-red/10 px-3.5 py-2.5 text-[13.5px] font-medium text-red"
+        >
+          {formError}
+        </p>
+      ) : null}
       <div className="grid gap-3 sm:grid-cols-3">
         <Field
           id="f-name"
@@ -555,8 +587,8 @@ function PreQualForm() {
         </Field>
       </div>
 
-      <Button type="submit" size="lg" className="mt-1 w-full">
-        See my payment range
+      <Button type="submit" size="lg" className="mt-1 w-full" disabled={submitting}>
+        {submitting ? "Sending…" : "See my payment range"}
         <IconArrowRight className="h-4 w-4" />
       </Button>
       <p className="text-center text-[12px] leading-5 text-navy-500">

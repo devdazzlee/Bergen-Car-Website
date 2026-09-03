@@ -16,6 +16,8 @@
 # next.js
 /.next/
 /out/
+/output/
+/.tmp/
 
 # production
 /build
@@ -32,6 +34,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+
+# Keep the example file in git so local setup is documented.
+!.env.example
 
 # vercel
 .vercel

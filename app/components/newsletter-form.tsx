@@ -3,9 +3,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { IconArrowRight, IconCheck, IconMail } from "./icons";
+import { isApiError, subscribeNewsletter } from "../lib/api";
 
 export default function NewsletterForm() {
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-700 to-navy p-7 sm:p-9">
@@ -47,14 +50,36 @@ export default function NewsletterForm() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setDone(true);
+                const form = e.currentTarget;
+                const email = String(new FormData(form).get("email") ?? "");
+                setFormError(null);
+                setSubmitting(true);
+                try {
+                  await subscribeNewsletter(email);
+                  setDone(true);
+                } catch (err) {
+                  setFormError(
+                    isApiError(err)
+                      ? err.message
+                      : "Something went wrong. Please try again.",
+                  );
+                } finally {
+                  setSubmitting(false);
+                }
               }}
-              className="flex w-full gap-2 lg:w-[400px]"
+              className="flex w-full flex-col gap-2 lg:w-[400px]"
             >
+              {formError ? (
+                <p role="alert" className="text-[13px] font-medium text-gold">
+                  {formError}
+                </p>
+              ) : null}
+              <div className="flex w-full gap-2">
               <input
                 required
+                name="email"
                 type="email"
                 autoComplete="email"
                 placeholder="you@email.com"
@@ -63,11 +88,13 @@ export default function NewsletterForm() {
               />
               <button
                 type="submit"
-                className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-red px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98]"
+                disabled={submitting}
+                className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-red px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
               >
-                Notify me
+                {submitting ? "Sending…" : "Notify me"}
                 <IconArrowRight className="h-4 w-4" />
               </button>
+              </div>
             </motion.form>
           )}
         </AnimatePresence>

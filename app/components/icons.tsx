@@ -90,10 +90,47 @@ export const IconMail = (p: IconProps) => (
   </svg>
 );
 
+export const IconEye = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z" />
+    <circle cx="12" cy="12" r="2.6" />
+  </svg>
+);
+
+export const IconEyeOff = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M3 3l18 18" />
+    <path d="M10.6 10.6A2.6 2.6 0 0 0 12 14.6M13.4 13.4A2.6 2.6 0 0 0 12 9.4" />
+    <path d="M6.7 6.7C4.4 8.3 2.8 10.6 2.5 12c0 0 3.5 7 9.5 7 2.1 0 4-.6 5.6-1.5M17.3 17.3C19.6 15.7 21.2 13.4 21.5 12c0 0-3.5-7-9.5-7-1.4 0-2.7.3-3.9.8" />
+  </svg>
+);
+
 export const IconSearch = (p: IconProps) => (
   <svg {...base(p)}>
     <circle cx="11" cy="11" r="7" />
     <path d="m20 20-3.5-3.5" />
+  </svg>
+);
+
+export const IconDownload = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M12 4v11" />
+    <path d="m7 11 5 5 5-5" />
+    <path d="M5 19h14" />
+  </svg>
+);
+
+export const IconFile = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9Z" />
+    <path d="M14 3v6h6" />
+    <path d="M8 13h8M8 17h5" />
+  </svg>
+);
+
+export const IconSpinner = (p: IconProps) => (
+  <svg {...base({ ...p, className: `animate-spin ${p.className ?? ""}` })}>
+    <path d="M12 4a8 8 0 1 1-8 8" />
   </svg>
 );
 

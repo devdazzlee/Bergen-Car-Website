@@ -4,14 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import {
-  BODY_STYLES,
-  MAKES,
   PRICE_RANGES,
   SORTS,
-  FEATURED_VEHICLES,
-  VEHICLES,
-  YEARS,
+  bodyStylesOf,
+  featuredOf,
+  makesOf,
   modelsForMake,
+  yearsOf,
   type SortValue,
   type Vehicle,
 } from "../lib/inventory";
@@ -55,7 +54,13 @@ function WidgetSelect({
   );
 }
 
-export default function InventoryExplorer() {
+export default function InventoryExplorer({
+  vehicles,
+  children,
+}: {
+  vehicles: Vehicle[];
+  children?: React.ReactNode;
+}) {
   const [year, setYear] = useState("");
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -66,11 +71,18 @@ export default function InventoryExplorer() {
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const models = useMemo(() => modelsForMake(make), [make]);
+  const years = useMemo(() => yearsOf(vehicles), [vehicles]);
+  const makes = useMemo(() => makesOf(vehicles), [vehicles]);
+  const bodyStyles = useMemo(() => bodyStylesOf(vehicles), [vehicles]);
+  const featured = useMemo(() => featuredOf(vehicles), [vehicles]);
+  const models = useMemo(
+    () => modelsForMake(make, vehicles),
+    [make, vehicles],
+  );
 
   const filtered = useMemo(() => {
     const range = PRICE_RANGES[priceIdx];
-    const list = FEATURED_VEHICLES.filter((v) => {
+    const list = featured.filter((v) => {
       if (year && v.year !== Number(year)) return false;
       if (make && v.make !== make) return false;
       if (model && v.model !== model) return false;
@@ -143,7 +155,7 @@ export default function InventoryExplorer() {
                 Find your next car
               </h2>
               <span className="ml-auto hidden text-sm text-navy-500 sm:block">
-                {VEHICLES.length} cars on the lot
+                {vehicles.length} cars on the lot
               </span>
             </div>
 
@@ -154,7 +166,7 @@ export default function InventoryExplorer() {
                 onValue={(v) => setYear(v === "any" ? "" : v)}
               >
                 <SelectItem value="any">Any year</SelectItem>
-                {YEARS.map((y) => (
+                {years.map((y) => (
                   <SelectItem key={y} value={String(y)}>
                     {y}
                   </SelectItem>
@@ -170,7 +182,7 @@ export default function InventoryExplorer() {
                 }}
               >
                 <SelectItem value="any">Any make</SelectItem>
-                {MAKES.map((m) => (
+                {makes.map((m) => (
                   <SelectItem key={m} value={m}>
                     {m}
                   </SelectItem>
@@ -223,6 +235,8 @@ export default function InventoryExplorer() {
         </div>
       </section>
 
+      {children}
+
       {/* ---- Results grid ---- */}
       <section id="inventory" className="scroll-mt-24 py-16 sm:py-20">
         <div className="container-page" ref={resultsRef}>
@@ -260,7 +274,7 @@ export default function InventoryExplorer() {
 
           {/* Body-style quick filters */}
           <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-1">
-            {["", ...BODY_STYLES].map((b) => (
+            {["", ...bodyStyles].map((b) => (
               <button
                 key={b || "all"}
                 type="button"
@@ -343,7 +357,7 @@ export default function InventoryExplorer() {
               href="/inventory"
               className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 active:scale-[0.98]"
             >
-              See all {VEHICLES.length} vehicles
+              See all {vehicles.length} vehicles
               <IconArrowRight className="h-4 w-4" />
             </Link>
             <a

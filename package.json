@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-hostinger.mjs",
+    "build:next": "next build",
+    "docs:category-pdf": "node scripts/generate-category-pages-pdf.mjs",
     "start": "next start",
     "lint": "eslint"
   },
@@ -32,6 +34,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
+    "playwright": "^1.62.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

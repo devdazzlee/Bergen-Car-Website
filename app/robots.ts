@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 
 const SITE = "https://bergencarcompany.com";
 
+export const dynamic = "force-static";
+
 /** Serves /robots.txt */
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        disallow: ["/api/", "/dashboard", "/dashboard/"],
       },
     ],
     sitemap: `${SITE}/sitemap.xml`,

@@ -4,7 +4,7 @@ import * as React from "react";
 import { format } from "date-fns";
 import { cn } from "../../lib/utils";
 import { IconCalendar } from "../icons";
-import { Calendar } from "./calendar";
+import { Calendar, type CalendarProps } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 export function DatePicker({
@@ -14,6 +14,8 @@ export function DatePicker({
   id,
   className,
   placeholder = "Pick a date",
+  disablePast = true,
+  disabled,
 }: {
   value?: Date;
   onChange: (d?: Date) => void;
@@ -21,10 +23,18 @@ export function DatePicker({
   id?: string;
   className?: string;
   placeholder?: string;
+  disablePast?: boolean;
+  disabled?: CalendarProps["disabled"];
 }) {
   const [open, setOpen] = React.useState(false);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const now = new Date();
+
+  const disabledDays = [
+    ...(disablePast ? [{ before: today }] : []),
+    ...(disabled ? (Array.isArray(disabled) ? disabled : [disabled]) : []),
+  ];
 
   return (
     <Popover
@@ -39,7 +49,7 @@ export function DatePicker({
           type="button"
           id={id}
           className={cn(
-            "flex h-11 w-full items-center gap-2 rounded-xl border border-line-strong bg-white px-3.5 text-left text-[15px] outline-none transition-[border-color,box-shadow] duration-200 focus:border-navy focus:ring-2 focus:ring-navy/15",
+            "flex h-11 w-full min-w-0 items-center gap-2 rounded-xl border border-line-strong bg-white px-3.5 text-left text-[15px] outline-none transition-[border-color,box-shadow] duration-200 focus:border-navy focus:ring-2 focus:ring-navy/15",
             !value && "text-navy-400",
             className,
           )}
@@ -50,12 +60,18 @@ export function DatePicker({
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start">
+      <PopoverContent
+        align="start"
+        collisionPadding={16}
+        className="max-w-[calc(100vw-1.5rem)] p-2 sm:p-3"
+      >
         <Calendar
           mode="single"
           selected={value}
-          defaultMonth={value ?? today}
-          disabled={{ before: today }}
+          defaultMonth={value ?? (disablePast ? today : now)}
+          startMonth={disablePast ? undefined : new Date(now.getFullYear() - 8, 0)}
+          endMonth={new Date(now.getFullYear() + 1, 11)}
+          disabled={disabledDays.length > 0 ? disabledDays : undefined}
           onSelect={(d) => {
             onChange(d);
             if (d) setOpen(false);

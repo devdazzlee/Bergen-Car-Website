@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /** Static HTML export for Hostinger / any static file hosting. */
+  output: "export",
   images: {
-    // High-res dealership/vehicle photography is served from Unsplash and
-    // optimized on the fly by Next.js (resized + WebP/AVIF, quality 75).
+    // Required for static export — images are served as-is from the CDN URLs.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -15,22 +17,14 @@ const nextConfig: NextConfig = {
         hostname: "images.pexels.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "X-Robots-Tag",
-            value:
-              "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-          },
-        ],
-      },
-    ];
-  },
+  trailingSlash: true,
 };
 
 export default nextConfig;

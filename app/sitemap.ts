@@ -1,15 +1,18 @@
 import type { MetadataRoute } from "next";
-import { VEHICLES } from "./lib/inventory";
+import { getInventory } from "./lib/inventory";
 import { SERVICE_AREAS } from "./lib/service-areas";
 import { BLOG_POSTS } from "./lib/blog";
 import { VEHICLE_CATEGORIES } from "./lib/vehicle-categories";
-import { MODEL_PAGES } from "./lib/model-pages";
+import { qualifyingModels } from "./lib/model-pages";
 
 const SITE = "https://bergencarcompany.com";
 
+export const dynamic = "force-static";
+
 /** Serves /sitemap.xml */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const vehicles = await getInventory();
 
   const staticRoutes: {
     path: string;
@@ -45,7 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: r.priority,
   }));
 
-  for (const v of VEHICLES) {
+  for (const v of vehicles) {
     entries.push({
       url: `${SITE}/inventory/${v.id}`,
       lastModified: now,
@@ -53,6 +56,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     });
   }
+
+  const modelPages = qualifyingModels(vehicles);
 
   for (const c of VEHICLE_CATEGORIES) {
     entries.push({
@@ -63,7 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const m of MODEL_PAGES) {
+  for (const m of modelPages) {
     entries.push({
       url: `${SITE}/${m.slug}`,
       lastModified: now,

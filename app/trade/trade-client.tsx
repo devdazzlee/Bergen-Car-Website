@@ -31,6 +31,7 @@ import {
   IconShield,
   IconWallet,
 } from "../components/icons";
+import { isApiError, submitLead } from "../lib/api";
 
 const YEARS = Array.from({ length: 24 }, (_, i) => String(2026 - i));
 const MAKES = [
@@ -209,14 +210,18 @@ function TradeForm() {
     {},
   );
   const [submitted, setSubmitted] = useState(false);
-  const errors = useMemo(() => validate(v), [v]);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [serverFields, setServerFields] = useState<Partial<Record<keyof Values, string>>>({});
+  const clientErrors = useMemo(() => validate(v), [v]);
+  const errors = { ...clientErrors, ...serverFields };
 
   const set = (k: keyof Values) => (val: string) =>
     setV((p) => ({ ...p, [k]: val }));
   const blur = (k: keyof Values) => () =>
     setTouched((p) => ({ ...p, [k]: true }));
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(
       Object.fromEntries(Object.keys(EMPTY).map((k) => [k, true])) as Record<
@@ -224,7 +229,24 @@ function TradeForm() {
         boolean
       >,
     );
-    if (Object.keys(errors).length === 0) setSubmitted(true);
+    setFormError(null);
+    setServerFields({});
+    if (Object.keys(clientErrors).length > 0) return;
+    setSubmitting(true);
+    try {
+      await submitLead({
+        type: "trade",
+        ...v,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      if (isApiError(err) && err.fields) setServerFields(err.fields);
+      setFormError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -259,6 +281,8 @@ function TradeForm() {
               setSubmitted(false);
               setV(EMPTY);
               setTouched({});
+              setFormError(null);
+              setServerFields({});
             }}
           >
             Start over
@@ -270,6 +294,14 @@ function TradeForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+      {formError ? (
+        <p
+          role="alert"
+          className="rounded-xl bg-red/10 px-3.5 py-2.5 text-[13.5px] font-medium text-red"
+        >
+          {formError}
+        </p>
+      ) : null}
       <FieldGroup title="Your vehicle">
       <div className="grid gap-3 sm:grid-cols-2">
         <Field
@@ -489,8 +521,8 @@ function TradeForm() {
         </div>
       </FieldGroup>
 
-      <Button type="submit" size="lg" className="mt-1 w-full">
-        Get my trade-in estimate
+      <Button type="submit" size="lg" className="mt-1 w-full" disabled={submitting}>
+        {submitting ? "Sending…" : "Get my trade-in estimate"}
         <IconArrowRight className="h-4 w-4" />
       </Button>
       <p className="text-center text-[12px] leading-5 text-navy-500">

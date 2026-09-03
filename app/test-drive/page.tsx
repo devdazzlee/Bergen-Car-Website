@@ -5,6 +5,7 @@ import SiteFooter from "../components/site-footer";
 import TestDriveClient from "./test-drive-client";
 import { FaqJsonLd } from "../components/seo-faq";
 import { TESTDRIVE_SEO } from "../lib/seo-faq-content";
+import { getInventory } from "../lib/inventory";
 
 export const metadata: Metadata = {
   title: "Schedule a Test Drive — Lodi, NJ",
@@ -19,14 +20,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TestDrivePage() {
+export default async function TestDrivePage() {
+  const vehicles = await getInventory();
+
   return (
     <>
       <FaqJsonLd faqs={TESTDRIVE_SEO.faqs} />
       <SiteHeader solid />
       <main className="flex-1">
         <Suspense fallback={<div className="min-h-screen bg-mist" />}>
-          <TestDriveClient />
+          <TestDriveClient vehicles={vehicles} />
         </Suspense>
       </main>
       <SiteFooter />
