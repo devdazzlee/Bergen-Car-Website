@@ -124,7 +124,7 @@ const WHY = [
   },
   {
     icon: IconClock,
-    title: "Same-day written estimate",
+    title: "Same-day written offer",
     body: "You get a number in writing, usually within a few hours during business hours. It's good for seven days, no pressure to decide on the spot.",
   },
   {
@@ -270,7 +270,7 @@ function TradeForm() {
         </p>
         <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
           <Button asChild variant="navy">
-            <a href="tel:+19735550142">
+            <a href="tel:+19739286300">
               <IconPhone className="h-4 w-4" />
               Call us now
             </a>
@@ -642,7 +642,7 @@ export default function TradeClient() {
 
           <p className="mt-6 text-[12.5px] leading-6 text-navy-500">
             Bars are illustrative. Your car&apos;s actual figures are itemized on
-            the written estimate we send the same day.
+            the written offer we send the same day.
           </p>
         </div>
       </section>

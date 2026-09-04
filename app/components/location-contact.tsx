@@ -20,7 +20,7 @@ const HOURS = [
   { label: "Sunday", time: "11:00 AM – 4:00 PM", days: [0] },
 ];
 
-const ADDRESS = "412 Route 46, Lodi, NJ 07644";
+const ADDRESS = "22 US 46 East, Lodi, NJ 07644";
 const MAPS_LINK = "https://www.google.com/maps/dir/?api=1&destination=Lodi,+New+Jersey";
 
 const inputClass =
@@ -103,11 +103,11 @@ export default function LocationContact() {
 
               <div className="flex flex-wrap gap-x-8 gap-y-3">
                 <a
-                  href="tel:+19735550142"
+                  href="tel:+19739286300"
                   className="flex items-center gap-2 text-[14px] font-medium text-navy-700 transition-colors hover:text-red"
                 >
                   <IconPhone className="h-4 w-4 text-red" />
-                  (973) 555-0142
+                  (973) 928-6300
                 </a>
                 <a
                   href="mailto:sales@bergencarcompany.com"

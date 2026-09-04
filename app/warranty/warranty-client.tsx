@@ -49,7 +49,7 @@ const PLANS = [
       "Air conditioning — compressor, condenser, evaporator",
       "Fuel system — pump, injectors, sending unit",
     ],
-    foot: "Nationwide claims. Repairs at our shop or any licensed repair facility.",
+    foot: "Nationwide claims. Repairs at any licensed repair facility.",
   },
   {
     name: "Comprehensive",
@@ -72,7 +72,7 @@ const PLANS = [
 const COVERED = [
   "Engine internals, transmission, and drive axle (the powertrain)",
   "Failures from normal use during the coverage period",
-  "Parts and labor at our shop or any licensed facility (extended plans)",
+  "Parts and labor at any licensed repair facility",
   "Seals and gaskets on covered assemblies",
   "Diagnosis time for a covered failure",
   "Towing to the nearest repair facility (Comprehensive plan)",
@@ -82,7 +82,7 @@ const NOT_COVERED = [
   "Wear items: brake pads, rotors, tires, wiper blades, bulbs, belts, hoses",
   "Routine maintenance: oil changes, filters, fluids, alignments, tune-ups",
   "Cosmetic: paint, upholstery, trim, glass, scratches and dents",
-  "Anything already noted on the vehicle's inspection report at sale",
+  "Anything already noted as a known issue at sale",
   "Damage from an accident, misuse, off-roading, racing, or skipped maintenance",
   "Aftermarket parts and any failure they cause",
 ];
@@ -90,7 +90,7 @@ const NOT_COVERED = [
 export const FAQS = [
   {
     q: "What happens if something breaks after I buy?",
-    a: "If it's a covered failure inside the coverage window, bring the car back to our shop (or, on the extended plans, any licensed repair facility). We diagnose it, confirm it's covered, and do the repair. On the included warranty there's no deductible; on the extended plans it's $100 per visit. You don't front the money and wait for a reimbursement — covered repairs are handled directly.",
+    a: "If it's a covered failure inside the coverage window, call us and we'll help you get the car into a licensed repair facility. We confirm it's covered and the work is handled there. On the included warranty there's no deductible; on the extended plans it's $100 per visit. You don't front the money and wait for a reimbursement — covered repairs are arranged directly.",
   },
   {
     q: "Can I purchase extended coverage, and when?",
@@ -102,7 +102,7 @@ export const FAQS = [
   },
   {
     q: "Where can I get the work done?",
-    a: "The included warranty is honored at our service shop on Route 46. The extended plans are backed by a national administrator and can be used at any licensed repair facility in the U.S. — you're not tied to us if you move or you're traveling.",
+    a: "We don't have an in-house repair shop. Call us and we'll help you get covered work done at a licensed facility. The extended plans are backed by a national administrator and can be used at any licensed repair facility in the U.S. — you're not tied to Lodi if you move or you're traveling.",
   },
   {
     q: "What voids the warranty?",
@@ -133,7 +133,7 @@ export default function WarrantyClient() {
           </p>
         }
         image="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=2400&q=70"
-        imageAlt="A technician inspecting a used car under warranty at Bergen Car Company in Lodi, New Jersey"
+        imageAlt="Used cars on the lot at Bergen Car Company in Lodi, New Jersey"
       >
         <BannerPills
           items={["Warranty on every car", "Parts + labor covered", "No hidden exclusions"]}
@@ -353,11 +353,11 @@ export default function WarrantyClient() {
               before you sign — we&apos;ll put the answer in writing.
             </p>
             <a
-              href="tel:+19735550142"
+              href="tel:+19739286300"
               className="mt-6 inline-flex items-center gap-2 rounded-full border border-line-strong bg-mist px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
             >
               <IconWrench className="h-4 w-4 text-gold" />
-              (973) 555-0142
+              (973) 928-6300
             </a>
           </Reveal>
 

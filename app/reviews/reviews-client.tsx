@@ -6,7 +6,8 @@ import { format, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
 import PageBanner from "../components/page-banner";
-import CountUp from "../components/count-up";
+import AutosalesReviewsBadgeSlot from "../components/autosalesreviews-badge-slot";
+import type { DealerRating } from "../lib/dealer-rating";
 import { Button } from "../components/ui/button";
 import {
   Select,
@@ -16,11 +17,8 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import {
-  DISTRIBUTION,
   FEATURED,
   REVIEWS,
-  REVIEW_AVG,
-  REVIEW_TOTAL,
   THEMES,
   type Review,
 } from "../lib/reviews";
@@ -38,12 +36,6 @@ const DEPT: Record<
     dot: "bg-navy",
     bar: "from-navy to-navy-500",
     avatar: "bg-gradient-to-br from-navy to-navy-600",
-  },
-  Service: {
-    pill: "bg-red/10 text-red",
-    dot: "bg-red",
-    bar: "from-red to-red-400",
-    avatar: "bg-gradient-to-br from-red to-red-600",
   },
   Financing: {
     pill: "bg-gold/15 text-gold-600",
@@ -132,7 +124,11 @@ function ReviewCard({ r }: { r: Review }) {
   );
 }
 
-export default function ReviewsClient() {
+export default function ReviewsClient({
+  rating = null,
+}: {
+  rating?: DealerRating | null;
+}) {
   const [sort, setSort] = useState<"recent" | "high" | "low">("recent");
   const [dept, setDept] = useState<"all" | Review["dept"]>("all");
   const [keyword, setKeyword] = useState<string | null>(null);
@@ -178,8 +174,6 @@ export default function ReviewsClient() {
     }, 550);
   }
 
-  const maxBar = DISTRIBUTION[5];
-
   return (
     <div className="bg-mist">
       <PageBanner
@@ -195,72 +189,45 @@ export default function ReviewsClient() {
         image="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=2400&q=70"
         imageAlt="A customer shaking hands with a salesperson after buying a car at Bergen Car Company in Lodi, New Jersey"
       >
-        <div className="inline-flex items-center gap-4 rounded-2xl border border-white/15 bg-white/10 px-5 py-3.5 backdrop-blur">
-          <div className="text-center">
-            <p className="font-heading text-3xl font-bold leading-none text-gold">
-              {REVIEW_AVG.toFixed(1)}
-            </p>
-            <Stars n={5} className="mt-1.5" />
-          </div>
-          <span className="h-10 w-px bg-white/20" />
-          <div className="text-[13px] leading-5 text-white/75">
-            <p className="font-semibold text-white">
-              <CountUp value={REVIEW_TOTAL} /> reviews
-            </p>
-            <p>Google &amp; DealerRater · since 2019</p>
-          </div>
-        </div>
+        <AutosalesReviewsBadgeSlot variant="dark" rating={rating} />
       </PageBanner>
 
-      {/* rating breakdown */}
+      {/* trust + live rating slot */}
       <section className="py-16 sm:py-20">
         <div className="container-page">
           <Reveal className="grid gap-8 rounded-3xl border border-line-strong bg-white p-6 shadow-[var(--shadow-card)] sm:p-8 lg:grid-cols-[16rem_1fr] lg:gap-12">
             <div className="flex flex-col items-center justify-center border-b border-line pb-6 text-center lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
-              <p className="font-heading text-5xl font-bold tracking-tight text-ink">
-                {REVIEW_AVG.toFixed(1)}
-              </p>
-              <Stars n={5} className="mt-2 [&_svg]:h-5 [&_svg]:w-5" />
-              <p className="mt-2 text-[13px] text-navy-500">
-                {REVIEW_TOTAL.toLocaleString()} total reviews
-              </p>
-              <p className="mt-3 rounded-full bg-gold/15 px-3 py-1 text-[12px] font-semibold text-gold-600">
-                {Math.round(
-                  ((DISTRIBUTION[5] + DISTRIBUTION[4]) / REVIEW_TOTAL) * 100,
-                )}
-                % rated 4 stars or higher
-              </p>
+              <AutosalesReviewsBadgeSlot rating={rating} />
             </div>
 
-            <div className="space-y-2.5">
-              {([5, 4, 3, 2, 1] as const).map((star) => {
-                const count = DISTRIBUTION[star];
-                const pct = (count / maxBar) * 100;
-                return (
-                  <div key={star} className="flex items-center gap-3 text-[13px]">
-                    <span className="flex w-12 shrink-0 items-center gap-1 font-semibold text-navy-600">
-                      {star}
-                      <IconStar className="h-3.5 w-3.5 text-gold" />
-                    </span>
-                    <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-mist">
-                      <motion.span
-                        className="block h-full rounded-full bg-gradient-to-r from-gold-600 to-gold"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${pct}%` }}
-                        viewport={{ once: true, margin: "-40px" }}
-                        transition={{
-                          duration: 0.9,
-                          delay: (5 - star) * 0.08,
-                          ease: EASE,
-                        }}
-                      />
-                    </span>
-                    <span className="w-10 shrink-0 text-right tabular-nums text-navy-500">
-                      {count}
-                    </span>
-                  </div>
-                );
-              })}
+            <div className="grid gap-5 sm:grid-cols-3">
+              <div>
+                <p className="font-heading text-lg font-bold text-ink">
+                  No hidden fees
+                </p>
+                <p className="mt-1.5 text-[13px] leading-6 text-navy-600">
+                  The window price is the price you pay, plus tax, title,
+                  registration, and one documentary fee.
+                </p>
+              </div>
+              <div>
+                <p className="font-heading text-lg font-bold text-ink">
+                  Financing available
+                </p>
+                <p className="mt-1.5 text-[13px] leading-6 text-navy-600">
+                  Pre-qualify with a soft credit check. We shop lenders,
+                  including local credit unions.
+                </p>
+              </div>
+              <div>
+                <p className="font-heading text-lg font-bold text-ink">
+                  Warranty included
+                </p>
+                <p className="mt-1.5 text-[13px] leading-6 text-navy-600">
+                  Every car comes with a 3-month / 3,000-mile limited powertrain
+                  warranty.
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -294,13 +261,6 @@ export default function ReviewsClient() {
                     }`}
                   >
                     {t.label}
-                    <span
-                      className={`rounded-full px-1.5 text-[11px] ${
-                        active ? "bg-white/20" : "bg-mist text-navy-500"
-                      }`}
-                    >
-                      {t.count}
-                    </span>
                   </button>
                 </StaggerItem>
               );
@@ -368,7 +328,6 @@ export default function ReviewsClient() {
                 <SelectContent>
                   <SelectItem value="all">All departments</SelectItem>
                   <SelectItem value="Sales">Sales</SelectItem>
-                  <SelectItem value="Service">Service</SelectItem>
                   <SelectItem value="Financing">Financing</SelectItem>
                 </SelectContent>
               </Select>
@@ -536,10 +495,10 @@ export default function ReviewsClient() {
             <p className="mt-4 text-[12px] text-navy-500">
               Had a problem instead? Call the showroom at{" "}
               <a
-                href="tel:+19735550142"
+                href="tel:+19739286300"
                 className="font-semibold text-navy hover:text-red"
               >
-                (973) 555-0142
+                (973) 928-6300
               </a>{" "}
               — we&apos;d rather fix it than read about it later.
             </p>

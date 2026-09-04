@@ -7,7 +7,7 @@ import { FaqJsonLd } from "../components/seo-faq";
 export const metadata: Metadata = {
   title: "Sell Us Your Car — No Purchase Required | Lodi, NJ",
   description:
-    "Sell your car to Bergen Car Company in Lodi, NJ with no obligation to buy anything. Get a fair same-day offer, a quick inspection, and paid on the spot — whether or not you're shopping for a replacement.",
+    "Sell your car to Bergen Car Company in Lodi, NJ with no obligation to buy anything. Get a fair same-day offer, a look in person, and paid on the spot — whether or not you're shopping for a replacement.",
   alternates: { canonical: "/sell" },
   openGraph: {
     title: "Sell Us Your Car, No Purchase Required | Bergen Car Company",

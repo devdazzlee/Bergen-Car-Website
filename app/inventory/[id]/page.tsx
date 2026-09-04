@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: `${name} — ${currency(v.price)}`,
     description: `${name} for sale at Bergen Car Company in Lodi, NJ. ${v.mileage.toLocaleString(
       "en-US",
-    )} miles, ${v.drivetrain}, inspected and ready to drive with a limited warranty.`,
+    )} miles, ${v.drivetrain}, with a limited warranty.`,
     alternates: { canonical: `/inventory/${v.id}` },
   };
 }

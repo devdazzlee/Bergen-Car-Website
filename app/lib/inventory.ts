@@ -25,10 +25,14 @@ export type Vehicle = {
   exteriorColor: string;
   mpg: string;
   image: string;
+  photos?: string[];
   tag?: "Certified" | "New Arrival" | "Price Drop" | "Low Miles";
   commercial?: boolean;
   formerPolice?: boolean;
   luxury?: boolean;
+  handicapAccessible?: boolean;
+  /** Real VIN from the Bergen API, when the vehicle has one on file. */
+  vin?: string;
 };
 
 export const PRICE_RANGES = [
@@ -39,6 +43,16 @@ export const PRICE_RANGES = [
   { label: "$25,000 – $35,000", min: 25000, max: 35000 },
   { label: "$35,000+", min: 35000, max: Infinity },
 ] as const;
+
+/** URL-friendly id for a price range, e.g. "under-15000". Used to deep-link
+ * into /inventory with a price filter pre-applied (see the homepage's
+ * "Under $15,000" quick-browse link). */
+export function priceRangeSlug(r: { min: number; max: number }): string {
+  if (r.min === 0 && !Number.isFinite(r.max)) return "any";
+  if (r.min === 0) return `under-${r.max}`;
+  if (!Number.isFinite(r.max)) return `${r.min}-plus`;
+  return `${r.min}-${r.max}`;
+}
 
 export const MILEAGE_RANGES = [
   { label: "Any mileage", min: 0, max: Infinity },
@@ -88,6 +102,31 @@ export function modelsForMake(make: string, vehicles: Vehicle[]): string[] {
   return Array.from(new Set(list)).sort();
 }
 
+export type VehicleFlag =
+  | "commercial"
+  | "formerPolice"
+  | "luxury"
+  | "handicapAccessible";
+
+export function inferVehicleFlags(v: Vehicle): Vehicle {
+  const hay = `${v.make} ${v.model} ${v.trim}`.toLowerCase();
+  return {
+    ...v,
+    commercial:
+      v.commercial === true ||
+      v.bodyStyle === "Cargo Van" ||
+      /\bcargo\b/.test(hay),
+    formerPolice:
+      v.formerPolice === true ||
+      hay.includes("police interceptor") ||
+      /\bppv\b/.test(hay) ||
+      /\bpolice\b/.test(hay),
+    handicapAccessible:
+      v.handicapAccessible === true ||
+      /wheelchair|handicap|braun|mobility|side entry|rear entry/.test(hay),
+  };
+}
+
 export function featuredOf(vehicles: Vehicle[], count = 12): Vehicle[] {
   return vehicles.slice(0, count);
 }
@@ -100,6 +139,19 @@ export const currency = (n: number) =>
   });
 
 export const miles = (n: number) => `${n.toLocaleString("en-US")} mi`;
+
+/** Unique listing photos, `photos[]` first then the card `image`. */
+export function listingPhotos(vehicle: Vehicle): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const url of [...(vehicle.photos ?? []), vehicle.image]) {
+    const trimmed = typeof url === "string" ? url.trim() : "";
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    out.push(trimmed);
+  }
+  return out;
+}
 
 /** Rough monthly estimate — 72 mo, 7.5% APR, 10% down. Illustration only. */
 export function estMonthly(price: number): number {
@@ -130,7 +182,7 @@ export async function fetchInventory(): Promise<Vehicle[]> {
   if (!Array.isArray(body.data)) {
     throw new Error(`Inventory response from ${url} is missing data[]`);
   }
-  return body.data;
+  return body.data.map(inferVehicleFlags);
 }
 
 let inflight: Promise<Vehicle[]> | null = null;

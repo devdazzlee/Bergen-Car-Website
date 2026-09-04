@@ -19,7 +19,6 @@ const COLUMNS = [
       { label: "Inventory", href: "/inventory" },
       { label: "This month's specials", href: "/specials" },
       { label: "Financing", href: "/financing" },
-      { label: "Service shop", href: "/service" },
       { label: "Reviews", href: "/reviews" },
       { label: "Blog", href: "/blog" },
       { label: "Service areas", href: "/service-areas" },
@@ -35,7 +34,6 @@ const COLUMNS = [
       { label: "Sell your car", href: "/sell" },
       { label: "Pre-qualification", href: "/financing" },
       { label: "Warranty coverage", href: "/warranty" },
-      { label: "NJ inspection", href: "/service" },
       { label: "FAQ", href: "/faq" },
     ],
   },
@@ -90,8 +88,8 @@ export default function SiteFooter() {
             />
             <p className="mt-4 max-w-xs text-[14px] leading-6 text-white/55">
               Family-owned used car dealership serving Lodi and Bergen County
-              since 2008. Inspected cars, fair pricing, and financing help — all
-              in one place on Route 46.
+              since 2008. Fair pricing and financing help — all in one place on
+              Route 46.
             </p>
             <div className="mt-5 space-y-2.5 text-[14px]">
               <a
@@ -99,14 +97,14 @@ export default function SiteFooter() {
                 className="flex items-center gap-2.5 transition-colors hover:text-white"
               >
                 <IconPin className="h-4 w-4 text-gold" />
-                412 Route 46, Lodi, NJ 07644
+                22 US 46 East, Lodi, NJ 07644
               </a>
               <a
-                href="tel:+19735550142"
+                href="tel:+19739286300"
                 className="flex items-center gap-2.5 transition-colors hover:text-white"
               >
                 <IconPhone className="h-4 w-4 text-gold" />
-                (973) 555-0142
+                (973) 928-6300
               </a>
               <a
                 href="mailto:sales@bergencarcompany.com"

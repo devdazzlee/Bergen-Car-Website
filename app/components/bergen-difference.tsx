@@ -3,12 +3,12 @@ import { IconCheck, IconClose } from "./icons";
 
 const ROWS = [
   "The price online is the price you pay",
-  "Inspection report with every car",
-  "One application sent to a dozen lenders",
+  "History report available on request",
+  "One application sent to multiple lenders",
   "Written trade-in offer in about 20 minutes",
   "No surprise add-ons or reconditioning fees",
   "3-month / 3,000-mile warranty included",
-  "On-site service shop for any make",
+  "You're welcome to have it inspected first",
   "Soft credit check to get pre-qualified",
 ];
 

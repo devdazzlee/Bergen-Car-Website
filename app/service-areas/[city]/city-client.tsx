@@ -64,9 +64,9 @@ export default function CityClient({
               {area.intro}
             </p>
             <p className="mt-4 text-[15px] leading-7 text-navy-600">
-              Everything on the lot is inspected by our own technicians, priced
-              on the window with no surprise add-ons, and backed by a
-              3-month / 3,000-mile warranty. The number you see from {area.city}{" "}
+              Everything on the lot is priced on the window with no surprise
+              add-ons, and backed by a 3-month / 3,000-mile warranty. The
+              number you see from {area.city}{" "}
               is the same number a neighbor down the street would see.
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
@@ -92,8 +92,8 @@ export default function CityClient({
             title={`Available near ${area.city}`}
           >
             A sample of what&apos;s on the lot today. The full inventory updates
-            as cars sell and arrive — tap any car for photos, the inspection
-            notes, and history.
+            as cars sell and arrive — tap any car for photos, specs, and
+            history.
           </SectionHeading>
 
           <Stagger
@@ -126,7 +126,7 @@ export default function CityClient({
             kicker="Shop by category"
             title="Find your kind of vehicle"
           >
-            Fifteen dedicated pages, each with a live feed of what&apos;s on the
+            {VEHICLE_CATEGORIES.length} dedicated pages, each with a live feed of what&apos;s on the
             lot. Whatever you drive up from {area.city} for, start here.
           </SectionHeading>
 
@@ -217,7 +217,7 @@ export default function CityClient({
             >
               <iframe
                 title={`Map from ${area.city} to Bergen Car Company in Lodi, NJ`}
-                src="https://www.google.com/maps?q=412+Route+46,+Lodi,+NJ&z=12&output=embed"
+                src="https://www.google.com/maps?q=22+US+46+East,+Lodi,+NJ&z=12&output=embed"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full min-h-[320px] w-full border-0"

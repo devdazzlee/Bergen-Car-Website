@@ -2,7 +2,6 @@ export type FaqCategory =
   | "Buying"
   | "Financing"
   | "Trade-in"
-  | "Service"
   | "Warranty";
 
 export type FaqItem = {
@@ -16,7 +15,6 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
   "Buying",
   "Financing",
   "Trade-in",
-  "Service",
   "Warranty",
 ];
 
@@ -32,7 +30,7 @@ export const BLUNT: { q: string; a: string }[] = [
   },
   {
     q: "What if I find a problem after I buy?",
-    a: "If it's a covered powertrain failure within 3 months / 3,000 miles, bring it back and we fix it under the included warranty — no deductible. If it's something outside that, tell us anyway; we've eaten repairs on cars that developed a fault right after sale because it was the right thing to do. We'd rather keep you than win an argument.",
+    a: "If it's a covered powertrain failure within 3 months / 3,000 miles, call us — we'll help you get the covered work done at a licensed repair facility, with no deductible. If it's something outside that, tell us anyway. We'd rather keep you than win an argument.",
   },
   {
     q: "Can I return a car if I change my mind?",
@@ -46,7 +44,7 @@ export const FAQS: FaqItem[] = [
     id: "b1",
     category: "Buying",
     q: "Can I have the car inspected by my own mechanic?",
-    a: "Absolutely, and we encourage it. We'll give you a copy of our inspection report to compare notes, and you're welcome to take the car to any shop you trust before you buy. If your mechanic finds something real, we want to know about it too.",
+    a: "Absolutely, and we encourage it. We don't have an in-house shop, so that independent check is the one that actually belongs to you. We'll hold the car while you take it to any shop you trust. If they find something real, we want to know about it too.",
   },
   {
     id: "b2",
@@ -69,8 +67,8 @@ export const FAQS: FaqItem[] = [
   {
     id: "b5",
     category: "Buying",
-    q: "Is the inspection report actually thorough, or a formality?",
-    a: "It's a real 150-point mechanical and safety check by our own techs, and the report notes what they found — including the small stuff. If a car has a known issue we can't or won't fix before sale, it's on the report and reflected in the price. Ask to see one for any car you're considering.",
+    q: "Do you inspect cars before they're listed?",
+    a: "We don't operate a repair shop, so there is no in-house mechanical inspection. We pull a vehicle history report on every car and we'll send it over if you ask. For a mechanical once-over, use a shop you trust — that's the check worth having.",
   },
   {
     id: "b6",
@@ -84,6 +82,12 @@ export const FAQS: FaqItem[] = [
     q: "Do you buy cars from out of state or with an out-of-state title?",
     a: "Yes on both. We buy and sell across state lines regularly and handle the title work here. Bring whatever title paperwork you have and we'll tell you if anything's missing before you make the trip.",
   },
+  {
+    id: "b8",
+    category: "Buying",
+    q: "Do you have a service department?",
+    a: "No. Bergen Car Company sells used cars — we don't do oil changes, brakes, or New Jersey state inspections. For maintenance, use a shop you trust. If a covered warranty issue comes up after you buy, call us and we'll help you start a claim at a licensed repair facility.",
+  },
 
   // Financing
   {
@@ -96,7 +100,7 @@ export const FAQS: FaqItem[] = [
     id: "f2",
     category: "Financing",
     q: "Can I get approved with bad credit or no credit history?",
-    a: "Often, yes. We submit one application to about a dozen lenders, including local credit unions and programs built for first-time buyers and credit rebuilding. A discharged bankruptcy or a repo a year or two back doesn't automatically disqualify you. We'll be honest about what's realistic for your situation.",
+    a: "Often, yes. We submit one application to multiple lenders, including local credit unions and programs built for first-time buyers and credit rebuilding. A discharged bankruptcy or a repo a year or two back doesn't automatically disqualify you. We'll be honest about what's realistic for your situation.",
   },
   {
     id: "f3",
@@ -153,38 +157,6 @@ export const FAQS: FaqItem[] = [
     category: "Trade-in",
     q: "Would I get more selling it privately?",
     a: "Sometimes — a patient private sale can net a few hundred to a couple thousand more on the right car. It also means listing it, fielding calls, meeting strangers, and doing the title and payoff yourself. We'll tell you honestly if yours is a car that sells well privately.",
-  },
-
-  // Service
-  {
-    id: "s1",
-    category: "Service",
-    q: "Can you service a car I didn't buy here?",
-    a: "Yes. The shop is open to everyone, any make or model. The same technicians who inspect our inventory can look after your car — bought here or not.",
-  },
-  {
-    id: "s2",
-    category: "Service",
-    q: "Do you push work I don't actually need?",
-    a: "No, and we know that's the fear. You get a written estimate before anything starts, we call before touching anything that isn't on your list, and we keep the old parts so you can see what came off. \"That can wait another 6 months\" is a sentence our techs say often.",
-  },
-  {
-    id: "s3",
-    category: "Service",
-    q: "How do estimates and approvals work?",
-    a: "We diagnose, then send you a written estimate — parts, labor, and time. Nothing gets done until you approve it. If we open something up and find more, we stop and call you rather than running up the ticket and explaining later.",
-  },
-  {
-    id: "s4",
-    category: "Service",
-    q: "Do you do New Jersey state inspection?",
-    a: "We do inspection prep and repairs to pass inspection. We'll check the car over, tell you honestly whether it'll pass as-is, and only recommend what's actually needed to get it through.",
-  },
-  {
-    id: "s5",
-    category: "Service",
-    q: "What are the service department hours?",
-    a: "Monday–Friday 7:30 AM to 6:00 PM, Saturday 8:00 AM to 3:00 PM, closed Sunday. We open earlier than the showroom so you can drop a car before work.",
   },
 
   // Warranty

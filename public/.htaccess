@@ -1,0 +1,3 @@
+# Hostinger is Apache. Static export has no Next server, so redirects live here.
+Redirect 301 /service /contact/
+Redirect 301 /service/ /contact/

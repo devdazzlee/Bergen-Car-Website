@@ -11,9 +11,11 @@ import {
   bodyStylesOf,
   makesOf,
   modelsForMake,
+  priceRangeSlug,
   yearsOf,
   type InventorySort,
   type Vehicle,
+  type VehicleFlag,
 } from "../lib/inventory";
 import { IconChevronDown, IconSearch, IconSliders } from "../components/icons";
 import PageBanner from "../components/page-banner";
@@ -33,11 +35,11 @@ const DEFAULT_BANNER = {
   eyebrow: "Inventory",
   title: "Browse our inventory",
   description:
-    "Every car here has been inspected by our own technicians and is ready to drive. Prices are up front — filter down to what fits, and come take it for a spin.",
+    "Prices are up front — filter down to what fits, and come take it for a spin. History reports are available on request, and you're welcome to have any car checked by a mechanic you trust before you buy.",
   image:
     "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2400&q=70",
   imageAlt:
-    "A row of inspected used cars available at Bergen Car Company in Lodi, New Jersey",
+    "Used cars available at Bergen Car Company in Lodi, New Jersey",
 };
 
 type BannerProps = {
@@ -275,7 +277,7 @@ export default function InventoryClient({
   lockBody?: string;
   lockFuel?: string;
   /** Restricts to vehicles carrying this additive classifier flag. */
-  lockFlag?: "commercial" | "formerPolice" | "luxury";
+  lockFlag?: VehicleFlag;
   /** Restricts to one make (and hides the make + model filters). */
   lockMake?: string;
   lockModel?: string;
@@ -303,6 +305,21 @@ export default function InventoryClient({
     setF(EMPTY);
     setVisible(PAGE);
   };
+
+  // Pre-select a price range from the URL — e.g. the homepage's "Shop Used
+  // Cars Under $15,000" link goes to /inventory?price=under-15000. Deliberately
+  // read client-side, post-mount, and apply the filter in an effect (like the
+  // `today`/`showMini` patterns elsewhere in this file) so the static-export
+  // prerender and the first client render agree on "no filter yet" and there's
+  // no hydration mismatch — the filter then applies a beat after mount.
+  useEffect(() => {
+    const price = new URLSearchParams(window.location.search).get("price");
+    if (!price) return;
+    const idx = PRICE_RANGES.findIndex((r) => priceRangeSlug(r) === price);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: applies a URL-driven filter once, after mount, to avoid an SSR/CSR mismatch (see comment above)
+    if (idx > 0) set({ priceIdx: idx });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const years = useMemo(() => yearsOf(vehicles), [vehicles]);
   const makes = useMemo(() => makesOf(vehicles), [vehicles]);

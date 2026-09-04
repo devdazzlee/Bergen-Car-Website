@@ -232,6 +232,30 @@ export const IconFuel = (p: IconProps) => (
   </svg>
 );
 
+export const IconTag = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M12.6 3.4 20 4l.6 7.4-9.3 9.3a1.5 1.5 0 0 1-2.1 0l-5.9-5.9a1.5 1.5 0 0 1 0-2.1l9.3-9.3Z" />
+    <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const IconTruck = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M2 7h11v9H2z" />
+    <path d="M13 10h4l4 3.2V16h-8" />
+    <circle cx="6.5" cy="18" r="1.8" />
+    <circle cx="16.5" cy="18" r="1.8" />
+  </svg>
+);
+
+export const IconExternalLink = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <path d="M15 3h6v6" />
+    <path d="M10 14 21 3" />
+  </svg>
+);
+
 export const IconCog = (p: IconProps) => (
   <svg {...base(p)}>
     <circle cx="12" cy="12" r="3" />

@@ -8,7 +8,7 @@ import { CONTACT_SEO } from "../lib/seo-faq-content";
 export const metadata: Metadata = {
   title: "Contact Bergen Car Company — Lodi, NJ",
   description:
-    "Call, text, or email Bergen Car Company in Lodi, NJ, or stop by 412 Route 46 — no appointment needed. Direct lines for sales, financing, and service. A real person replies, usually within minutes.",
+    "Call, text, or email Bergen Car Company in Lodi, NJ, or stop by 22 US 46 East — no appointment needed. Direct lines for sales, financing, and service. A real person replies, usually within minutes.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Get in Touch | Bergen Car Company",

@@ -4,6 +4,7 @@ import SiteFooter from "../components/site-footer";
 import AboutClient from "./about-client";
 import SeoFaq from "../components/seo-faq";
 import { ABOUT_SEO } from "../lib/seo-faq-content";
+import { getDealerRating } from "../lib/dealer-rating";
 
 export const metadata: Metadata = {
   title: "About Bergen Car Company — Lodi, NJ",
@@ -18,12 +19,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const rating = await getDealerRating();
+
   return (
     <>
       <SiteHeader solid />
       <main className="flex-1">
-        <AboutClient />
+        <AboutClient rating={rating} />
         <SeoFaq {...ABOUT_SEO} background="bg-mist" />
       </main>
       <SiteFooter />

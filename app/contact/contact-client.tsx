@@ -17,13 +17,14 @@ import {
   IconMail,
   IconPhone,
   IconPin,
+  IconTruck,
 } from "../components/icons";
 
-const TEL = "tel:+19735550142";
-const SMS = "sms:+19735550142";
+const TEL = "tel:+19739286300";
+const SMS = "sms:+19739286300";
 const EMAIL = "sales@bergencarcompany.com";
-const ADDRESS = "412 Route 46, Lodi, NJ 07644";
-const MAPS = "https://www.google.com/maps/dir/?api=1&destination=412+Route+46,+Lodi,+NJ";
+const ADDRESS = "22 US 46 East, Lodi, NJ 07644";
+const MAPS = "https://www.google.com/maps/dir/?api=1&destination=22+US+46+East,+Lodi,+NJ";
 
 /* Showroom hours by weekday: [open, close] in 24h, or null when closed. */
 const HOURS: Record<number, [number, number] | null> = {
@@ -90,14 +91,14 @@ const METHODS = [
   {
     icon: IconPhone,
     label: "Call",
-    value: "(973) 555-0142",
+    value: "(973) 928-6300",
     href: TEL,
     sub: "Fastest during business hours. Ask for whoever fits your question.",
   },
   {
     icon: IconChat,
     label: "Text",
-    value: "(973) 555-0142",
+    value: "(973) 928-6300",
     href: SMS,
     sub: "Same number. Good for a quick question or a photo request.",
   },
@@ -121,7 +122,7 @@ const DEPARTMENTS = [
   {
     name: "Sales",
     person: "Ask for Marcus",
-    phone: "(973) 555-0142",
+    phone: "(973) 928-6300",
     tel: TEL,
     email: "sales@bergencarcompany.com",
     best: "A specific car, a test drive, or putting a hold on something.",
@@ -130,20 +131,11 @@ const DEPARTMENTS = [
   {
     name: "Financing",
     person: "Ask for Denise",
-    phone: "(973) 555-0148",
-    tel: "tel:+19735550148",
+    phone: "(973) 928-6300",
+    tel: "tel:+19739286300",
     email: "finance@bergencarcompany.com",
     best: "Pre-qualification, rates, and how a trade payoff affects the numbers.",
     hours: "Mon–Fri",
-  },
-  {
-    name: "Service",
-    person: "Ask for Rich",
-    phone: "(973) 555-0151",
-    tel: "tel:+19735550151",
-    email: "service@bergencarcompany.com",
-    best: "Appointments, repair estimates, and parts — for any make.",
-    hours: "Mon–Sat, from 7:30 AM",
   },
 ];
 
@@ -153,7 +145,7 @@ const HOURS_ROWS = [
   { day: "Sunday", time: "11:00 AM – 4:00 PM" },
 ];
 
-const TOPICS = ["General question", "A specific car", "Financing", "Trade-in", "Service"];
+const TOPICS = ["General question", "A specific car", "Financing", "Trade-in"];
 
 const REASSURE = [
   "A person replies — never a bot or a call center.",
@@ -464,6 +456,37 @@ export default function ContactClient() {
         </div>
       </section>
 
+      {/* nationwide shipping */}
+      <section className="pb-14 sm:pb-16">
+        <div className="container-page">
+          <Reveal className="flex flex-col gap-6 rounded-3xl border border-line bg-white p-6 shadow-[var(--shadow-card)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="flex items-start gap-4">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy text-gold">
+                <IconTruck className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="font-heading text-lg font-bold text-ink">
+                  Buying from outside New Jersey?
+                </p>
+                <p className="mt-1 max-w-xl text-[14px] leading-7 text-navy-600">
+                  We regularly ship work vans, former police vehicles, and
+                  handicap-accessible vans to buyers nationwide. Call, text,
+                  or email us — we&apos;ll walk you through a remote purchase
+                  and arrange transport to your state.
+                </p>
+              </div>
+            </div>
+            <a
+              href={TEL}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-700 active:scale-[0.98]"
+            >
+              Ask about shipping
+              <IconArrowRight className="h-4 w-4" />
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
       {/* form | map + hours */}
       <section id="message" className="scroll-mt-24 pb-16 sm:pb-20">
         <div className="container-page grid gap-8 lg:grid-cols-2 lg:gap-10">
@@ -488,8 +511,8 @@ export default function ContactClient() {
               className="relative overflow-hidden rounded-3xl ring-1 ring-line shadow-[var(--shadow-card)]"
             >
               <iframe
-                title="Map to Bergen Car Company, 412 Route 46, Lodi, NJ"
-                src="https://www.google.com/maps?q=412+Route+46,+Lodi,+NJ&z=14&output=embed"
+                title="Map to Bergen Car Company, 22 US 46 East, Lodi, NJ"
+                src="https://www.google.com/maps?q=22+US+46+East,+Lodi,+NJ&z=14&output=embed"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-[280px] w-full border-0 sm:h-[320px]"
@@ -546,7 +569,7 @@ export default function ContactClient() {
           <Reveal className="max-w-2xl">
             <p className="eyebrow text-red">Reach the right person</p>
             <h2 className="display-2 mt-2 text-ink">
-              Three desks, three direct lines
+              Two desks, two direct lines
             </h2>
             <p className="mt-4 text-lg leading-8 text-navy-600">
               You can always call the main number, but if you know what you need,
@@ -554,7 +577,7 @@ export default function ContactClient() {
             </p>
           </Reveal>
 
-          <Stagger className="mt-12 grid gap-6 lg:grid-cols-3" stagger={0.1}>
+          <Stagger className="mt-12 grid gap-6 sm:grid-cols-2" stagger={0.1}>
             {DEPARTMENTS.map((d) => (
               <StaggerItem
                 key={d.name}

@@ -53,11 +53,6 @@ const DENISE: BlogAuthor = {
   role: "Financing",
   initials: "DA",
 };
-const RICH: BlogAuthor = {
-  name: "Rich Okafor",
-  role: "Shop Foreman",
-  initials: "RO",
-};
 const MARCUS: BlogAuthor = {
   name: "Marcus Bell",
   role: "Sales",
@@ -117,7 +112,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: "callout",
         title: "What we do with all this",
-        text: "For every car on our lot, we pull the report, do a 150-point mechanical inspection, and put both in the folder you get with the car. If something on the report needs explaining, we'd rather explain it up front than have you find it later.",
+        text: "For every car on our lot, we pull a vehicle history report. If something on it needs explaining, we'd rather explain it up front than have you find it later. For a mechanical once-over, take the car to a shop you trust before you buy.",
       },
       {
         type: "p",
@@ -262,7 +257,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Most of what a used car is hiding, you can spot in the parking lot before the test drive. Here's the walk-around we do on every car that comes through our door.",
     date: "2026-06-23",
     readMinutes: 7,
-    author: RICH,
+    author: GINA,
     image: IMG("photo-1517524008697-84bbe3c3fd98"),
     body: [
       {
@@ -304,8 +299,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "callout",
-        title: "You can borrow our lift",
-        text: "Anything you buy from us has already been through this and a full mechanical inspection. If you're buying elsewhere, you're welcome to bring the car to our [Lodi shop](/service) for a pre-purchase inspection before you commit.",
+        title: "Have a shop you trust look it over",
+        text: "We don't do mechanical work here, so a pre-purchase inspection at an independent shop is the check that actually belongs to you. If you're buying from us, we'll hold the car while you do that. If you're buying elsewhere, the same advice applies — don't skip it.",
       },
     ],
   },
@@ -317,7 +312,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "The \"every 3,000 miles\" rule is decades out of date for most cars. Here's how to find your real interval — and why North Jersey driving pushes it shorter.",
     date: "2026-06-09",
     readMinutes: 6,
-    author: RICH,
+    author: GINA,
     image: IMG("photo-1486262715619-67b85e0b08d3"),
     body: [
       {
@@ -349,8 +344,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "callout",
-        title: "We keep the old filter",
-        text: "When our shop does your oil, we'll show you the old filter and tell you honestly how the rest of the car looks. \"Everything's fine, see you in 5,000\" is a sentence we say most days.",
+        title: "Skip the upsells",
+        text: "An oil change is a good time for someone to check tread, washer fluid, and leaks. It is not a good time to be sold a $400 engine flush. Ask what's actually due — and take the car to a shop you trust, not a place that pads the ticket.",
       },
     ],
   },
@@ -362,7 +357,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "NJ inspection is free at a state station and mostly about emissions. Knowing what it checks — and what makes cars fail — saves you money and a second trip.",
     date: "2026-05-19",
     readMinutes: 6,
-    author: RICH,
+    author: GINA,
     image: IMG("photo-1605893477799-b99e3b8b93fe"),
     body: [
       {
@@ -372,7 +367,7 @@ export const BLOG_POSTS: BlogPost[] = [
       { type: "h2", text: "The number-one reason cars fail: the check-engine light" },
       {
         type: "p",
-        text: "If your check-engine light is on, the car fails, full stop — the inspector can't clear it. Get the code read (many parts stores do it free, or we will), fix the underlying issue, and drive it long enough for the computer to re-run its self-tests before you go back.",
+        text: "If your check-engine light is on, the car fails, full stop — the inspector can't clear it. Get the code read (many parts stores do it free), fix the underlying issue, and drive it long enough for the computer to re-run its self-tests before you go back.",
       },
       { type: "h2", text: "The trap: not-ready monitors" },
       {
@@ -389,8 +384,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "callout",
-        title: "Inspection prep, honestly",
-        text: "Our shop will scan your car and tell you plainly whether it'll pass and what, if anything, actually needs doing first. We're not going to invent work to get you through a test the state runs for free.",
+        title: "Don't overpay for a free test",
+        text: "A parts store can often scan for codes for free. If the check-engine light is off and the car is otherwise healthy, go to a state inspection station. You don't need a dealer \"pre-inspection\" package to pass.",
       },
     ],
   },
@@ -402,7 +397,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "A cold snap finds every weak spot in a car. Twenty minutes in November saves you a no-start in a parking lot in January.",
     date: "2026-05-05",
     readMinutes: 6,
-    author: RICH,
+    author: GINA,
     image: IMG("photo-1533473359331-0135ef1b58bf"),
     body: [
       {
@@ -435,8 +430,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "callout",
-        title: "Free battery and tire check",
-        text: "Bring the car by the [Lodi shop](/service) before the first freeze. We'll test the battery, check your tread and pressures, and tell you what — if anything — is worth doing. No appointment needed for that.",
+        title: "Do this before the first freeze",
+        text: "Test the battery (parts stores often do it free), check tread and pressures, and top off washer fluid. If something looks off, take it to a shop you trust — we don't run a service department.",
       },
     ],
   },

@@ -28,9 +28,9 @@ const SEARCHES = [
 ];
 
 const FACTS = [
-  { big: "2008", small: "Family-owned since" },
-  { big: "Route 46", small: "Lodi, New Jersey" },
-  { big: "7,400+", small: "Cars sold to date" },
+  { big: "No hidden fees", small: "Window price is the price you pay" },
+  { big: "Financing", small: "Soft-pull pre-qualification available" },
+  { big: "Warranty", small: "Coverage included on every car" },
 ];
 
 export default function SeoAbout() {
@@ -73,19 +73,19 @@ export default function SeoAbout() {
                 We stock the kind of cars people actually drive to work and haul
                 the kids around in — used SUVs, sedans, trucks, and hatchbacks
                 from Toyota, Honda, Ford, Nissan, Hyundai, and Subaru, with a few
-                nicer models mixed in. Every car is inspected by our own
-                certified technicians, comes with a free history report, and is
-                backed by a limited warranty. The price you see is the price you
-                pay, plus New Jersey tax, title, registration, and one
-                documentary fee.
+                nicer models mixed in. History reports are available on request,
+                and every car is backed by a limited warranty. The price you see
+                is the price you pay, plus New Jersey tax, title, registration,
+                and one documentary fee. You're welcome to have any car checked
+                by a mechanic you trust before you buy.
               </p>
             </StaggerItem>
             <StaggerItem>
               <p className="text-[15px] leading-7 text-navy-600">
-                Need financing? We work with about a dozen lenders, including
-                local credit unions and programs for first-time buyers and folks
-                rebuilding their credit, and getting pre-qualified uses a soft
-                credit check that won&apos;t affect your score. Have a car to
+                Need financing? We work with lenders, including local credit
+                unions and programs for first-time buyers and folks rebuilding
+                their credit, and getting pre-qualified uses a soft credit check
+                that won&apos;t affect your score. Have a car to
                 trade? We&apos;ll put a fair written offer in your hands in about
                 twenty minutes, whether or not you buy from us.
               </p>

@@ -3,9 +3,9 @@ import { SectionHeading } from "./section-heading";
 import { Stagger, StaggerItem } from "./motion";
 
 /**
- * Lot / showroom / service / team imagery for the homepage.
+ * Lot / showroom / team imagery for the homepage.
  *
- * These are licensed stock stand-ins until the real 412 Route 46 photos are
+ * These are licensed stock stand-ins until the real 22 US 46 East photos are
  * shot. Each tile carries a small "Sample" tag so it is never mistaken for a
  * production photo. Image hosts are allow-listed in next.config remotePatterns.
  *
@@ -20,10 +20,10 @@ type Photo = {
 };
 
 const HERO: Photo = {
-  src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2000&q=70",
-  alt: "Sample photo — vehicles on service lifts in a workshop. To be replaced with a photo of the Bergen Car Company shop at 412 Route 46, Lodi.",
-  label: "The lot & the shop",
-  desc: "Every car goes up on our own lift before it's listed.",
+  src: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=2000&q=70",
+  alt: "Sample photo — used cars on a dealership lot. To be replaced with a photo of Bergen Car Company at 22 US 46 East, Lodi.",
+  label: "The lot on Route 46",
+  desc: "Family-owned. The price on the window is the price you pay.",
 };
 
 const TILES: Photo[] = [
@@ -31,13 +31,13 @@ const TILES: Photo[] = [
     src: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1400&q=70",
     alt: "Sample photo — a used SUV outside a dealership. To be replaced with a photo of the Bergen Car Company lot on Route 46.",
     label: "On the lot",
-    desc: "Inspected and priced on the window.",
+    desc: "Priced on the window.",
   },
   {
-    src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1400&q=70",
-    alt: "Sample photo — a technician working in a service bay. To be replaced with a photo of the Bergen service department.",
-    label: "Service bay",
-    desc: "Any make, written estimate first.",
+    src: "https://images.unsplash.com/photo-1489824904134-441f266464ca?auto=format&fit=crop&w=1400&q=70",
+    alt: "Sample photo — cars parked outside a dealership. To be replaced with a photo of the Bergen showroom.",
+    label: "Stop by anytime",
+    desc: "No appointment needed to look around.",
   },
   {
     src: "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=1400",
@@ -60,7 +60,7 @@ export default function DealershipPhotos() {
     <section className="bg-mist py-14 sm:py-20">
       <div className="container-page">
         <SectionHeading kicker="Our dealership" title="Here on Route 46">
-          A look at the lot, the shop, and the people in Lodi. The photos here
+          A look at the lot and the people in Lodi. The photos here
           are licensed stand-ins while we shoot our own — the place is real, the
           pictures are on the way.
         </SectionHeading>

@@ -48,7 +48,7 @@ const HOW = [
   },
   {
     title: "Bring it in for a quick look",
-    body: "About twenty minutes on the lift. We confirm what you described and put a firm number in writing.",
+    body: "About twenty minutes looking it over in person. We confirm what you described and put a firm number in writing.",
   },
   {
     title: "Get paid the same day",
@@ -88,7 +88,7 @@ const WHY = [
   {
     icon: IconClock,
     title: "Fast, same-day process",
-    body: "Most sellers get a written estimate the day they submit, and a firm offer the day they bring the car in. No weeks of back-and-forth.",
+    body: "Most sellers get a written offer the day they submit, and a firm number the day they bring the car in. No weeks of back-and-forth.",
   },
   {
     icon: IconShield,
@@ -268,7 +268,7 @@ function SellForm() {
         </p>
         <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
           <Button asChild variant="navy">
-            <a href="tel:+19735550142">
+            <a href="tel:+19739286300">
               <IconPhone className="h-4 w-4" />
               Call us now
             </a>
@@ -578,7 +578,7 @@ export default function SellClient() {
             <span className="text-white">
               You do not have to buy anything from us
             </span>
-            . Fair offer, quick inspection, paid the same day.
+            . Fair offer, a look in person, paid the same day.
           </p>
         }
         image="https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=2400&q=70"
@@ -652,10 +652,10 @@ export default function SellClient() {
           <Reveal delay={0.1} className="mt-6 text-[13px] text-navy-500">
             Not sure yours qualifies? Submit it anyway, or call{" "}
             <a
-              href="tel:+19735550142"
+              href="tel:+19739286300"
               className="font-semibold text-navy hover:text-red"
             >
-              (973) 555-0142
+              (973) 928-6300
             </a>{" "}
             — we&apos;ll tell you straight.
           </Reveal>
@@ -763,7 +763,7 @@ export default function SellClient() {
       <section className="bg-navy py-20 text-white sm:py-24">
         <div className="container-page grid gap-10 lg:grid-cols-2 lg:items-center">
           <Reveal>
-            <p className="eyebrow text-gold">Bring these on inspection day</p>
+            <p className="eyebrow text-gold">Bring these when you come in</p>
             <h2 className="display-3 mt-2 text-white">
               A short checklist, so you only make one trip
             </h2>
@@ -819,11 +819,11 @@ export default function SellClient() {
               the showroom — a real person answers.
             </p>
             <a
-              href="tel:+19735550142"
+              href="tel:+19739286300"
               className="mt-6 inline-flex items-center gap-2 rounded-full border border-line-strong bg-mist px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
             >
               <IconPhone className="h-4 w-4 text-gold" />
-              (973) 555-0142
+              (973) 928-6300
             </a>
           </Reveal>
 
@@ -854,7 +854,7 @@ export default function SellClient() {
                   Sell only if the number feels right
                 </h2>
                 <p className="mt-3 text-[15px] leading-7 text-white/70">
-                  Get a written estimate today, bring the car in when it suits
+                  Get a written offer today, bring the car in when it suits
                   you, and walk away with a check — or walk away with no hard
                   feelings.
                 </p>

@@ -7,12 +7,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { currency, estMonthly, miles, type Vehicle } from "../../lib/inventory";
 import {
   WARRANTY,
+  carfaxUrl,
   conditionParagraphs,
+  displayVin,
   engine,
+  features,
+  fitParagraph,
   gallery,
   historyRows,
   interiorColor,
-  vin,
 } from "../../lib/vehicle-details";
 import { Reveal } from "../../components/motion";
 import {
@@ -21,6 +24,7 @@ import {
   IconClock,
   IconClose,
   IconCog,
+  IconExternalLink,
   IconFuel,
   IconGauge,
   IconKey,
@@ -34,8 +38,8 @@ import {
 import InventoryCard from "../inventory-card";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const PHONE = "(973) 555-0142";
-const TEL = "tel:+19735550142";
+const PHONE = "(973) 928-6300";
+const TEL = "tel:+19739286300";
 
 /* ------------------------------ Gallery ------------------------------ */
 
@@ -215,6 +219,8 @@ export default function VehicleDetail({
     v.fuel === "Electric" ? "Electric" : v.drivetrain,
   ].filter(Boolean) as string[];
 
+  const vehicleVin = displayVin(v);
+
   const specs = [
     { icon: IconSpark, label: "Engine", value: engine(v) },
     { icon: IconCog, label: "Transmission", value: v.transmission },
@@ -226,7 +232,7 @@ export default function VehicleDetail({
     { icon: IconKey, label: "Interior color", value: interiorColor(v) },
     { icon: IconShield, label: "Body style", value: v.bodyStyle },
     { icon: IconClock, label: "Model year", value: String(v.year) },
-    { icon: IconShield, label: "VIN", value: vin(v) },
+    { icon: IconShield, label: "VIN", value: vehicleVin },
     {
       icon: IconCheck,
       label: "Stock #",
@@ -236,6 +242,8 @@ export default function VehicleDetail({
 
   const condition = conditionParagraphs(v);
   const history = historyRows(v);
+  const equipment = features(v);
+  const fit = fitParagraph(v);
 
   return (
     <div className="bg-mist pb-28 lg:pb-24">
@@ -333,7 +341,7 @@ export default function VehicleDetail({
 
               <p className="mt-4 flex items-center gap-1.5 text-[12px] text-navy-500">
                 <IconPin className="h-3.5 w-3.5 text-navy-400" />
-                On our lot at 412 Route 46, Lodi, NJ
+                On our lot at 22 US 46 East, Lodi, NJ
               </p>
             </div>
           </motion.aside>
@@ -366,20 +374,47 @@ export default function VehicleDetail({
           </dl>
         </Reveal>
 
+        <Reveal
+          delay={0.05}
+          className="mt-8 rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8"
+        >
+          <h2 className="font-heading text-lg font-bold text-ink">
+            Features &amp; equipment
+          </h2>
+          <p className="mt-1 text-[13px] text-navy-500">
+            Standard on this {v.year} {v.make} {v.model} {v.trim}, based on its
+            trim, drivetrain, and body style.
+          </p>
+          <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {equipment.map((f) => (
+              <li key={f} className="flex items-start gap-2 text-sm text-navy-700">
+                <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
         <div className="mt-8 grid gap-8 lg:grid-cols-[1.3fr_1fr]">
           <Reveal className="rounded-3xl bg-white p-6 ring-1 ring-line shadow-[var(--shadow-card)] sm:p-8">
             <h2 className="font-heading text-lg font-bold text-ink">
-              Condition — straight from our shop
+              Condition notes
             </h2>
             <div className="mt-4 space-y-3.5 text-[15px] leading-7 text-navy-700">
               {condition.map((p) => (
                 <p key={p.slice(0, 24)}>{p}</p>
               ))}
             </div>
+            <div className="mt-4 rounded-2xl bg-mist p-4">
+              <p className="text-[12px] font-semibold uppercase tracking-wide text-navy-500">
+                Why it&apos;s a good fit
+              </p>
+              <p className="mt-1.5 text-[14px] leading-6 text-navy-700">{fit}</p>
+            </div>
             <p className="mt-4 border-t border-line pt-4 text-[13px] text-navy-500">
               Want something checked before you drive out? Tell us and we&apos;ll
-              take extra photos or a video of it, or set the car aside for your
-              own mechanic to look over.
+              take extra photos or a video of it, or set the car aside for a
+              mechanic you trust to look over.
             </p>
           </Reveal>
 
@@ -413,9 +448,28 @@ export default function VehicleDetail({
                 </div>
               ))}
             </dl>
-            <p className="mt-3 text-[12px] text-navy-500">
-              Full Carfax or AutoCheck report is available free — just ask.
-            </p>
+
+            <div className="mt-5 rounded-2xl border border-line bg-mist p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-navy-500">
+                Vehicle history report
+              </p>
+              <p className="mt-1 font-mono text-[13px] font-medium tracking-wide text-ink">
+                VIN {vehicleVin}
+              </p>
+              <a
+                href={carfaxUrl(v)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-navy px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-navy-700 active:scale-[0.98]"
+              >
+                View free Carfax report
+                <IconExternalLink className="h-3.5 w-3.5" />
+              </a>
+              <p className="mt-2 text-[11px] leading-4 text-navy-500">
+                Opens on carfax.com using this vehicle&apos;s VIN. An AutoCheck
+                report is also available — just ask.
+              </p>
+            </div>
           </Reveal>
         </div>
 

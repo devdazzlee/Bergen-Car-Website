@@ -13,8 +13,8 @@ import {
   IconPin,
 } from "./icons";
 
-const PHONE_HREF = "tel:+19735550142";
-const PHONE_DISPLAY = "(973) 555-0142";
+const PHONE_HREF = "tel:+19739286300";
+const PHONE_DISPLAY = "(973) 928-6300";
 
 /** Parse inline [label](/href) links out of policy text. */
 function renderRich(text: string): ReactNode[] {
@@ -111,7 +111,7 @@ function Block({ block }: { block: LegalBlock }) {
             </a>
             <p className="inline-flex items-center gap-2.5 text-navy-600">
               <IconPin className="h-4 w-4 shrink-0 text-navy-400" />
-              412 Route 46, Lodi, NJ 07644
+              22 US 46 East, Lodi, NJ 07644
             </p>
           </div>
         </div>

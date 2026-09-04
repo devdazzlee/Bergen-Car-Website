@@ -14,7 +14,7 @@ const STEPS = [
   {
     icon: IconSearch,
     title: "Find it",
-    body: "Use the search to sort by year, make, model, and budget. Every car shows its price and its inspection report right up front.",
+    body: "Use the search to sort by year, make, model, and budget. Every car shows its price up front.",
   },
   {
     icon: IconWallet,

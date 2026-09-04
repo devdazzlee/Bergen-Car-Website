@@ -50,7 +50,7 @@ export default function AreasClient() {
               />
               <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-semibold text-ink shadow-md backdrop-blur">
                 <IconPin className="h-3.5 w-3.5 text-red" />
-                412 Route 46, Lodi — roughly a 20-mile radius
+                22 US 46 East, Lodi — roughly a 20-mile radius
               </span>
             </div>
             <p className="px-5 py-4 text-[13px] leading-6 text-navy-600 sm:px-7">

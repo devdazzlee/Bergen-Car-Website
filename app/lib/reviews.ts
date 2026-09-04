@@ -4,41 +4,20 @@ export type Review = {
   initials: string;
   date: string; // ISO
   rating: 1 | 2 | 3 | 4 | 5;
-  dept: "Sales" | "Service" | "Financing";
+  dept: "Sales" | "Financing";
   vehicle?: string;
   text: string;
   response?: string;
 };
 
-/** Overall distribution shown in the breakdown bars (all reviews, not just the
- * recent ones listed below). Totals to REVIEW_TOTAL. */
-export const DISTRIBUTION: Record<5 | 4 | 3 | 2 | 1, number> = {
-  5: 548,
-  4: 41,
-  3: 15,
-  2: 5,
-  1: 3,
-};
-export const REVIEW_TOTAL = Object.values(DISTRIBUTION).reduce((a, b) => a + b, 0);
-export const REVIEW_AVG =
-  Math.round(
-    (Object.entries(DISTRIBUTION).reduce(
-      (sum, [k, n]) => sum + Number(k) * n,
-      0,
-    ) /
-      REVIEW_TOTAL) *
-      10,
-  ) / 10;
-
-export const THEMES: { label: string; keyword: string; count: number }[] = [
-  { label: "No pressure", keyword: "pressure", count: 61 },
-  { label: "Fair price", keyword: "price", count: 47 },
-  { label: "Honest about the car", keyword: "honest", count: 39 },
-  { label: "Financing help", keyword: "financ", count: 33 },
-  { label: "Quick paperwork", keyword: "paperwork", count: 24 },
-  { label: "Service department", keyword: "service", count: 22 },
-  { label: "Would come back", keyword: "again", count: 58 },
-  { label: "Trade-in", keyword: "trade", count: 19 },
+export const THEMES: { label: string; keyword: string }[] = [
+  { label: "No pressure", keyword: "pressure" },
+  { label: "Fair price", keyword: "price" },
+  { label: "Honest about the car", keyword: "honest" },
+  { label: "Financing help", keyword: "financ" },
+  { label: "Quick paperwork", keyword: "paperwork" },
+  { label: "Would come back", keyword: "again" },
+  { label: "Trade-in", keyword: "trade" },
 ];
 
 export const FEATURED: Review = {
@@ -81,7 +60,7 @@ export const REVIEWS: Review[] = [
     rating: 5,
     dept: "Sales",
     vehicle: "2021 Toyota 4Runner",
-    text: "Third vehicle we've bought here over the years. Same honest people every time. Their service shop has done all the maintenance on the other two and never once tried to sell us work we didn't need.",
+    text: "Third vehicle we've bought here over the years. Same honest people every time. Nobody pushed add-ons we didn't need.",
   },
   {
     id: "r4",
@@ -101,8 +80,9 @@ export const REVIEWS: Review[] = [
     initials: "MB",
     date: "2026-06-05",
     rating: 5,
-    dept: "Service",
-    text: "Took my truck in for brakes expecting the usual upsell. They measured the pads, showed me the number, and told me the rears could wait another 6 months. Did just the fronts. Out the door for less than I expected.",
+    dept: "Sales",
+    vehicle: "2018 Ram 1500",
+    text: "Looked at a truck and they walked me around the things that weren't perfect — a scrape on the bed and pads that weren't new. Nobody tried to talk past it. Fair price, no games.",
   },
   {
     id: "r6",
@@ -112,7 +92,7 @@ export const REVIEWS: Review[] = [
     rating: 5,
     dept: "Sales",
     vehicle: "2020 Mazda CX-5",
-    text: "First time buying from a used lot instead of a franchise dealer and I was nervous about it. The inspection report they handed me was thorough and they didn't gloss over the two small things it flagged. Felt like they wanted me to know exactly what I was getting.",
+    text: "First time buying from a used lot instead of a franchise dealer and I was nervous about it. They pulled the history report and didn't gloss over the two small things it flagged. Felt like they wanted me to know exactly what I was getting.",
   },
   {
     id: "r7",
@@ -132,9 +112,9 @@ export const REVIEWS: Review[] = [
     rating: 3,
     dept: "Sales",
     vehicle: "2016 Toyota Highlander",
-    text: "The buying process itself was fine and low pressure. Docked two stars because the check-engine light came on a week after I drove off. To their credit, they had me bring it in and covered the sensor under the warranty without any argument. Ended okay but it was a stressful week.",
+    text: "The buying process itself was fine and low pressure. Docked two stars because the check-engine light came on a week after I drove off. To their credit, they helped get the sensor covered under the warranty without any argument. Ended okay but it was a stressful week.",
     response:
-      "Nina, that's a fair three stars — a light coming on that soon is exactly what nobody wants. Glad the warranty did its job. We've added that sensor check to our pre-sale list so it doesn't happen to the next person.",
+      "Nina, that's a fair three stars — a light coming on that soon is exactly what nobody wants. Glad the warranty did its job. Sorry you had that week.",
   },
   {
     id: "r9",
@@ -152,8 +132,9 @@ export const REVIEWS: Review[] = [
     initials: "CW",
     date: "2026-04-29",
     rating: 5,
-    dept: "Service",
-    text: "I don't know much about cars and I've been talked into things before. Rich explained what the noise actually was, showed me the worn part, and it was a $40 fix. Honest shop.",
+    dept: "Sales",
+    vehicle: "2016 Honda Accord",
+    text: "I don't know much about cars and I've been talked into things before. They pointed out a small rattle on the test drive instead of hoping I wouldn't notice. Bought it anyway, eyes open.",
   },
   {
     id: "r11",
@@ -201,8 +182,9 @@ export const REVIEWS: Review[] = [
     initials: "GH",
     date: "2026-03-19",
     rating: 5,
-    dept: "Service",
-    text: "Bought the car elsewhere years ago but they still service it like it's one of theirs. Called before doing anything that wasn't on my list. That's all I want from a shop.",
+    dept: "Sales",
+    vehicle: "2019 Chevrolet Equinox",
+    text: "Bought a car here years ago and came back for the next one. Same people, same straight answers. Called before I drove down to make sure the one I wanted was still on the lot.",
   },
   {
     id: "r16",
@@ -242,7 +224,7 @@ export const REVIEWS: Review[] = [
     rating: 5,
     dept: "Sales",
     vehicle: "2017 Nissan Juke",
-    text: "Needed the cheapest reliable thing on the lot. They didn't treat me like a lesser customer for it. Inspected, warrantied, and it's started every morning since.",
+    text: "Needed the cheapest reliable thing on the lot. They didn't treat me like a lesser customer for it. Warrantied, and it's started every morning since.",
   },
   {
     id: "r20",
@@ -250,8 +232,9 @@ export const REVIEWS: Review[] = [
     initials: "BT",
     date: "2026-02-04",
     rating: 4,
-    dept: "Service",
-    text: "Solid work and fair price on a timing-belt job. Half a star off because they had it a day longer than quoted waiting on a part — but they called to tell me rather than leaving me wondering.",
+    dept: "Sales",
+    vehicle: "2015 Honda Odyssey",
+    text: "Fair deal on a van we needed for the kids. Half a star off because paperwork ran a day longer than quoted waiting on a title — but they called to tell me rather than leaving me wondering.",
   },
   {
     id: "r21",
@@ -299,8 +282,9 @@ export const REVIEWS: Review[] = [
     initials: "AL",
     date: "2025-12-18",
     rating: 5,
-    dept: "Service",
-    text: "NJ inspection prep. They checked it over, told me it would pass as-is, and didn't invent a reason to charge me more. In and out in 25 minutes.",
+    dept: "Sales",
+    vehicle: "2016 Hyundai Elantra",
+    text: "Needed something simple to commute. They didn't invent extra fees at the desk and the window price held. In and out without the usual runaround.",
   },
   {
     id: "r26",

@@ -18,7 +18,7 @@ const sora = Sora({
 const SITE_URL = "https://bergencarcompany.com";
 const TITLE = "Bergen Car Company | Family-Owned Used Car Dealer in Lodi, NJ";
 const DESCRIPTION =
-  "Family-owned used car dealership in Lodi, NJ since 2008. Inspected pre-owned cars, up-front pricing, financing for any credit, and fair trade-in offers.";
+  "Family-owned used car dealership in Lodi, NJ since 2008. Up-front pricing, financing for any credit, and fair trade-in offers.";
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&h=630&q=70";
 

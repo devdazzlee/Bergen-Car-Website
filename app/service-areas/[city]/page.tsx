@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const title = `Used Cars Near ${area.city}, ${area.state}`;
   return {
     title,
-    description: `${area.city} is about ${area.miles} miles from Bergen Car Company on Route 46 in Lodi — a ${area.drive} drive. Inspected used cars, up-front pricing, financing help, and a warranty on every vehicle.`,
+    description: `${area.city} is about ${area.miles} miles from Bergen Car Company on Route 46 in Lodi — a ${area.drive} drive. Up-front pricing, financing help, and a warranty on every vehicle.`,
     alternates: { canonical: `/service-areas/${area.slug}` },
     openGraph: {
       title: `${title} | Bergen Car Company`,
-      description: `Inspected used cars a ${area.drive} drive from ${area.city}. Up-front prices, financing, and a warranty on every car.`,
+      description: `Used cars a ${area.drive} drive from ${area.city}. Up-front prices, financing, and a warranty on every car.`,
       url: `https://bergencarcompany.com/service-areas/${area.slug}`,
     },
   };
@@ -47,7 +47,7 @@ export default async function CityPage({ params }: Params) {
     name: "Bergen Car Company",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "412 Route 46",
+      streetAddress: "22 US 46 East",
       addressLocality: "Lodi",
       addressRegion: "NJ",
       postalCode: "07644",

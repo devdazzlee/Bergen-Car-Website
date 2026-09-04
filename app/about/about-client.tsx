@@ -8,15 +8,16 @@ import { SectionHeading } from "../components/section-heading";
 import { Marquee } from "../components/marquee";
 import PageBanner from "../components/page-banner";
 import { Button } from "../components/ui/button";
-import CountUp from "../components/count-up";
+import AutosalesReviewsBadgeSlot from "../components/autosalesreviews-badge-slot";
+import type { DealerRating } from "../lib/dealer-rating";
 import {
   IconArrowRight,
   IconGauge,
   IconPin,
   IconShield,
   IconStar,
+  IconTruck,
   IconWallet,
-  IconWrench,
 } from "../components/icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -26,10 +27,10 @@ const MAPS =
   "https://www.google.com/maps/dir/?api=1&destination=Lodi,+New+Jersey";
 
 const STORY = [
-  "Bergen Car Company started in 2008, in a two-bay garage off Route 46 that Sal Ferrante had been renting on the side to do brake jobs and state inspections. Sal spent nineteen years as a service manager at a big franchise store down the highway, and he left for one reason: he was tired of watching good customers get talked into work they didn't need, and tired of being the guy who had to sign off on it.",
-  "The plan was almost too simple for a car lot. Buy decent used cars. Fix what actually needs fixing. Put a fair price on the window and leave it there. Tell people the truth about what they're looking at, even when the truth costs us the sale.",
+  "Bergen Car Company started in 2008, on a small lot off Route 46. Sal Ferrante had spent nineteen years as a service manager at a big franchise store down the highway, and he left for one reason: he was tired of watching good customers get talked into work they didn't need, and tired of being the guy who had to sign off on it.",
+  "The plan was almost too simple for a car lot. Buy decent used cars. Put a fair price on the window and leave it there. Tell people the truth about what they're looking at, even when the truth costs us the sale.",
   "The first year was rough. We sold eleven cars in 2008 and nearly closed in 2009, when the credit markets froze and nobody could get a loan. What kept the doors open was a handful of families who came back a second and third time and sent their neighbors. That's still how most of our business walks in — someone's cousin, someone's coworker, someone whose dad bought a truck here in 2012.",
-  "Sal still comes in most mornings and still does a lot of the appraisals himself. His daughter Gina runs the place day to day now. The shop out back is the same shop from 2008, just bigger, and the same idea still runs it: we'd rather lose a sale than earn a bad review.",
+  "Sal still comes in most mornings and still does a lot of the appraisals himself. His daughter Gina runs the place day to day now. We're still on the same stretch of Route 46, and the same idea still runs it: we'd rather lose a sale than earn a bad review.",
   "We're not the cheapest lot in the county on every car, and we won't pretend to be. What we try to be is the one you don't have to keep your guard up at.",
 ];
 
@@ -44,7 +45,7 @@ const MILESTONES = [
   },
   {
     year: "2012",
-    text: "The shop out back doubles in size. State inspections and any-make repair become a steady part of the business.",
+    text: "The lot grows. More cars on the window, same rule: the price you see is the price you pay.",
   },
   {
     year: "2013",
@@ -52,11 +53,11 @@ const MILESTONES = [
   },
   {
     year: "2019",
-    text: "The 7,000th car goes home — bought, like most of them, by someone who lives within ten miles of the lot.",
+    text: "More of our buyers are people who already bought here once, or were sent by someone who did.",
   },
   {
     year: "Today",
-    text: "612 reviews at a 4.9 average, the same corner, and Sal still doing most of the appraisals himself.",
+    text: "Same lot, same idea: the price on the window is the price you pay, and Sal still does most of the appraisals himself.",
   },
 ];
 
@@ -73,13 +74,13 @@ const VALUES = [
   },
   {
     icon: IconGauge,
-    title: "A real inspection first",
-    body: "Every car goes up on a lift and through a full mechanical and safety check by our own techs before it's ever listed. You get the report and a free history report with the car.",
+    title: "Have it checked first",
+    body: "We don't run a repair shop. Take any car to a mechanic you trust before you buy — we'll hold it while you do. If they find something real, we want to know about it too. History reports are available on request.",
   },
   {
-    icon: IconWrench,
+    icon: IconStar,
     title: "We're here after the sale",
-    body: "The same shop that inspected your car can look after it for as long as you own it — any make, at fair independent-shop rates, not dealer markup.",
+    body: "Every car includes a 3-month / 3,000-mile limited warranty. If something covered goes wrong, call us and we'll help you get it handled at a licensed shop — you're not on your own.",
   },
 ];
 
@@ -108,20 +109,38 @@ const TEAM = [
     role: "Financing",
     bio: "Works the phones with our lenders every day. Specializes in first-time buyers and folks rebuilding credit, and will explain every number twice if you want her to.",
   },
-  {
-    initials: "RO",
-    name: "Rich Okafor",
-    role: "Shop foreman",
-    bio: "ASE master technician who runs the inspection bay. If Rich won't put his name on a car, that car doesn't go on the lot. Simple as that.",
-  },
 ];
 
 const AVATAR = ["bg-navy", "bg-red", "bg-gold-600", "bg-navy-600", "bg-navy"];
 
-const STATS = [
-  { value: 18, suffix: "", label: "years on Route 46" },
-  { value: 7400, suffix: "+", label: "cars sold to neighbors" },
-  { value: 612, suffix: "", label: "reviews, 4.9 average" },
+const TRUST = [
+  {
+    title: "No hidden fees",
+    body: "Window price plus tax, title, registration, and one documentary fee. That's the whole list.",
+  },
+  {
+    title: "Financing available",
+    body: "Pre-qualify with a soft pull that won't touch your score. We shop lenders, including local credit unions.",
+  },
+  {
+    title: "Warranty included",
+    body: "Every car comes with a 3-month / 3,000-mile limited powertrain warranty.",
+  },
+];
+
+const SHIPPING_STEPS = [
+  {
+    title: "You find the vehicle",
+    body: "Browse the inventory, or call and ask what we have coming in. We'll send extra photos and a video walkaround of anything you can't see in person.",
+  },
+  {
+    title: "We handle the paperwork remotely",
+    body: "Financing, the bill of sale, and title work can all be done by phone, email, and e-sign — no trip to Lodi required.",
+  },
+  {
+    title: "We arrange the transport",
+    body: "Door-to-door or terminal pickup, we'll get you a shipping quote and coordinate the carrier so the vehicle shows up where you need it.",
+  },
 ];
 
 const TOWNS = [
@@ -139,7 +158,11 @@ const TOWNS = [
   "Fair Lawn",
 ];
 
-export default function AboutClient() {
+export default function AboutClient({
+  rating = null,
+}: {
+  rating?: DealerRating | null;
+}) {
   return (
     <div className="bg-mist">
       <PageBanner
@@ -198,7 +221,7 @@ export default function AboutClient() {
               <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/95 p-4 backdrop-blur">
                 <p className="font-heading text-sm font-bold text-ink">
-                  412 Route 46, Lodi
+                  22 US 46 East, Lodi
                 </p>
                 <p className="mt-0.5 text-[13px] text-navy-600">
                   Same corner since 2008. Come kick the tires.
@@ -214,7 +237,7 @@ export default function AboutClient() {
         <div className="container-page">
           <SectionHeading
             kicker="How we got here"
-            title="From a two-bay garage to the same corner, 18 years on"
+            title="From a two-bay garage to the same corner on Route 46"
           >
             The short version of a longer story. Same idea the whole way through.
           </SectionHeading>
@@ -291,6 +314,47 @@ export default function AboutClient() {
                     {body}
                   </p>
                 </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* nationwide shipping */}
+      <section className="bg-white py-20 sm:py-24">
+        <div className="container-page grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
+          <SectionHeading
+            kicker="Beyond New Jersey"
+            title="We're local, but we ship nationwide"
+          >
+            Most of our buyers are still from Lodi and the surrounding Bergen
+            County towns. But the work vans, former police vehicles, and
+            handicap-accessible vans we stock are the kind of vehicles people
+            search for well outside the state — and we regularly ship them
+            to buyers we&apos;ve never met in person.
+          </SectionHeading>
+
+          <Stagger className="grid gap-5 sm:grid-cols-3 lg:gap-6" stagger={0.1}>
+            {SHIPPING_STEPS.map((s, i) => (
+              <StaggerItem
+                key={s.title}
+                className="relative rounded-2xl border border-line bg-mist/60 p-5"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy text-gold">
+                  {i === 0 ? (
+                    <IconArrowRight className="h-4 w-4" />
+                  ) : i === 1 ? (
+                    <IconShield className="h-4 w-4" />
+                  ) : (
+                    <IconTruck className="h-4 w-4" />
+                  )}
+                </span>
+                <p className="mt-3.5 font-heading text-[15px] font-bold text-ink">
+                  {s.title}
+                </p>
+                <p className="mt-1.5 text-[13.5px] leading-6 text-navy-600">
+                  {s.body}
+                </p>
               </StaggerItem>
             ))}
           </Stagger>
@@ -389,38 +453,34 @@ export default function AboutClient() {
               </p>
               <p>
                 We sponsor the Lodi youth baseball league, we&apos;re set up at
-                the street fair every September, and if you&apos;ve had a car
-                inspected in this town there&apos;s a decent chance it rolled
-                through our shop. That local history is the whole reason a
-                stranger can walk in and trust us with a big purchase — plenty of
-                people in the area already have.
+                the street fair every September. That local history is the whole
+                reason a stranger can walk in and trust us with a big purchase —
+                plenty of people in the area already have.
               </p>
             </div>
           </Reveal>
 
-          <Stagger
-            className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1"
-            stagger={0.1}
-          >
-            {STATS.map((s) => (
-              <StaggerItem
-                key={s.label}
-                className="rounded-2xl border-l-2 border-gold/70 bg-white/5 p-5"
-              >
-                <p className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  {s.label.includes("reviews") ? (
-                    <span className="inline-flex items-center gap-1">
-                      <CountUp value={s.value} />
-                      <IconStar className="h-6 w-6 text-gold" />
-                    </span>
-                  ) : (
-                    <CountUp value={s.value} suffix={s.suffix} />
-                  )}
-                </p>
-                <p className="mt-1 text-[13px] text-white/60">{s.label}</p>
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <div className="space-y-4">
+            <AutosalesReviewsBadgeSlot variant="dark" rating={rating} />
+            <Stagger
+              className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1"
+              stagger={0.1}
+            >
+              {TRUST.map((s) => (
+                <StaggerItem
+                  key={s.title}
+                  className="rounded-2xl border-l-2 border-gold/70 bg-white/5 p-5"
+                >
+                  <p className="font-heading text-lg font-bold tracking-tight text-white">
+                    {s.title}
+                  </p>
+                  <p className="mt-1.5 text-[13px] leading-6 text-white/60">
+                    {s.body}
+                  </p>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
         </div>
 
         <div className="mt-14">
@@ -448,7 +508,7 @@ export default function AboutClient() {
                 </h2>
                 <p className="mt-2 flex items-center gap-1.5 text-[15px] leading-7 text-navy-600">
                   <IconPin className="h-4 w-4 shrink-0 text-red" />
-                  412 Route 46, Lodi, NJ — open Monday through Saturday. No
+                  22 US 46 East, Lodi, NJ — open Monday through Saturday. No
                   appointment needed.
                 </p>
               </div>

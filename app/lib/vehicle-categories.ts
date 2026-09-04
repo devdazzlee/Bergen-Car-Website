@@ -1,3 +1,5 @@
+import type { Vehicle } from "./inventory";
+
 /**
  * Vehicle category landing pages. Titles, meta, permalinks, H1s and body copy
  * are taken verbatim from the client brief ("Bergen Car web Revisions.docx").
@@ -6,7 +8,8 @@
  *   - { kind: "bodyStyle" }  filters by Vehicle.bodyStyle
  *   - { kind: "fuel" }       filters by Vehicle.fuel
  *   - { kind: "flag" }       filters by an additive Vehicle flag
- *                            (commercial / formerPolice / luxury)
+ *                            (commercial / formerPolice / luxury /
+ *                            handicapAccessible)
  *   - { kind: "none" }       no matching field yet, renders an empty state
  */
 
@@ -26,7 +29,10 @@ export type CategoryFilter =
         | "Convertible";
     }
   | { kind: "fuel"; value: "Hybrid" | "Electric" }
-  | { kind: "flag"; value: "commercial" | "formerPolice" | "luxury" }
+  | {
+      kind: "flag";
+      value: "commercial" | "formerPolice" | "luxury" | "handicapAccessible";
+    }
   | { kind: "none" };
 
 export type CategoryGroup = "Body type" | "Vans & work" | "Fuel" | "Premium";
@@ -192,6 +198,24 @@ export const VEHICLE_CATEGORIES: VehicleCategory[] = [
     group: "Vans & work",
   },
   {
+    slug: "used-handicap-accessible-vehicles-lodi-nj",
+    name: "Used Handicap-Accessible Vehicles",
+    navLabel: "Handicap-Accessible",
+    seoTitle: "Used Handicap-Accessible Vehicles in Lodi, NJ | Bergen Car Company",
+    metaDescription:
+      "Shop used handicap-accessible and wheelchair vans in Lodi, NJ. Browse mobility vehicles with ramps or lifts at Bergen Car Company.",
+    permalink: "/used-handicap-accessible-vehicles-lodi-nj",
+    h1: "Used Handicap-Accessible Vehicles in Lodi, NJ",
+    body: [
+      "Find used handicap-accessible vehicles in Lodi, NJ at Bergen Car Company. Wheelchair vans and other mobility vehicles can include side-entry or rear-entry ramps, lowered floors, and lifts so a wheelchair user can ride as a passenger or drive. Availability changes with the lot, and conversion equipment varies from vehicle to vehicle.",
+      "Review the vehicles below and contact us about ramp type, seating layout, tie-downs, and whether the conversion is set up for a driver or a passenger. We can walk you through what is on the lot today and help you compare options before you visit.",
+      "Contact Bergen Car Company to ask about current handicap-accessible inventory or to schedule a look in person.",
+    ],
+    altNoun: "handicap-accessible vehicle",
+    filter: { kind: "flag", value: "handicapAccessible" },
+    group: "Vans & work",
+  },
+  {
     slug: "used-coupes-lodi-nj",
     name: "Used Coupes",
     navLabel: "Coupes",
@@ -324,8 +348,8 @@ export function getCategory(slug: string): VehicleCategory | undefined {
 }
 
 const GROUP_ORDER: CategoryGroup[] = [
-  "Body type",
   "Vans & work",
+  "Body type",
   "Fuel",
   "Premium",
 ];
@@ -336,6 +360,55 @@ export const CATEGORY_GROUPS: { group: CategoryGroup; items: VehicleCategory[] }
     group,
     items: VEHICLE_CATEGORIES.filter((c) => c.group === group),
   }));
+
+export type FeaturedSpecialty = {
+  slug: string;
+  label: string;
+  shortLabel: string;
+  blurb: string;
+  href: string;
+};
+
+/** Homepage + nav highlights. These are featured, not the whole lot. */
+export const FEATURED_SPECIALTIES: FeaturedSpecialty[] = [
+  {
+    slug: "used-cargo-vans-lodi-nj",
+    label: "Work vans",
+    shortLabel: "Work Vans",
+    blurb: "Cargo vans for contractors, deliveries, and the job site.",
+    href: "/used-cargo-vans-lodi-nj",
+  },
+  {
+    slug: "used-police-cars-lodi-nj",
+    label: "Police cars",
+    shortLabel: "Police Cars",
+    blurb: "Former police and fleet vehicles built for hard daily use.",
+    href: "/used-police-cars-lodi-nj",
+  },
+  {
+    slug: "used-handicap-accessible-vehicles-lodi-nj",
+    label: "Handicap-accessible",
+    shortLabel: "Accessible",
+    blurb: "Wheelchair vans and mobility vehicles with ramps or lifts.",
+    href: "/used-handicap-accessible-vehicles-lodi-nj",
+  },
+];
+
+/** In-stock vehicles that belong to a featured specialty category. */
+export function vehiclesForSpecialty(
+  specialty: FeaturedSpecialty,
+  vehicles: Vehicle[],
+): Vehicle[] {
+  const cat = getCategory(specialty.slug);
+  if (!cat) return [];
+  const { filter } = cat;
+  return vehicles.filter((v) => {
+    if (filter.kind === "bodyStyle") return v.bodyStyle === filter.value;
+    if (filter.kind === "flag") return v[filter.value] === true;
+    if (filter.kind === "fuel") return v.fuel === filter.value;
+    return false;
+  });
+}
 
 /** Builds the documented image alt text, e.g.
  *  "Used 2019 Honda CR-V SUV for sale in Lodi NJ" */

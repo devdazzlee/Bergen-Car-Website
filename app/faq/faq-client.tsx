@@ -30,7 +30,6 @@ import {
   IconShield,
   IconSwap,
   IconWallet,
-  IconWrench,
 } from "../components/icons";
 
 type Tab = "All" | FaqCategory;
@@ -40,16 +39,14 @@ const TAB_ICON: Record<Tab, (p: SVGProps<SVGSVGElement>) => ReactNode> = {
   Buying: IconKey,
   Financing: IconWallet,
   "Trade-in": IconSwap,
-  Service: IconWrench,
   Warranty: IconShield,
 };
 
 const BLURB: Record<Tab, string> = {
   All: "Everything buyers ask us, in one place.",
-  Buying: "Test drives, holds, inspections, and how a sale actually goes.",
+  Buying: "Test drives, holds, independent inspections, and how a sale actually goes.",
   Financing: "Credit checks, approvals, rates, and what to bring.",
   "Trade-in": "How we value your car and what happens if you're upside down.",
-  Service: "Using our shop, estimates, and the no-upsell promise.",
   Warranty: "What the included coverage does, and where it stops.",
 };
 
@@ -81,7 +78,6 @@ export default function FaqClient() {
       Buying: 0,
       Financing: 0,
       "Trade-in": 0,
-      Service: 0,
       Warranty: 0,
     };
     for (const f of FAQS) map[f.category] += 1;
@@ -117,12 +113,12 @@ export default function FaqClient() {
         description={
           <p>
             The honest answers to what people ask before they drive to Lodi —
-            about price, credit, trade values, our shop, and the warranty. If
+            about price, credit, trade values, and the warranty. If
             yours isn&apos;t here, call the showroom and ask a person.
           </p>
         }
-        image="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=2400"
-        imageAlt="A technician inspecting a car engine with a work light at Bergen Car Company"
+        image="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=2400&q=70"
+        imageAlt="Used cars on the lot at Bergen Car Company in Lodi, New Jersey"
       >
         <div className="flex flex-wrap gap-2 text-[12px] font-semibold text-white/80">
           {(["All", ...FAQ_CATEGORIES] as Tab[]).map((t) => (
@@ -381,9 +377,9 @@ export default function FaqClient() {
               </div>
               <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
                 <Button asChild variant="gold" size="lg">
-                  <a href="tel:+19735550142">
+                  <a href="tel:+19739286300">
                     <IconPhone className="h-4 w-4" />
-                    (973) 555-0142
+                    (973) 928-6300
                   </a>
                 </Button>
                 <Button

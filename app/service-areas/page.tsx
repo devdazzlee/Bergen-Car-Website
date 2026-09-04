@@ -24,7 +24,7 @@ const jsonLd = {
   name: "Bergen Car Company",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "412 Route 46",
+    streetAddress: "22 US 46 East",
     addressLocality: "Lodi",
     addressRegion: "NJ",
     postalCode: "07644",

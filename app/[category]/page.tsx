@@ -18,7 +18,7 @@ const BANNER_IMG =
 
 type Params = { params: Promise<{ category: string }> };
 
-// Only the 15 documented category slugs are valid; anything else 404s.
+// Only documented category slugs are valid; anything else 404s.
 export const dynamicParams = false;
 
 export function generateStaticParams() {

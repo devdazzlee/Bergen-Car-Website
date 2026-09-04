@@ -15,10 +15,14 @@ import {
   IconPin,
 } from "./icons";
 import { areasByRegion } from "../lib/service-areas";
-import { CATEGORY_GROUPS } from "../lib/vehicle-categories";
+import { CATEGORY_GROUPS, FEATURED_SPECIALTIES } from "../lib/vehicle-categories";
 
 type NavLink = { label: string; href: string; desc?: string };
-type MegaGroup = { heading: string; links: { label: string; href: string }[] };
+type MegaGroup = {
+  heading: string;
+  featured?: boolean;
+  links: { label: string; href: string; desc?: string }[];
+};
 type Mega = {
   title: string;
   allHref: string;
@@ -54,6 +58,15 @@ const SHOP_MEGA: Mega = {
   allHref: "/inventory",
   allLabel: "All inventory",
   groups: [
+    {
+      heading: "Our specialties",
+      featured: true,
+      links: FEATURED_SPECIALTIES.map((s) => ({
+        label: s.label,
+        href: s.href,
+        desc: s.blurb,
+      })),
+    },
     {
       heading: "Browse",
       links: [
@@ -96,7 +109,6 @@ const NAV: NavItem[] = [
       },
     ],
   },
-  { label: "Service", href: "/service" },
   { label: "Service Areas", mega: AREAS_MEGA },
   {
     label: "Resources",
@@ -106,7 +118,7 @@ const NAV: NavItem[] = [
         href: "/blog",
         desc: "Buying, financing & maintenance guides",
       },
-      { label: "Reviews", href: "/reviews", desc: "612 reviews, unedited" },
+      { label: "Reviews", href: "/reviews", desc: "What customers say, unedited" },
       {
         label: "FAQ",
         href: "/faq",
@@ -131,8 +143,8 @@ const NAV: NavItem[] = [
   },
 ];
 
-const PHONE_DISPLAY = "(973) 555-0142";
-const PHONE_HREF = "tel:+19735550142";
+const PHONE_DISPLAY = "(973) 928-6300";
+const PHONE_HREF = "tel:+19739286300";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function isActive(pathname: string, item: NavItem): boolean {
@@ -229,7 +241,7 @@ export default function SiteHeader({
             </span>
             <span className="hidden items-center gap-1.5 md:inline-flex">
               <IconPin className="h-3.5 w-3.5 text-gold" />
-              412 Route 46, Lodi, NJ
+              22 US 46 East, Lodi, NJ
             </span>
           </div>
           <div className="hidden items-center gap-4 lg:flex">
@@ -328,29 +340,63 @@ export default function SiteHeader({
                           </div>
                           <div className="gap-x-6 [column-gap:1.5rem] sm:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
                             {item.mega.groups.map((g) => (
-                              <div key={g.heading}>
+                              <div
+                                key={g.heading}
+                                className={
+                                  g.featured ? "sm:col-span-3 sm:[column-span:all]" : undefined
+                                }
+                              >
                                 <p className="mb-1.5 font-heading text-[12px] font-semibold text-ink">
                                   {g.heading}
                                 </p>
-                                <ul className="space-y-0.5">
-                                  {g.links.map((l) => {
-                                    const childActive = pathname === l.href;
-                                    return (
-                                      <li key={l.href}>
-                                        <Link
-                                          href={l.href}
-                                          className={`block rounded-md px-1.5 py-1 text-[12.5px] transition-colors ${
-                                            childActive
-                                              ? "bg-mist font-semibold text-ink"
-                                              : "text-navy-600 hover:bg-mist hover:text-ink"
-                                          }`}
-                                        >
-                                          {l.label}
-                                        </Link>
-                                      </li>
-                                    );
-                                  })}
-                                </ul>
+                                {g.featured ? (
+                                  <ul className="mb-2 grid gap-2 sm:grid-cols-3">
+                                    {g.links.map((l) => {
+                                      const childActive = pathname === l.href;
+                                      return (
+                                        <li key={l.href}>
+                                          <Link
+                                            href={l.href}
+                                            className={`block rounded-xl border px-3 py-2.5 transition-colors ${
+                                              childActive
+                                                ? "border-navy bg-mist"
+                                                : "border-line bg-mist/60 hover:border-navy hover:bg-mist"
+                                            }`}
+                                          >
+                                            <span className="block font-heading text-[13px] font-semibold text-ink">
+                                              {l.label}
+                                            </span>
+                                            {l.desc && (
+                                              <span className="mt-0.5 block text-[11.5px] leading-4 text-navy-500">
+                                                {l.desc}
+                                              </span>
+                                            )}
+                                          </Link>
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                ) : (
+                                  <ul className="space-y-0.5">
+                                    {g.links.map((l) => {
+                                      const childActive = pathname === l.href;
+                                      return (
+                                        <li key={l.href}>
+                                          <Link
+                                            href={l.href}
+                                            className={`block rounded-md px-1.5 py-1 text-[12.5px] transition-colors ${
+                                              childActive
+                                                ? "bg-mist font-semibold text-ink"
+                                                : "text-navy-600 hover:bg-mist hover:text-ink"
+                                            }`}
+                                          >
+                                            {l.label}
+                                          </Link>
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                )}
                               </div>
                             ))}
                           </div>

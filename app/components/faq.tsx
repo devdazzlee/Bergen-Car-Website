@@ -46,11 +46,11 @@ export default function Faq() {
             </p>
             <div className="mt-5 flex flex-col gap-3">
               <a
-                href="tel:+19735550142"
+                href="tel:+19739286300"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-bold text-ink transition-colors hover:bg-gold-300 active:scale-[0.98]"
               >
                 <IconPhone className="h-4 w-4" />
-                (973) 555-0142
+                (973) 928-6300
               </a>
               <a
                 href="#contact"

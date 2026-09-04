@@ -140,7 +140,7 @@ export default function InventoryExplorer({
       {/* ---- Search widget: the primary element, overlapping the hero ---- */}
       <section
         aria-label="Search inventory"
-        className="relative z-20 -mt-28 sm:-mt-32"
+        className="relative z-20 -mt-24 sm:-mt-28"
       >
         <div className="container-page">
           <motion.div

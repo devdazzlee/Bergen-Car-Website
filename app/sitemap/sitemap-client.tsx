@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Reveal, Stagger, StaggerItem } from "../components/motion";
 import { areasByRegion } from "../lib/service-areas";
 import { LEGAL_NAV } from "../lib/legal";
+import { VEHICLE_CATEGORIES, FEATURED_SPECIALTIES } from "../lib/vehicle-categories";
 import { IconArrowRight } from "../components/icons";
 
 type L = { label: string; href: string };
@@ -15,7 +16,6 @@ const MAIN: L[] = [
   { label: "Financing", href: "/financing" },
   { label: "Trade-in", href: "/trade" },
   { label: "Sell your car", href: "/sell" },
-  { label: "Service & Parts", href: "/service" },
   { label: "Warranty coverage", href: "/warranty" },
   { label: "Schedule a test drive", href: "/test-drive" },
   { label: "Reviews", href: "/reviews" },
@@ -26,12 +26,10 @@ const MAIN: L[] = [
 ];
 
 const CATEGORIES: L[] = [
-  { label: "SUVs", href: "/inventory" },
-  { label: "Sedans", href: "/inventory" },
-  { label: "Trucks", href: "/inventory" },
-  { label: "Hatchbacks", href: "/inventory" },
-  { label: "Under $15,000", href: "/inventory" },
-  { label: "Hybrid & Electric", href: "/inventory" },
+  ...FEATURED_SPECIALTIES.map((s) => ({ label: s.label, href: s.href })),
+  ...VEHICLE_CATEGORIES.filter(
+    (c) => !FEATURED_SPECIALTIES.some((s) => s.slug === c.slug),
+  ).map((c) => ({ label: c.navLabel, href: c.permalink })),
 ];
 
 const REGION_GROUPS = areasByRegion();

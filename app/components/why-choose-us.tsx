@@ -11,13 +11,13 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 const POINTS = [
   {
     icon: IconShield,
-    title: "Every car gets inspected",
-    body: "Our own certified technicians go through each vehicle before it goes up for sale. You get the inspection report and a free history report with the car.",
+    title: "History reports on request",
+    body: "Ask for the vehicle history report on any car you're considering. You're also welcome to take it to a mechanic you trust before you buy — we'll hold it while you do.",
   },
   {
     icon: IconWallet,
     title: "We'll help with the financing",
-    body: "We work with a dozen lenders, including local credit unions, and fill out the application with you. Good credit, rebuilding it, or buying your first car — we'll find what works.",
+    body: "We work with lenders, including local credit unions, and fill out the application with you. Good credit, rebuilding it, or buying your first car — we'll find what works.",
   },
   {
     icon: IconSwap,
@@ -36,8 +36,8 @@ const POINTS = [
   },
   {
     icon: IconGauge,
-    title: "We're here after the sale",
-    body: "Our service shop handles oil changes, brakes, tires, and state inspections for any car — whether you bought it from us or not.",
+    title: "You still talk to us after",
+    body: "We're a small lot. If something comes up after you buy, you call the same people who sold you the car — not a service desk that doesn't know your name.",
   },
 ];
 

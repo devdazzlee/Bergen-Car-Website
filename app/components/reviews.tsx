@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { IconArrowRight, IconStar } from "./icons";
 import { Reveal, Stagger, StaggerItem } from "./motion";
+import AutosalesReviewsBadgeSlot from "./autosalesreviews-badge-slot";
+import type { DealerRating } from "../lib/dealer-rating";
 
 const REVIEWS = [
   {
@@ -29,11 +31,15 @@ const REVIEWS = [
     initials: "FP",
     city: "Lodi, NJ",
     car: "2021 Toyota 4Runner",
-    text: "Third car we've bought from Bergen over the years. Same honest people, and their shop has taken care of all of them since.",
+    text: "Third car we've bought from Bergen over the years. Same honest people every time — nobody pushed add-ons we didn't need.",
   },
 ];
 
-export default function Reviews() {
+export default function Reviews({
+  rating = null,
+}: {
+  rating?: DealerRating | null;
+}) {
   return (
     <section className="relative overflow-hidden bg-mist py-20 sm:py-24">
       <div
@@ -50,25 +56,8 @@ export default function Reviews() {
             <h2 className="display-2 mt-2 text-ink">In their words</h2>
           </Reveal>
 
-          <Reveal
-            delay={0.05}
-            className="flex items-center gap-4 rounded-2xl bg-white px-5 py-4 ring-1 ring-line shadow-[var(--shadow-card)]"
-          >
-            <div>
-              <span className="flex text-gold">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <IconStar key={i} className="h-5 w-5" />
-                ))}
-              </span>
-              <p className="mt-1 font-heading text-lg font-bold leading-none text-ink">
-                4.9 / 5
-              </p>
-            </div>
-            <span className="h-10 w-px bg-line" />
-            <div className="text-[12px] text-navy-500">
-              <p className="font-semibold text-navy-700">612 reviews</p>
-              <p>Google &amp; DealerRater</p>
-            </div>
+          <Reveal delay={0.05}>
+            <AutosalesReviewsBadgeSlot rating={rating} />
           </Reveal>
         </div>
 
@@ -151,7 +140,7 @@ export default function Reviews() {
             href="/reviews"
             className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-navy hover:bg-navy hover:text-white"
           >
-            Read all 612 reviews
+            Read reviews
             <IconArrowRight className="h-4 w-4" />
           </Link>
         </Reveal>

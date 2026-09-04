@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Financing Made Simple | Bergen Car Company",
     description:
-      "Pre-qualify in two minutes with a soft credit check. No score impact, no obligation. We work with a dozen lenders to find your rate.",
+      "Pre-qualify in two minutes with a soft credit check. No score impact, no obligation. We work with multiple lenders to find your rate.",
     url: "https://bergencarcompany.com/financing",
   },
 };

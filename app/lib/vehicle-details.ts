@@ -1,4 +1,4 @@
-import type { Vehicle } from "./inventory";
+import { miles, type Vehicle } from "./inventory";
 
 /* Deterministic, per-vehicle detail data. Same input id → same output every
  * render, so the page is stable and statically prerenderable. Values are
@@ -70,6 +70,21 @@ export function vin(v: Vehicle): string {
   return (wmi + body + yc + plant + serial).slice(0, 17);
 }
 
+/** The vehicle's real VIN when the API provided one; otherwise the
+ * deterministic fabricated stand-in. Prefer this over calling `vin()`
+ * directly anywhere a VIN is shown to a shopper. */
+export function displayVin(v: Vehicle): string {
+  const real = v.vin?.trim();
+  return real ? real : vin(v);
+}
+
+/** Public Carfax vehicle-history lookup for this VIN. Uses the vehicle's
+ * real VIN when the API supplied one; only falls back to the fabricated
+ * stand-in VIN for a vehicle that genuinely has none on file. */
+export function carfaxUrl(v: Vehicle): string {
+  return `https://www.carfax.com/vehicle/${displayVin(v)}`;
+}
+
 export function engine(v: Vehicle): string {
   if (v.fuel === "Electric") return "Dual electric motor";
   const t = v.trim.toLowerCase();
@@ -106,6 +121,162 @@ function milesPerYear(v: Vehicle): number {
   return Math.round(v.mileage / yrs / 500) * 500;
 }
 
+/* --------------------------- Features list --------------------------- */
+
+const BODY_FEATURES: Partial<Record<Vehicle["bodyStyle"], string[]>> = {
+  SUV: ["Roof rails", "60/40 split-folding rear seats", "Rear cargo cover"],
+  Truck: ["Spray-in bed liner", "Trailer tow package", "Running boards"],
+  Minivan: [
+    "Power sliding side doors",
+    "Stow-and-go third-row seating",
+    "Rear-seat climate controls",
+  ],
+  "Cargo Van": [
+    "Cargo partition behind the front seats",
+    "Rear swing-out doors",
+    "Shelving-ready interior",
+  ],
+  "Passenger Van": [
+    "High-capacity bench seating",
+    "Rear HVAC controls",
+  ],
+  Wagon: ["Roof rails", "60/40 split-folding rear seats"],
+  Convertible: ["Power-operated soft top", "Wind deflector"],
+  Hatchback: ["60/40 split-folding rear seats", "Cargo area tie-downs"],
+  Sedan: ["60/40 split-folding rear seats", "Trunk pass-through"],
+  Coupe: ["Sport-tuned suspension"],
+};
+
+const TECH_POOL = [
+  "Backup camera",
+  "Apple CarPlay & Android Auto",
+  "Bluetooth hands-free calling",
+  "Cruise control",
+  "Power windows, locks & mirrors",
+  "Keyless entry",
+  "Alloy wheels",
+  "Heated front seats",
+  "Remote start",
+  "Blind-spot monitoring",
+] as const;
+
+/** Deterministic, fact-driven feature list — body style, drivetrain, fuel
+ * type, and any classifier flags first, then a rotating set of common
+ * equipment so the list still reads differently car to car. */
+export function features(v: Vehicle): string[] {
+  const h = hash(v.id + "feat");
+  const out: string[] = [...(BODY_FEATURES[v.bodyStyle] ?? [])];
+
+  if (v.fuel === "Hybrid") {
+    out.push("Hybrid drivetrain with regenerative braking");
+  } else if (v.fuel === "Electric") {
+    out.push("DC fast-charging capable", "Regenerative braking");
+  }
+
+  if (v.commercial) out.push("Contractor-ready cargo area");
+  if (v.formerPolice) {
+    out.push(
+      "Police-package suspension and brakes",
+      "Heavy-duty alternator and electrical system",
+    );
+  }
+  if (v.handicapAccessible) {
+    out.push("Wheelchair ramp or lift", "Floor-mounted tie-down anchors");
+  }
+  if (v.luxury) {
+    out.push(
+      "Leather-appointed seating",
+      "Premium audio system",
+      "Adaptive cruise control",
+    );
+  }
+
+  const trim = v.trim.toLowerCase();
+  if (/turbo|1\.5t|2\.0t|tfsi/.test(trim)) out.push("Turbocharged engine");
+  if (v.drivetrain === "AWD" || v.drivetrain === "4WD") {
+    out.push(`${v.drivetrain} traction for wet or winter roads`);
+  }
+
+  const start = h % TECH_POOL.length;
+  for (let i = 0; i < TECH_POOL.length && out.length < 9; i++) {
+    const f = TECH_POOL[(start + i) % TECH_POOL.length];
+    if (!out.includes(f)) out.push(f);
+  }
+
+  return Array.from(new Set(out)).slice(0, 9);
+}
+
+/* ----------------------------- Good fit for ----------------------------- */
+
+function fitAudience(v: Vehicle): string {
+  if (v.commercial) return "contractors and small businesses that need cargo room";
+  if (v.formerPolice) return "drivers who want a heavy-duty, highway-proven daily";
+  if (v.handicapAccessible) return "riders who need wheelchair or mobility access";
+  if (v.luxury) return "buyers who want premium features at a used-car price";
+  switch (v.bodyStyle) {
+    case "Truck":
+      return "towing, hauling, and job-site duty";
+    case "SUV":
+    case "Minivan":
+      return "families who need cargo and passenger room";
+    case "Passenger Van":
+      return "carpools, teams, and groups";
+    case "Wagon":
+      return "buyers who want SUV-like cargo room without the size";
+    case "Convertible":
+      return "weekend and fair-weather driving";
+    case "Coupe":
+      return "drivers who want a sportier daily driver";
+    case "Hatchback":
+      return "easy city parking and daily commuting";
+    default:
+      return v.fuel === "Electric" || v.fuel === "Hybrid"
+        ? "keeping fuel costs down on a daily commute"
+        : "a straightforward, reliable daily commuter";
+  }
+}
+
+/** Paragraph explaining who this specific car suits, grounded in its real
+ * body style, drivetrain, fuel economy, flags, and yearly mileage. */
+export function fitParagraph(v: Vehicle): string {
+  const mpy = milesPerYear(v);
+  const audience = fitAudience(v);
+  const usePattern =
+    mpy < 10000
+      ? "lighter-than-average use"
+      : mpy > 15000
+        ? "higher yearly mileage, consistent with steady use"
+        : "normal, everyday use";
+  const econ =
+    v.fuel === "Electric"
+      ? `it's electric, rated at ${v.mpg}, so there's no gas stop to plan around`
+      : v.fuel === "Hybrid"
+        ? `the hybrid drivetrain is rated at ${v.mpg}, which keeps fuel stops less frequent`
+        : `it's rated at ${v.mpg}`;
+  const provenance = v.formerPolice
+    ? " It's a former police vehicle, which means a stiffer suspension, upgraded brakes, and a heavier-duty electrical system than the civilian trim — inspected and reconditioned before it went up for sale."
+    : "";
+  return `This ${v.year} ${v.make} ${v.model} is a good fit for ${audience}. At ${miles(
+    v.mileage,
+  )} — about ${mpy.toLocaleString("en-US")} miles a year — it's seen ${usePattern}, and ${econ}.${provenance}`;
+}
+
+/** Short, fact-driven line for the inventory card — no filler, no boilerplate
+ * repeated across cars. Rotates between a few real details per vehicle. */
+export function cardBlurb(v: Vehicle): string {
+  const h = hash(v.id + "blurb");
+  const mpy = milesPerYear(v);
+  const feats = features(v);
+  const feat = (feats[h % feats.length] ?? feats[0] ?? "a clean, inspected condition").toLowerCase();
+  const owner = ownerCount(v) === 1 ? "One-owner" : "Two-owner";
+  const templates = [
+    `${owner} ${v.model} with ${miles(v.mileage)} — about ${mpy.toLocaleString("en-US")} mi/yr — and ${feat}.`,
+    `${v.exteriorColor} ${v.trim}, well suited for ${fitAudience(v)}, with ${feat}.`,
+    `${miles(v.mileage)} on the odometer, ${owner.toLowerCase()}, includes ${feat}.`,
+  ];
+  return pick(templates, h >>> 2);
+}
+
 const PAINT = [
   "The {color} paint still has a strong shine. There are a couple of small stone chips on the leading edge of the hood and a light scuff on the rear bumper — nothing you'd notice from a few feet away.",
   "The {color} finish is clean and even, with only fine swirl marks visible in direct sun. We found no dents, no rust, and no repainted panels.",
@@ -117,9 +288,9 @@ const INSIDE = [
   "The {interior} interior presents well. There's some shine on the steering wheel and a small mark on the center console, but nothing torn or broken.",
 ];
 const MECH = [
-  "Mechanically it's ready to go. We changed the oil, replaced the cabin and engine air filters, and mounted {tires}. The A/C blows cold and there are no warning lights on the dash.",
-  "Our shop went through it, replaced the front brake pads and rotors, and topped off every fluid. It drives straight, shifts smoothly, and there are no leaks underneath.",
-  "It came in running well. We serviced it, installed {tires}, and did a four-wheel alignment. Everything electrical works — windows, locks, backup camera, and Bluetooth.",
+  "It starts, drives, and shifts the way it should. The A/C blows cold, there are no warning lights on the dash, and it currently wears {tires}.",
+  "It drives straight and shifts smoothly. No warning lights, and we didn't see leaks underneath on the lot.",
+  "It's a clean driver as presented. Windows, locks, backup camera, and Bluetooth all work, and it currently wears {tires}.",
 ];
 const TIRES = [
   "four new tires",

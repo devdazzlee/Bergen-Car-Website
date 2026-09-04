@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { currency, estMonthly, miles, type Vehicle } from "../lib/inventory";
+import { cardBlurb } from "../lib/vehicle-details";
 import { IconArrowRight, IconGauge, IconRoad } from "../components/icons";
 
 const TAG_STYLES: Record<NonNullable<Vehicle["tag"]>, string> = {
@@ -51,6 +52,9 @@ export default function InventoryCard({
           {vehicle.make} {vehicle.model}
         </h3>
         <p className="text-sm text-navy-600">{vehicle.trim}</p>
+        <p className="mt-1.5 line-clamp-2 text-[13px] leading-5 text-navy-500">
+          {cardBlurb(vehicle)}
+        </p>
 
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-navy-600">
           <span className="inline-flex items-center gap-1.5">

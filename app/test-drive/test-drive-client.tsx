@@ -41,8 +41,8 @@ import {
   IconSpark,
 } from "../components/icons";
 
-const TEL = "tel:+19735550142";
-const PHONE = "(973) 555-0142";
+const TEL = "tel:+19739286300";
+const PHONE = "(973) 928-6300";
 
 const TIME_SLOTS = [
   "First available",
@@ -143,7 +143,7 @@ function gcalLink(vehicle: Vehicle, date: Date, timeLabel: string) {
     ctz: "America/New_York",
     details:
       "Test drive at Bergen Car Company. Bring a valid driver's license. No obligation to buy.",
-    location: "412 Route 46, Lodi, NJ 07644",
+    location: "22 US 46 East, Lodi, NJ 07644",
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
@@ -736,7 +736,7 @@ export default function TestDriveClient({ vehicles }: { vehicles: Vehicle[] }) {
             </ul>
             <p className="mt-6 flex items-center gap-2 text-[13px] text-navy-500">
               <IconPin className="h-4 w-4 text-navy-400" />
-              412 Route 46, Lodi, NJ 07644
+              22 US 46 East, Lodi, NJ 07644
             </p>
           </Reveal>
 

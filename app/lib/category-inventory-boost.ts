@@ -36,6 +36,7 @@ type Seed = Pick<
   commercial?: boolean;
   formerPolice?: boolean;
   luxury?: boolean;
+  handicapAccessible?: boolean;
 };
 
 /** Demo templates cycled when a category needs more than hand-entered stock. */
@@ -88,6 +89,12 @@ const BOOST_SEEDS: Record<string, Seed[]> = {
     { make: "Ford", model: "Police Interceptor Sedan", trim: "AWD", bodyStyle: "Sedan", drivetrain: "AWD", transmission: "6-Speed Automatic", fuel: "Gasoline", exteriorColor: "Oxford White", mpg: "16 city / 24 hwy", formerPolice: true },
     { make: "Dodge", model: "Charger", trim: "Police Pursuit", bodyStyle: "Sedan", drivetrain: "RWD", transmission: "8-Speed Automatic", fuel: "Gasoline", exteriorColor: "Black", mpg: "16 city / 25 hwy", formerPolice: true },
     { make: "Ford", model: "Police Interceptor Utility", trim: "AWD", bodyStyle: "SUV", drivetrain: "AWD", transmission: "6-Speed Automatic", fuel: "Gasoline", exteriorColor: "Silver", mpg: "16 city / 21 hwy", formerPolice: true },
+  ],
+  "used-handicap-accessible-vehicles-lodi-nj": [
+    { make: "Chrysler", model: "Pacifica", trim: "Touring Wheelchair", bodyStyle: "Minivan", drivetrain: "FWD", transmission: "9-Speed Automatic", fuel: "Gasoline", exteriorColor: "Bright White", mpg: "19 city / 28 hwy", handicapAccessible: true },
+    { make: "Toyota", model: "Sienna", trim: "LE Mobility", bodyStyle: "Minivan", drivetrain: "FWD", transmission: "8-Speed Automatic", fuel: "Gasoline", exteriorColor: "Celestial Silver", mpg: "18 city / 24 hwy", handicapAccessible: true },
+    { make: "Honda", model: "Odyssey", trim: "EX Side-Entry", bodyStyle: "Minivan", drivetrain: "FWD", transmission: "10-Speed Automatic", fuel: "Gasoline", exteriorColor: "Platinum White Pearl", mpg: "19 city / 28 hwy", handicapAccessible: true },
+    { make: "BraunAbility", model: "Chrysler Voyager", trim: "Wheelchair Van", bodyStyle: "Minivan", drivetrain: "FWD", transmission: "9-Speed Automatic", fuel: "Gasoline", exteriorColor: "Bright White", mpg: "19 city / 28 hwy", handicapAccessible: true },
   ],
   "used-coupes-lodi-nj": [
     { make: "Ford", model: "Mustang", trim: "EcoBoost", bodyStyle: "Coupe", drivetrain: "RWD", transmission: "10-Speed Automatic", fuel: "Gasoline", exteriorColor: "Oxford White", mpg: "21 city / 31 hwy" },
@@ -179,6 +186,7 @@ function boostVehicle(
     commercial: seed.commercial,
     formerPolice: seed.formerPolice,
     luxury: seed.luxury,
+    handicapAccessible: seed.handicapAccessible,
   };
 }
 

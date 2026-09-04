@@ -28,13 +28,13 @@ export const VEHICLE_SPECIALS: VehicleSpecial[] = [
     wasPrice: 16100,
     headline: "Now under $15,000",
     detail:
-      "Dropped $1,200. 8-speed automatic, 40 highway MPG, fresh inspection. A straightforward commuter or first car.",
+      "Dropped $1,200. 8-speed automatic, 40 highway MPG. A straightforward commuter or first car.",
   },
   {
     vehicleId: "bcc-2017-ford-f150",
     badge: "Just reduced",
     wasPrice: 25500,
-    headline: "$1,500 off — inspection and warranty still included",
+    headline: "$1,500 off — warranty still included",
     detail:
       "XLT SuperCrew 4x4 with the 5.0L V8. It's been on the lot a while, so the price came down. Everything else about how we sell it is the same.",
   },
@@ -43,7 +43,7 @@ export const VEHICLE_SPECIALS: VehicleSpecial[] = [
     badge: "Under $12k",
     headline: "The lowest-priced car on our lot right now",
     detail:
-      "$11,995 for a running, inspected, warrantied car with a clean title. Not a fixer-upper, not a project — just an honest cheap car.",
+      "$11,995 for a running, warrantied car with a clean title. Not a fixer-upper, not a project — just an honest cheap car.",
   },
   {
     vehicleId: "bcc-2021-toyota-4runner",

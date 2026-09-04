@@ -10,7 +10,7 @@ export type ServiceArea = {
   city: string;
   state: "NJ" | "NY";
   county: string;
-  /** Approx. driving miles to 412 Route 46, Lodi. */
+  /** Approx. driving miles to 22 US 46 East, Lodi. */
   miles: number;
   /** Human drive-time phrase, e.g. "10–15 minute". */
   drive: string;
@@ -20,8 +20,8 @@ export type ServiceArea = {
   intro: string;
 };
 
-export const LOT_ADDRESS = "412 Route 46, Lodi, NJ 07644";
-export const LOT_MAPS_QUERY = "412 Route 46, Lodi, NJ 07644";
+export const LOT_ADDRESS = "22 US 46 East, Lodi, NJ 07644";
+export const LOT_MAPS_QUERY = "22 US 46 East, Lodi, NJ 07644";
 
 export const SERVICE_AREAS: ServiceArea[] = [
   // ---------------- Bergen County ----------------

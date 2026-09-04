@@ -32,8 +32,8 @@ export type LegalDoc = {
   sections: LegalSection[];
 };
 
-const ADDRESS = "Bergen Car Company, 412 Route 46, Lodi, NJ 07644";
-const PHONE = "(973) 555-0142";
+const ADDRESS = "Bergen Car Company, 22 US 46 East, Lodi, NJ 07644";
+const PHONE = "(973) 928-6300";
 
 /* ------------------------------------------------------------------ *
  * Privacy Policy
@@ -51,7 +51,7 @@ const privacy: LegalDoc = {
       blocks: [
         {
           kind: "p",
-          text: "Bergen Car Company, Inc. (“Bergen Car Company,” “we,” “us”) operates the dealership at 412 Route 46 in Lodi, New Jersey and this website. This policy explains what information we collect from you, why we collect it, how we keep it safe, and the choices you have. It applies to information we collect on this site, over the phone, by email, and in person at the dealership.",
+          text: "Bergen Car Company, Inc. (“Bergen Car Company,” “we,” “us”) operates the dealership at 22 US 46 East in Lodi, New Jersey and this website. This policy explains what information we collect from you, why we collect it, how we keep it safe, and the choices you have. It applies to information we collect on this site, over the phone, by email, and in person at the dealership.",
         },
         {
           kind: "p",

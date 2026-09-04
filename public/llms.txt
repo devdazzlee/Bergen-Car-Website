@@ -1,12 +1,12 @@
 # Bergen Car Company
 
-> Family-owned used car dealership at 412 Route 46, Lodi, New Jersey 07644. Operating since 2008. Sells inspected pre-owned cars, SUVs, and trucks with up-front pricing (no dealer prep or add-on fees beyond NJ tax, title, registration, and a $499 documentary fee), arranges financing across ~12 lenders for all credit situations, buys cars and takes trade-ins with written same-day offers, and runs a service shop for any make. Phone: (973) 555-0142. Showroom hours: Mon–Fri 9–8, Sat 9–6, Sun 11–4.
+> Family-owned used car dealership at 22 US 46 East, Lodi, New Jersey 07644. Operating since 2008. Specializes in work vans, police cars, and handicap-accessible vehicles, and also sells pre-owned sedans, SUVs, trucks, and the rest of a general used-car lot. Up-front pricing (no dealer prep or add-on fees beyond NJ tax, title, registration, and a $499 documentary fee), arranges financing for all credit situations, and buys cars and takes trade-ins with written same-day offers. Does not operate a repair shop. Phone: (973) 928-6300. Showroom hours: Mon–Fri 9–8, Sat 9–6, Sun 11–4.
 
 ## Key facts
 
-- Location: 412 Route 46, Lodi, NJ 07644 (Bergen County)
+- Location: 22 US 46 East, Lodi, NJ 07644 (Bergen County)
 - Every vehicle includes a 3-month / 3,000-mile limited powertrain warranty; extended service contracts optional
-- Every vehicle gets a 150-point inspection; the report and a vehicle history report come with the car
+- Vehicle history reports available on request; independent mechanic inspections encouraged before purchase
 - Financing uses a soft credit pull for pre-qualification (no score impact, no SSN required to start)
 - Trade-in and outright-purchase offers are written, same-day, and shown with the underlying math
 - No countdown timers or manufactured scarcity on the specials page
@@ -16,16 +16,18 @@
 
 - [Home](https://bergencarcompany.com/): overview of the dealership and current featured inventory
 - [Inventory](https://bergencarcompany.com/inventory): all vehicles in stock, filterable by price, mileage, year, make, model, and body style
+- [Work vans / cargo vans](https://bergencarcompany.com/used-cargo-vans-lodi-nj)
+- [Police cars](https://bergencarcompany.com/used-police-cars-lodi-nj)
+- [Handicap-accessible vehicles](https://bergencarcompany.com/used-handicap-accessible-vehicles-lodi-nj)
 - [This month's specials](https://bergencarcompany.com/specials): current price drops and financing offers, refreshed monthly
 - [Financing](https://bergencarcompany.com/financing): pre-qualification form, payment estimator, and how credit checks work
 - [Value your trade-in](https://bergencarcompany.com/trade): trade-in estimate form and how the offer is calculated
 - [Sell your car](https://bergencarcompany.com/sell): sell a car outright with no purchase required
 - [Schedule a test drive](https://bergencarcompany.com/test-drive): book a specific car and time
-- [Service & Parts](https://bergencarcompany.com/service): schedule service for any make; typical price ranges; how estimates work
 - [Warranty coverage](https://bergencarcompany.com/warranty): what the included warranty covers, extended options, FTC Buyers Guide explained
 - [Reviews](https://bergencarcompany.com/reviews): customer reviews with owner responses
 - [About](https://bergencarcompany.com/about): company history and team
-- [Contact](https://bergencarcompany.com/contact): phone, text, email, department lines, map and hours
+- [Contact](https://bergencarcompany.com/contact): phone, text, email, map and hours
 - [Service areas](https://bergencarcompany.com/service-areas): hub linking every town-specific page
 - [Blog](https://bergencarcompany.com/blog): guides on used-car buying, financing, and maintenance
 

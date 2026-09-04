@@ -17,7 +17,7 @@ export function categorySeo(c: VehicleCategory): SeoBlock {
     kicker: c.navLabel,
     intro: [
       ...c.body,
-      "Every vehicle is inspected on our own lift, priced on the window, and sold with a [3-month / 3,000-mile warranty](/warranty). You can [get pre-qualified](/financing) online, value your [trade-in](/trade), and [schedule a test drive](/test-drive) before you visit our Lodi showroom.",
+      "Every vehicle is priced on the window and sold with a [3-month / 3,000-mile warranty](/warranty). You can [get pre-qualified](/financing) online, value your [trade-in](/trade), and [schedule a test drive](/test-drive) before you visit our Lodi showroom. History reports are available on request, and you're welcome to have any car checked by a mechanic you trust.",
     ],
     faqs: categoryFaqs(c),
   };
@@ -30,7 +30,7 @@ function categoryFaqs(c: VehicleCategory): Faq[] {
   const shared: Faq[] = [
     {
       q: `Do you have ${short} in stock right now?`,
-      a: `Inventory changes weekly. The vehicles listed above are what we have on the lot today — filter by price, mileage, and year, or call (973) 555-0142 and we'll confirm availability on any ${label.toLowerCase()} you're interested in.`,
+      a: `Inventory changes weekly. The vehicles listed above are what we have on the lot today — filter by price, mileage, and year, or call (973) 928-6300 and we'll confirm availability on any ${label.toLowerCase()} you're interested in.`,
     },
     {
       q: "Are the online prices the real prices?",
@@ -38,7 +38,7 @@ function categoryFaqs(c: VehicleCategory): Faq[] {
     },
     {
       q: "Can I finance a purchase at Bergen Car Company?",
-      a: "Yes. Our [pre-qualification form](/financing) uses a soft credit check that won't affect your score, and we work with about a dozen lenders for strong, rebuilding, and first-time credit.",
+      a: "Yes. Our [pre-qualification form](/financing) uses a soft credit check that won't affect your score, and we work with multiple lenders for strong, rebuilding, and first-time credit.",
     },
     {
       q: "Can I trade in my current car?",
@@ -46,26 +46,32 @@ function categoryFaqs(c: VehicleCategory): Faq[] {
     },
     {
       q: "Can I test-drive before I buy?",
-      a: "Absolutely. [Schedule a test drive](/test-drive) online and we'll have the car up front with plates on when you arrive at 412 Route 46 in Lodi.",
+      a: "Absolutely. [Schedule a test drive](/test-drive) online and we'll have the car up front with plates on when you arrive at 22 US 46 East in Lodi.",
     },
   ];
 
   const byGroup: Record<VehicleCategory["group"], Faq> = {
     "Body type": {
       q: `What should I look for when buying a used ${short.slice(0, -1) || short}?`,
-      a: `Compare mileage, service history, safety features, and total ownership cost — not just the monthly payment. Every car here gets a 150-point inspection and a vehicle history report. Ask for either on any ${label.toLowerCase()} you're considering.`,
+      a: `Compare mileage, service history, safety features, and total ownership cost — not just the monthly payment. Ask for the vehicle history report on any ${label.toLowerCase()} you're considering, and take it to a shop you trust before you buy.`,
     },
     "Vans & work": {
-      q: `Can I use a ${label.toLowerCase()} for my business?`,
-      a: "Many of our commercial and fleet vehicles are suited to contracting, delivery, and transportation work. Tell us your payload, seating, or towing needs and we'll help you compare what's on the lot.",
+      q:
+        c.slug === "used-handicap-accessible-vehicles-lodi-nj"
+          ? "What kind of accessibility equipment do these vehicles have?"
+          : `Can I use a ${label.toLowerCase()} for my business?`,
+      a:
+        c.slug === "used-handicap-accessible-vehicles-lodi-nj"
+          ? "It varies by vehicle — side-entry or rear-entry ramps, lowered floors, and lifts are common. Call us with the listing you're looking at and we'll go over ramp type, seating, tie-downs, and whether it's set up for a driver or a passenger."
+          : "Many of our commercial and fleet vehicles are suited to contracting, delivery, and transportation work. Tell us your payload, seating, or towing needs and we'll help you compare what's on the lot.",
     },
     Fuel: {
       q: `What should I know about owning a used ${short.slice(0, -1) || short}?`,
-      a: `Ask about battery health, estimated range, charging or fuel economy, and maintenance history. Our technicians inspect every unit on the lift and can walk you through what to expect for daily driving in North Jersey.`,
+      a: `Ask about battery health, estimated range, charging or fuel economy, and maintenance history. We'll walk you through what to expect for daily driving in North Jersey, and you're welcome to have an independent shop look it over before you buy.`,
     },
     Premium: {
       q: `Are your ${label.toLowerCase()} inspected differently?`,
-      a: "Every luxury vehicle gets the same 150-point mechanical and safety inspection as the rest of our inventory, plus a closer look at electronics, driver-assistance systems, and interior wear. History reports are available on request.",
+      a: "We don't run a repair shop, so there is no separate in-house mechanical inspection for luxury cars. History reports are available on request, and we encourage you to have any car checked by a mechanic you trust before you buy.",
     },
   };
 
@@ -79,14 +85,14 @@ export const HOME_SEO: SeoBlock = {
   heading: "Used cars in Lodi, NJ — the short version",
   kicker: "About Bergen Car Company",
   intro: [
-    "Bergen Car Company is a family-owned used car dealership at 412 Route 46 in Lodi, New Jersey, run by the Ferrante family since 2008. Every car in our [inventory](/inventory) is inspected on our own lift, priced on the window with no surprise add-ons, and sold with a 3-month / 3,000-mile [warranty](/warranty).",
-    "We handle the whole purchase in one place: [financing](/financing) across about a dozen lenders for any credit situation, a fair written offer on your [trade-in](/trade) or an [outright purchase](/sell) of your car, and a [service shop](/service) that looks after any make afterward. You can [schedule a test drive](/test-drive), check this month's [specials](/specials), or read what customers say in our [reviews](/reviews).",
+    "Bergen Car Company is a family-owned used car dealership at 22 US 46 East in Lodi, New Jersey, run by the Ferrante family since 2008. We specialize in [work vans](/used-cargo-vans-lodi-nj), [police cars](/used-police-cars-lodi-nj), and [handicap-accessible vehicles](/used-handicap-accessible-vehicles-lodi-nj), and we also keep a full lot of sedans, SUVs, trucks, and everyday used cars. Every car in our [inventory](/inventory) is priced on the window with no surprise add-ons, and sold with a 3-month / 3,000-mile [warranty](/warranty). History reports are available on request.",
+    "We handle the purchase in one place: [financing](/financing) across multiple lenders for any credit situation, and a fair written offer on your [trade-in](/trade) or an [outright purchase](/sell) of your car. We don't operate a repair shop — for maintenance, use a shop you trust. You can [schedule a test drive](/test-drive), check this month's [specials](/specials), or read what customers say in our [reviews](/reviews).",
     "Most of our buyers come from Bergen, Passaic, Hudson, and Essex counties — see the town-by-town details on our [service areas](/service-areas) page, or browse every question we get on the [FAQ](/faq).",
   ],
   faqs: [
     {
       q: "Where is Bergen Car Company located?",
-      a: "At 412 Route 46 in Lodi, New Jersey 07644, in Bergen County, on the eastbound side. Showroom hours are Monday–Friday 9 AM–8 PM, Saturday 9 AM–6 PM, and Sunday 11 AM–4 PM. Call or text (973) 555-0142.",
+      a: "At 22 US 46 East in Lodi, New Jersey 07644, in Bergen County, on the eastbound side. Showroom hours are Monday–Friday 9 AM–8 PM, Saturday 9 AM–6 PM, and Sunday 11 AM–4 PM. Call or text (973) 928-6300.",
     },
     {
       q: "Are the online prices the real out-the-door prices?",
@@ -101,8 +107,8 @@ export const HOME_SEO: SeoBlock = {
       a: "Yes. Use [Value your trade](/trade) if you're shopping with us, or [Sell your car](/sell) to sell it outright with no purchase required. Both get you a written same-day offer.",
     },
     {
-      q: "Do you service cars you didn't sell?",
-      a: "Yes. The [service shop](/service) is open to everyone, any make or model, with a written estimate before any work starts.",
+      q: "Do you have a service department?",
+      a: "No. We're a used-car lot, not a repair shop. For oil changes, brakes, and state inspection, use a mechanic you trust. If a covered [warranty](/warranty) issue comes up after you buy, call us and we'll help you start a claim at a licensed facility.",
     },
   ],
 };
@@ -110,7 +116,7 @@ export const HOME_SEO: SeoBlock = {
 export const INVENTORY_SEO: SeoBlock = {
   heading: "Buying a used car at Bergen Car Company",
   intro: [
-    "Every vehicle in our Lodi [inventory](/inventory) is a used car we've bought, inspected on our own lift, and priced against the current North Jersey market. The number you see online is the selling price — New Jersey sales tax, title, registration, and a $499 documentary fee are the only additions, and no dealer add-on is a condition of the sale.",
+    "Every vehicle in our Lodi [inventory](/inventory) is a used car we've bought and priced against the current North Jersey market. The number you see online is the selling price — New Jersey sales tax, title, registration, and a $499 documentary fee are the only additions, and no dealer add-on is a condition of the sale.",
     "You can line up [financing](/financing) before you visit, get a written value on your [trade-in](/trade), and [book a test drive](/test-drive) so the car is up front with plates on. Every car also includes a [3-month / 3,000-mile warranty](/warranty).",
     "Stock changes constantly. If the car you want has sold, tell us what you were after and we'll watch the auctions for the next one — or check the [specials](/specials) page for current price drops.",
   ],
@@ -120,8 +126,8 @@ export const INVENTORY_SEO: SeoBlock = {
       a: "Yes. The price shown is the selling price. New Jersey tax, title, registration, and one $499 documentary fee are added at signing — that's the entire list. There is no prep fee, no mandatory warranty, and no market adjustment.",
     },
     {
-      q: "Can I see the inspection and history report before I come in?",
-      a: "Yes. Every car gets a 150-point mechanical and safety inspection by our technicians, and a vehicle history report is pulled. Ask for either on any car you're considering and we'll send it over. Our [blog post on reading a history report](/blog/reading-a-used-car-history-report) explains what to look for.",
+      q: "Can I see a history report before I come in?",
+      a: "Yes. We pull a vehicle history report on every car. Ask for it on any car you're considering and we'll send it over. Our [blog post on reading a history report](/blog/reading-a-used-car-history-report) explains what to look for.",
     },
     {
       q: "Do you negotiate on price?",
@@ -133,37 +139,7 @@ export const INVENTORY_SEO: SeoBlock = {
     },
     {
       q: "Can my mechanic inspect the car first?",
-      a: "Absolutely, and we encourage it. Take the car to any shop you trust before you buy, and we'll give you our inspection report to compare notes.",
-    },
-  ],
-};
-
-export const SERVICE_SEO: SeoBlock = {
-  heading: "Service and repair for any make in Lodi",
-  intro: [
-    "Bergen Car Company's [service shop](/service) is open to everyone, whether you bought your car from us or not, and works on any make or model. The technicians who inspect our [inventory](/inventory) are the same people who look after your car.",
-    "You get a written estimate — parts, labor, and time — before any work begins, and nothing is done without your approval. Our guides on [oil-change intervals](/blog/how-often-oil-change) and [New Jersey inspection](/blog/new-jersey-inspection-without-overpaying) go deeper on the routine stuff.",
-  ],
-  faqs: [
-    {
-      q: "Can you service a car I didn't buy from you?",
-      a: "Yes. The shop is open to everyone, any make or model. You do not need to have bought the car here.",
-    },
-    {
-      q: "Will you push work I don't actually need?",
-      a: "No. You get a written estimate before anything starts, we call before touching anything not on your list, and we keep the old parts so you can see what came off. \"That can wait another six months\" is a sentence our techs say often.",
-    },
-    {
-      q: "Do you do New Jersey state inspection?",
-      a: "We do inspection prep and any repairs needed to pass. We'll check the car over, tell you honestly whether it will pass as-is, and only recommend what's actually required.",
-    },
-    {
-      q: "What are the service department hours?",
-      a: "Monday to Friday 7:30 AM to 6:00 PM, Saturday 8:00 AM to 3:00 PM, closed Sunday. The service desk opens earlier than the showroom so you can drop a car before work.",
-    },
-    {
-      q: "How much do common jobs cost?",
-      a: "Typical ranges: oil and filter $45–$95, tire rotation $30–$45, front brakes $260–$420 per axle, battery installed $180–$320, check-engine diagnosis $95–$140 (credited toward the repair if you have us do it). Your car is quoted in writing before we start.",
+      a: "Absolutely, and we encourage it. We don't have an in-house shop, so take the car to any mechanic you trust before you buy. We'll hold it while you do.",
     },
   ],
 };
@@ -181,7 +157,7 @@ export const SPECIALS_SEO: SeoBlock = {
     },
     {
       q: "Why is a particular car marked down?",
-      a: "Usually one of three reasons: it has been on the lot longer than we'd like, we bought it below market and are passing that along, or a newer arrival made it redundant. It is not because something is wrong with it — the inspection report is on every listing.",
+      a: "Usually one of three reasons: it has been on the lot longer than we'd like, we bought it below market and are passing that along, or a newer arrival made it redundant. It is not because something is wrong with it — the listing still has photos, specs, and a history report on request.",
     },
     {
       q: "Can I combine a price markdown with a financing special?",
@@ -197,7 +173,7 @@ export const SPECIALS_SEO: SeoBlock = {
 export const TESTDRIVE_SEO: SeoBlock = {
   heading: "Test drives at Bergen Car Company",
   intro: [
-    "Booking a [test drive](/test-drive) takes about a minute: pick a car from the [inventory](/inventory), pick a time, and the keys and plates are ready when you arrive at 412 Route 46 in Lodi. Booking one is not a commitment to buy anything.",
+    "Booking a [test drive](/test-drive) takes about a minute: pick a car from the [inventory](/inventory), pick a time, and the keys and plates are ready when you arrive at 22 US 46 East in Lodi. Booking one is not a commitment to buy anything.",
     "A valid driver's license is the only thing you need to bring — our dealer policy covers the insurance. If you want a payment figure first, [get pre-qualified](/financing) with a soft credit check, and bring your current car if you'd like a [trade-in](/trade) value while you're here.",
   ],
   faqs: [
@@ -223,7 +199,7 @@ export const TESTDRIVE_SEO: SeoBlock = {
 export const CONTACT_SEO: SeoBlock = {
   heading: "Reaching Bergen Car Company",
   intro: [
-    "Bergen Car Company is at 412 Route 46, Lodi, New Jersey 07644. You can call or text (973) 555-0142, email the department you need, or just stop by — no appointment is required. See the [service areas](/service-areas) page for directions from your town.",
+    "Bergen Car Company is at 22 US 46 East, Lodi, New Jersey 07644. You can call or text (973) 928-6300, email the department you need, or just stop by — no appointment is required. See the [service areas](/service-areas) page for directions from your town.",
     "During business hours a real person usually replies within about 15 minutes. Showroom hours are Monday to Friday 9 AM to 8 PM, Saturday 9 AM to 6 PM, and Sunday 11 AM to 4 PM. For quick answers, the [FAQ](/faq) covers most of what people ask.",
   ],
   faqs: [
@@ -237,11 +213,11 @@ export const CONTACT_SEO: SeoBlock = {
     },
     {
       q: "Are sales and service the same phone number?",
-      a: "The main line is (973) 555-0142. The contact page has direct lines for sales, financing, and service if you want a specific department.",
+      a: "The main line is (973) 928-6300. The contact page has direct lines for sales, financing, and service if you want a specific department.",
     },
     {
       q: "Where exactly are you on Route 46?",
-      a: "412 Route 46 in Lodi, in Bergen County, on the eastbound side. There's a Get Directions link on the contact page that opens turn-by-turn navigation.",
+      a: "22 US 46 East in Lodi, in Bergen County, on the eastbound side. There's a Get Directions link on the contact page that opens turn-by-turn navigation.",
     },
   ],
 };
@@ -271,7 +247,7 @@ export const ABOUT_SEO: SeoBlock = {
 export const FINANCING_SEO: SeoBlock = {
   heading: "Used car financing in Lodi, NJ",
   intro: [
-    "Bergen Car Company arranges [financing](/financing) in-house by submitting one application to about a dozen lenders — local credit unions, banks, and programs for first-time and credit-rebuilding buyers. Getting [pre-qualified](/financing) uses a soft credit pull that doesn't affect your score, and no Social Security number is needed to see a payment range.",
+    "Bergen Car Company arranges [financing](/financing) in-house by submitting one application to multiple lenders — local credit unions, banks, and programs for first-time and credit-rebuilding buyers. Getting [pre-qualified](/financing) uses a soft credit pull that doesn't affect your score, and no Social Security number is needed to see a payment range.",
     "Once you have a number, browse the [inventory](/inventory) knowing your budget, add a [trade-in](/trade) to lower the New Jersey sales tax you pay, and [book a test drive](/test-drive). Our guides on [soft vs. hard credit pulls](/blog/soft-pull-vs-hard-pull-car-loan) and [whether to put money down](/blog/should-you-put-money-down-used-car) go deeper.",
   ],
   faqs: [
@@ -293,7 +269,7 @@ export const FINANCING_SEO: SeoBlock = {
 export const TRADE_SEO: SeoBlock = {
   heading: "Trading in or selling your car near Lodi",
   intro: [
-    "Use [Value your trade](/trade) to get a same-day written estimate built from the wholesale auction value, local retail comparables, and our real reconditioning cost — we show all three. Applying a trade toward a car in the [inventory](/inventory) also reduces the New Jersey sales tax you pay on the purchase.",
+    "Use [Value your trade](/trade) to get a same-day written offer built from the wholesale auction value, local retail comparables, and our real reconditioning cost — we show all three. Applying a trade toward a car in the [inventory](/inventory) also reduces the New Jersey sales tax you pay on the purchase.",
     "If you just want to sell and aren't shopping with us, use [Sell your car](/sell) instead — same fair offer, no purchase required. Either way you can also [get pre-qualified](/financing) so you know the full picture before you visit.",
   ],
   faqs: [
@@ -338,7 +314,7 @@ export const WARRANTY_SEO: SeoBlock = {
   heading: "The warranty on every car we sell",
   intro: [
     "Every vehicle in our [inventory](/inventory) includes a 3-month / 3,000-mile limited powertrain [warranty](/warranty) at no extra charge — Bergen Car Company pays 100% of the parts and 100% of the labor on a covered failure, with no deductible. Optional extended service contracts are available on most cars.",
-    "The window Buyers Guide on each car spells out the coverage as required by the FTC. Our [service shop](/service) handles covered repairs in-house, and you can read real owner experiences in the [reviews](/reviews).",
+    "The window Buyers Guide on each car spells out the coverage as required by the FTC. Covered repairs are handled at a licensed repair facility — we don't have an in-house shop. You can read real owner experiences in the [reviews](/reviews).",
   ],
   faqs: [
     {
@@ -359,7 +335,7 @@ export const WARRANTY_SEO: SeoBlock = {
 export const AREAS_SEO: SeoBlock = {
   heading: "Serving the North Jersey and NY metro",
   intro: [
-    "Bergen Car Company is one lot at 412 Route 46 in Lodi, but customers drive in from about 54 towns across Bergen, Passaic, Hudson, Essex, and Morris counties in New Jersey, plus Rockland County, New York. Each [service area](/service-areas) has its own page with the real distance, the route, and current [inventory](/inventory).",
+    "Bergen Car Company is one lot at 22 US 46 East in Lodi, but customers drive in from about 54 towns across Bergen, Passaic, Hudson, Essex, and Morris counties in New Jersey, plus Rockland County, New York. Each [service area](/service-areas) has its own page with the real distance, the route, and current [inventory](/inventory).",
     "Wherever you're coming from, the window prices are the same and there's no out-of-town markup. You can [get pre-qualified](/financing) and [book a test drive](/test-drive) before you make the trip.",
   ],
   faqs: [
@@ -381,7 +357,7 @@ export const AREAS_SEO: SeoBlock = {
 export const REVIEWS_SEO: SeoBlock = {
   heading: "What customers say about Bergen Car Company",
   intro: [
-    "Bergen Car Company holds a 4.9-star average across more than 600 reviews on Google and DealerRater, covering sales, [financing](/financing), and the [service shop](/service). We reply to all of them, including the four- and three-star ones.",
+    "Customers write about the same things they care about before they buy: no hidden fees, [financing](/financing) that doesn't play games, and a [warranty](/warranty) after they leave. We reply to every review, including the critical ones.",
     "Reviews are the honest picture of a used-car lot. When you're ready, browse the [inventory](/inventory), check the [warranty](/warranty) that comes on every car, or [book a test drive](/test-drive).",
   ],
   faqs: [
@@ -403,7 +379,7 @@ export const REVIEWS_SEO: SeoBlock = {
 export const BLOG_SEO: SeoBlock = {
   heading: "Practical used-car advice from the Lodi lot",
   intro: [
-    "The Bergen Car Company [blog](/blog) is written by the people who buy, finance, and fix cars every day — guides on [reading a vehicle history report](/blog/reading-a-used-car-history-report), [what gets added to the price in New Jersey](/blog/what-adds-to-used-car-price-new-jersey), [credit checks for a car loan](/blog/soft-pull-vs-hard-pull-car-loan), and [oil-change intervals](/blog/how-often-oil-change).",
+    "The Bergen Car Company [blog](/blog) is written by the people who buy and finance cars every day — guides on [reading a vehicle history report](/blog/reading-a-used-car-history-report), [what gets added to the price in New Jersey](/blog/what-adds-to-used-car-price-new-jersey), [credit checks for a car loan](/blog/soft-pull-vs-hard-pull-car-loan), and [oil-change intervals](/blog/how-often-oil-change).",
     "When you're ready to act on any of it, the [inventory](/inventory), [financing](/financing), and [trade-in](/trade) pages are a click away.",
   ],
   faqs: [
@@ -426,13 +402,13 @@ export function citySeo(area: ServiceArea): SeoBlock {
     heading: `Buying from ${city} at Bergen Car Company`,
     kicker: `${city}, ${st}`,
     intro: [
-      `Bergen Car Company is about ${area.miles} miles from ${city} — roughly a ${area.drive} drive to 412 Route 46 in Lodi. Buyers from ${city} get the same [inventory](/inventory), the same window prices, and the same 3-month / 3,000-mile [warranty](/warranty) as anyone walking in off Route 46; there is no out-of-town markup.`,
-      `Every car is inspected by our own technicians and comes with the report and a vehicle history report. From ${city} you can [get pre-qualified](/financing) with a soft credit check, get a [trade-in](/trade) estimate, and [book a test drive](/test-drive) so the car is up front with plates on when you arrive. See the [full list of service areas](/service-areas) for other nearby towns.`,
+      `Bergen Car Company is about ${area.miles} miles from ${city} — roughly a ${area.drive} drive to 22 US 46 East in Lodi. Buyers from ${city} get the same [inventory](/inventory), the same window prices, and the same 3-month / 3,000-mile [warranty](/warranty) as anyone walking in off Route 46; there is no out-of-town markup.`,
+      `History reports are available on request, and you're welcome to have any car checked by a mechanic you trust before you buy. From ${city} you can [get pre-qualified](/financing) with a soft credit check, get a [trade-in](/trade) estimate, and [book a test drive](/test-drive) so the car is up front with plates on when you arrive. See the [full list of service areas](/service-areas) for other nearby towns.`,
     ],
     faqs: [
       {
         q: `How far is Bergen Car Company from ${city}?`,
-        a: `About ${area.miles} miles — a ${area.drive} drive to 412 Route 46 in Lodi, ${area.approach}. Traffic on Route 46 and Route 17 is the usual variable.`,
+        a: `About ${area.miles} miles — a ${area.drive} drive to 22 US 46 East in Lodi, ${area.approach}. Traffic on Route 46 and Route 17 is the usual variable.`,
       },
       {
         q: `Are prices different for buyers from ${city}?`,

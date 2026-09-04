@@ -53,7 +53,7 @@ const HOW = [
   {
     icon: IconGauge,
     title: "Why a car gets marked down",
-    body: "Usually one of three reasons: it's been on the lot longer than we'd like, we bought it under market and are passing that on, or a newer arrival made it redundant. Not because something's wrong — the inspection report is on every listing.",
+    body: "Usually one of three reasons: it's been on the lot longer than we'd like, we bought it under market and are passing that on, or a newer arrival made it redundant. Not because something's wrong — photos, specs, and a history report are on the listing.",
   },
   {
     icon: IconClock,
@@ -152,7 +152,7 @@ export default function SpecialsClient({ vehicles }: { vehicles: Vehicle[] }) {
               </span>{" "}
               currently marked down from our own earlier price. Every figure
               below is a real change on a real car — tap one to see the listing,
-              the inspection notes, and the history.
+              photos, and history.
             </motion.p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function SpecialsClient({ vehicles }: { vehicles: Vehicle[] }) {
         <div className="container-page">
           <SectionHeading kicker="On the lot now" title="Marked-down vehicles">
             Each of these is a real price change on a real car. Tap any one to
-            see the full listing, the inspection notes, and the history.
+            see the full listing, photos, and history.
           </SectionHeading>
 
           <Stagger

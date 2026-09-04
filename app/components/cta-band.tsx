@@ -7,16 +7,16 @@ import {
   IconArrowRight,
   IconPhone,
   IconSearch,
+  IconKey,
   IconSwap,
   IconWallet,
-  IconWrench,
 } from "./icons";
 
 const ACTIONS = [
   { icon: IconSearch, label: "Browse inventory", href: "/inventory" },
   { icon: IconWallet, label: "Get pre-qualified", href: "/financing" },
   { icon: IconSwap, label: "Value your trade", href: "/trade" },
-  { icon: IconWrench, label: "Book a service", href: "/service" },
+  { icon: IconKey, label: "Schedule a test drive", href: "/test-drive" },
 ];
 
 export default function CtaBand() {
@@ -62,11 +62,11 @@ export default function CtaBand() {
               <IconArrowRight className="h-4 w-4" />
             </a>
             <a
-              href="tel:+19735550142"
+              href="tel:+19739286300"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
             >
               <IconPhone className="h-4 w-4 text-gold" />
-              (973) 555-0142
+              (973) 928-6300
             </a>
           </div>
         </motion.div>

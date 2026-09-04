@@ -42,7 +42,7 @@ const STEPS = [
   },
   {
     title: "Get your numbers",
-    body: "A soft credit check, then a real payment range from a dozen lenders, usually within minutes.",
+    body: "A soft credit check, then a real payment range from multiple lenders, usually within minutes.",
   },
   {
     title: "Choose and drive",
@@ -103,7 +103,7 @@ const MYTHS = [
   {
     myth: "The dealer picks whatever loan pays them the most.",
     truth:
-      "Your application goes to about a dozen lenders at once, and we show you the offers that come back — the actual terms, side by side, so you choose.",
+      "Your application goes to multiple lenders at once, and we show you the offers that come back — the actual terms, side by side, so you choose.",
   },
   {
     myth: "I need a big down payment or a co-signer.",
@@ -376,7 +376,7 @@ function PreQualForm() {
         </p>
         <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
           <Button asChild variant="navy">
-            <a href="tel:+19735550142">
+            <a href="tel:+19739286300">
               <IconPhone className="h-4 w-4" />
               Call us now
             </a>
@@ -776,8 +776,8 @@ export default function FinancingClient() {
             title="One form, a network of lenders"
             align="center"
           >
-            We&apos;re not tied to a single bank. Your application goes to about a
-            dozen lenders at once, and they compete for it — which is how you end
+            We&apos;re not tied to a single bank. Your application goes to
+            multiple lenders at once, and they compete for it — which is how you end
             up with a better rate than you&apos;d get on your own.
           </SectionHeading>
         </div>
@@ -820,10 +820,10 @@ export default function FinancingClient() {
             <p className="mt-4 text-lg leading-8 text-navy-600">
               The ones we hear most. If yours isn&apos;t here, call{" "}
               <a
-                href="tel:+19735550142"
+                href="tel:+19739286300"
                 className="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-2"
               >
-                (973) 555-0142
+                (973) 928-6300
               </a>{" "}
               — no sales pitch, just a straight answer.
             </p>
