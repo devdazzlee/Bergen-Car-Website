@@ -34,8 +34,8 @@ const TILES: Photo[] = [
     desc: "Priced on the window.",
   },
   {
-    src: "https://images.unsplash.com/photo-1489824904134-441f266464ca?auto=format&fit=crop&w=1400&q=70",
-    alt: "Sample photo — cars parked outside a dealership. To be replaced with a photo of the Bergen showroom.",
+    src: "https://images.pexels.com/photos/29566905/pexels-photo-29566905.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    alt: "Sample photo — a row of used cars parked on a lot. To be replaced with a photo of the Bergen showroom.",
     label: "Stop by anytime",
     desc: "No appointment needed to look around.",
   },
