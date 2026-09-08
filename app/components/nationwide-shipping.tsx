@@ -21,14 +21,14 @@ export default function NationwideShipping() {
             <Reveal>
               <p className="eyebrow text-red">Nationwide shipping</p>
               <h2 id="shipping-heading" className="display-2 mt-3 text-ink">
-                Not just Lodi — we ship nationwide
+                We ship nationwide
               </h2>
               <p className="mt-4 max-w-lg text-lg leading-8 text-navy-600">
-                Most of our customers are local to Bergen County, but our work
-                vans, former police vehicles, and handicap-accessible vans
-                regularly leave the lot for buyers well outside New Jersey.
-                If the right fleet or mobility vehicle isn&apos;t near you,
-                we can usually still get it to you.
+                Our work vans, former police vehicles, and handicap-accessible
+                vans regularly leave the lot for buyers across the country.
+                Tell us where you are — we&apos;ll arrange transport and walk
+                you through financing and paperwork remotely, so the right
+                fleet or mobility vehicle finds you no matter the distance.
               </p>
               <Stagger className="mt-6 space-y-2.5" stagger={0.08}>
                 {POINTS.map((p) => (

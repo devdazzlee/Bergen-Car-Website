@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { currency, estMonthly, miles, type Vehicle } from "../lib/inventory";
 import type { VehicleSpecial } from "../lib/specials";
+import { vehiclePath } from "../lib/vehicle-slug";
 import { IconArrowRight } from "../components/icons";
 
 const BADGE: Record<VehicleSpecial["badge"], string> = {
@@ -27,7 +28,7 @@ export default function SpecialCard({
 
   return (
     <Link
-      href={`/inventory/${v.id}`}
+      href={vehiclePath(v)}
       className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-line-strong shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
     >
       <div className="relative aspect-[16/11] overflow-hidden bg-cloud">

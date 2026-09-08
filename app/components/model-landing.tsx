@@ -3,6 +3,7 @@ import SiteFooter from "./site-footer";
 import InventoryClient from "../inventory/inventory-client";
 import { currency, getInventory, miles, type Vehicle } from "../lib/inventory";
 import { stockFor } from "../lib/model-pages";
+import { vehiclePath } from "../lib/vehicle-slug";
 
 const SITE = "https://bergencarcompany.com";
 const BANNER_IMG =
@@ -127,7 +128,7 @@ export default async function ModelLanding({
           item: {
             "@type": "Car",
             name: `${v.year} ${v.make} ${v.model} ${v.trim}`,
-            url: `${SITE}/inventory/${v.id}`,
+            url: `${SITE}${vehiclePath(v)}`,
             vehicleModelDate: String(v.year),
             mileageFromOdometer: {
               "@type": "QuantitativeValue",

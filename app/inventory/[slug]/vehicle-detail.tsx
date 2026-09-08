@@ -14,6 +14,7 @@ import {
   features,
   fitParagraph,
   gallery,
+  hasRealPhotos,
   historyRows,
   interiorColor,
 } from "../../lib/vehicle-details";
@@ -45,6 +46,7 @@ const TEL = "tel:+19739286300";
 
 function Gallery({ vehicle }: { vehicle: Vehicle }) {
   const imgs = gallery(vehicle);
+  const realPhotos = hasRealPhotos(vehicle);
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(false);
   const touchX = useRef(0);
@@ -73,7 +75,9 @@ function Gallery({ vehicle }: { vehicle: Vehicle }) {
     `${vehicle.year} ${vehicle.make} ${vehicle.model} — ${label.toLowerCase()}`;
 
   return (
-    <div>
+    /* min-w-0: as a grid item this would otherwise size to the thumbnail
+     * strip's full width instead of letting the strip scroll. */
+    <div className="min-w-0">
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -138,26 +142,30 @@ function Gallery({ vehicle }: { vehicle: Vehicle }) {
         </button>
       </motion.div>
 
-      <div className="mt-3 grid grid-cols-4 gap-3">
-        {imgs.map((im, i) => (
-          <button
-            key={im.label}
-            type="button"
-            onClick={() => go(i)}
-            className={`relative aspect-[16/11] overflow-hidden rounded-xl transition ${
-              i === active
-                ? "ring-2 ring-navy"
-                : "opacity-70 ring-1 ring-line hover:opacity-100"
-            }`}
-            aria-label={`Show ${im.label}`}
-          >
-            <Image src={im.src} alt="" fill sizes="20vw" className="object-cover" />
-          </button>
-        ))}
-      </div>
+      {imgs.length > 1 && (
+        /* Scrolls sideways — a listing can carry thirty photos. */
+        <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+          {imgs.map((im, i) => (
+            <button
+              key={im.label}
+              type="button"
+              onClick={() => go(i)}
+              className={`relative aspect-[16/11] w-24 shrink-0 overflow-hidden rounded-xl transition sm:w-28 ${
+                i === active
+                  ? "ring-2 ring-navy"
+                  : "opacity-70 ring-1 ring-line hover:opacity-100"
+              }`}
+              aria-label={`Show ${im.label}`}
+            >
+              <Image src={im.src} alt="" fill sizes="120px" className="object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
       <p className="mt-2 text-[12px] text-navy-500">
-        Interior and detail photos are representative. Ask us for the full set of
-        photos on this exact car.
+        {realPhotos
+          ? `${imgs.length} ${imgs.length === 1 ? "photo" : "photos"} of this exact vehicle. Ask us for more angles or a video walkaround.`
+          : "Interior and detail photos are representative. Ask us for the full set of photos on this exact car."}
       </p>
 
       <AnimatePresence>

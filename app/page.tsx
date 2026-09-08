@@ -35,8 +35,8 @@ export default async function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero rating={rating} />
-        <BudgetEntryBanner />
         <InventoryExplorer vehicles={vehicles}>
+          <BudgetEntryBanner />
           <SpecialtyFocus vehicles={vehicles} />
         </InventoryExplorer>
         <NationwideShipping />

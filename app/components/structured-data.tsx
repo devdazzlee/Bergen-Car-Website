@@ -1,5 +1,6 @@
 import { FAQS } from "../lib/faqs";
 import { currency, type Vehicle } from "../lib/inventory";
+import { vehiclePath } from "../lib/vehicle-slug";
 
 const SITE_URL = "https://bergencarcompany.com";
 const LOGO = `${SITE_URL}/bergen-logo.png`;
@@ -147,7 +148,7 @@ export default function StructuredData({ vehicles }: { vehicles: Vehicle[] }) {
         item: {
           "@type": "Car",
           name: `${v.year} ${v.make} ${v.model} ${v.trim}`,
-          url: `${SITE_URL}/inventory/${v.id}`,
+          url: `${SITE_URL}${vehiclePath(v)}`,
           brand: { "@type": "Brand", name: v.make },
           model: v.model,
           vehicleModelDate: String(v.year),

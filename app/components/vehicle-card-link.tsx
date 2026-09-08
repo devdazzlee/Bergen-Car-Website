@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { currency, estMonthly, miles, type Vehicle } from "../lib/inventory";
+import { vehiclePath } from "../lib/vehicle-slug";
 import { IconArrowRight, IconGauge, IconRoad } from "./icons";
 
 const TAG_STYLES: Record<NonNullable<Vehicle["tag"]>, string> = {
@@ -17,7 +18,7 @@ const TAG_STYLES: Record<NonNullable<Vehicle["tag"]>, string> = {
 export default function VehicleCardLink({ vehicle }: { vehicle: Vehicle }) {
   return (
     <Link
-      href={`/inventory/${vehicle.id}`}
+      href={vehiclePath(vehicle)}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-line shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
     >
       <div className="relative aspect-[16/11] overflow-hidden bg-cloud">

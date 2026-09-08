@@ -4,6 +4,7 @@ import { SERVICE_AREAS } from "./lib/service-areas";
 import { BLOG_POSTS } from "./lib/blog";
 import { VEHICLE_CATEGORIES } from "./lib/vehicle-categories";
 import { qualifyingModels } from "./lib/model-pages";
+import { vehiclePath } from "./lib/vehicle-slug";
 
 const SITE = "https://bergencarcompany.com";
 
@@ -47,9 +48,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: r.priority,
   }));
 
+  // Slugged URLs only — the legacy id pages exist purely to redirect.
   for (const v of vehicles) {
     entries.push({
-      url: `${SITE}/inventory/${v.id}`,
+      url: `${SITE}${vehiclePath(v)}`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,

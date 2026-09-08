@@ -58,10 +58,11 @@ export default function Hero({
             <span className="h-px w-8 bg-gold/70" />
             Family-owned in Lodi, New Jersey
           </motion.p>
-          <motion.h1 variants={item} className="display-1 mt-5 text-white">
-            Dependable used cars
-            <br />
-            from a family you can trust.
+          <motion.h1
+            variants={item}
+            className="display-1 mt-5 max-w-lg text-white"
+          >
+            Dependable cars from a family you trust.
           </motion.h1>
           <motion.p
             variants={item}

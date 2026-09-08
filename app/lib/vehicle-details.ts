@@ -1,4 +1,4 @@
-import { miles, type Vehicle } from "./inventory";
+import { listingPhotos, miles, type Vehicle } from "./inventory";
 
 /* Deterministic, per-vehicle detail data. Same input id → same output every
  * render, so the page is stable and statically prerenderable. Values are
@@ -28,13 +28,30 @@ const DETAIL = {
 
 export type GalleryImage = { src: string; label: string };
 
+/** True when the feed gave us photos of this exact car, so the gallery is
+ * showing the real vehicle rather than stand-in stock shots. */
+export function hasRealPhotos(v: Vehicle): boolean {
+  return listingPhotos(v).length > 0;
+}
+
+/**
+ * Every real photo on file for this exact vehicle, in feed order.
+ *
+ * The generic interior/dashboard/wheel stock shots are a last resort for a
+ * listing with no photos of its own — they are not this car, so they should
+ * never pad out a gallery that has real ones.
+ */
 export function gallery(v: Vehicle): GalleryImage[] {
-  return [
-    { src: v.image, label: "Exterior" },
-    { src: DETAIL.interior, label: "Interior" },
-    { src: DETAIL.dash, label: "Dashboard" },
-    { src: DETAIL.wheel, label: "Wheels" },
-  ];
+  const photos = listingPhotos(v);
+  if (photos.length === 0) {
+    return [
+      { src: v.image, label: "Exterior" },
+      { src: DETAIL.interior, label: "Interior" },
+      { src: DETAIL.dash, label: "Dashboard" },
+      { src: DETAIL.wheel, label: "Wheels" },
+    ];
+  }
+  return photos.map((src, i) => ({ src, label: `Photo ${i + 1}` }));
 }
 
 const WMI: Record<string, string> = {
