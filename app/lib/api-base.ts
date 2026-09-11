@@ -1,10 +1,12 @@
 /**
  * Single origin for the Bergen API. Host-agnostic: local, CI, Vercel,
- * Hostinger, or any other runner all read NEXT_PUBLIC_API_URL.
+ * VPS, or any other runner all read NEXT_PUBLIC_API_URL.
+ *
+ * Production value (VPS): https://bergen.backend-apis-dev.cloud
  *
  * next dev  → optional; defaults to http://localhost:4001
  * next build (NODE_ENV=production) → NEXT_PUBLIC_API_URL is required
- *   and must not be localhost (use .env.production, not .env.local).
+ *   and must not be localhost (use .env.production / VPS secrets).
  */
 export function resolveApiBase(): string {
   const configured = process.env.NEXT_PUBLIC_API_URL?.trim().replace(/\/+$/, "");
