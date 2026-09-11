@@ -1,5 +1,6 @@
 "use client";
 
+// PIPELINE_SMOKE_TEST — temporary marker; will be reverted after deploy check
 import Link from "next/link";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
