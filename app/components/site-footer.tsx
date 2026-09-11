@@ -180,7 +180,7 @@ export default function SiteFooter() {
               Jersey
             </p>
             <p className="max-w-xl sm:text-right">
-              Prices exclude tax, title, registration, and a $499 documentary
+              Prices exclude tax, title, registration, and an $890 documentary
               fee. Vehicles subject to prior sale.
             </p>
           </div>

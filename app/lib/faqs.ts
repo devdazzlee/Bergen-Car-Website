@@ -27,7 +27,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Is the price online the price I actually pay?",
-    a: "Yes. Our listed price is the real selling price — no hidden reconditioning fees, no mandatory add-ons. New Jersey tax, title, registration, and a $499 documentary fee are the only items added at signing.",
+    a: "Yes. The listed unit price is the selling price. An $890 documentary fee, plus New Jersey tax, title, and registration, are added at signing. There is no prep fee and no mandatory add-on package.",
   },
   {
     q: "Can I reserve or hold a vehicle?",

@@ -142,7 +142,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "Sales tax — 6.625% of the sale price statewide (a few Urban Enterprise Zones are half that, but not Lodi). If you trade a car in, you only pay tax on the difference, which is often the biggest reason a trade beats a private sale.",
           "Title fee — a flat state charge, currently $60 for a standard title, $85 if there's a lien from your lender.",
           "Registration — based on the vehicle's weight and model year; typically $60 to $85 for a used passenger car, for the first term.",
-          "Documentary (\"doc\") fee — the dealer's charge for preparing and filing the paperwork. New Jersey does not cap this, so it varies a lot between dealers. Ours is $499 and it's printed on every listing.",
+          "Documentary (\"doc\") fee — the dealer's charge for preparing and filing the paperwork. New Jersey does not cap this, so it varies a lot between dealers. Ours is $890 and it's printed on every listing.",
         ],
       },
       { type: "h2", text: "The things that shouldn't be there" },
@@ -152,8 +152,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "callout",
-        title: "One car, one price",
-        text: "Our rule is that the price you see online is the selling price. Tax, title, registration, and the $499 doc fee get added — nothing else, and no add-on is a condition of the sale.",
+        title: "One car, clear pricing",
+        text: "Our rule is that the unit price you see online is the selling price. Tax, title, registration, and the $890 doc fee get added at signing — and no add-on package is a condition of the sale.",
       },
       { type: "h2", text: "How to check the math before you sign" },
       {

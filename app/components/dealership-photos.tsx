@@ -23,7 +23,7 @@ const HERO: Photo = {
   src: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=2000&q=70",
   alt: "Sample photo — used cars on a dealership lot. To be replaced with a photo of Bergen Car Company at 22 US 46 East, Lodi.",
   label: "The lot on Route 46",
-  desc: "Family-owned. The price on the window is the price you pay.",
+  desc: "Family-owned. Unit price and doc fee listed up front.",
 };
 
 const TILES: Photo[] = [
@@ -31,7 +31,7 @@ const TILES: Photo[] = [
     src: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1400&q=70",
     alt: "Sample photo — a used SUV outside a dealership. To be replaced with a photo of the Bergen Car Company lot on Route 46.",
     label: "On the lot",
-    desc: "Priced on the window.",
+    desc: "Unit price posted on every car.",
   },
   {
     src: "https://images.pexels.com/photos/29566905/pexels-photo-29566905.jpeg?auto=compress&cs=tinysrgb&w=1400",

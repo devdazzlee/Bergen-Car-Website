@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { currency, estMonthly, miles, type Vehicle } from "../../lib/inventory";
+import {
+  currency,
+  DOC_FEE,
+  estMonthly,
+  miles,
+  type Vehicle,
+} from "../../lib/inventory";
 import {
   WARRANTY,
   carfaxUrl,
@@ -246,7 +252,9 @@ export default function VehicleDetail({
       label: "Stock #",
       value: v.id.replace("bcc-", "").toUpperCase(),
     },
-  ];
+  ].filter(
+    (s) => s.value != null && String(s.value).trim() !== "",
+  );
 
   const condition = conditionParagraphs(v);
   const history = historyRows(v);
@@ -317,6 +325,37 @@ export default function VehicleDetail({
                 <p className="mt-1 text-[12px] text-navy-500">
                   {miles(v.mileage)} · {v.drivetrain} · {v.fuel}
                 </p>
+
+                <div className="mt-4 rounded-2xl bg-mist/70 px-4 py-3.5 ring-1 ring-line">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-navy-500">
+                    Detailed Pricing
+                  </p>
+                  <dl className="mt-2.5 space-y-2 text-sm">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="text-navy-600">Unit Price</dt>
+                      <dd className="font-medium tabular-nums text-ink">
+                        {currency(v.price)}
+                      </dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="text-navy-600">Doc Fee</dt>
+                      <dd className="font-medium tabular-nums text-ink">
+                        {currency(DOC_FEE)}
+                      </dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4 border-t border-line pt-2">
+                      <dt className="font-semibold text-ink">
+                        Out-the-Door Price
+                      </dt>
+                      <dd className="font-heading text-base font-bold tabular-nums text-ink">
+                        {currency(v.price + DOC_FEE)}
+                      </dd>
+                    </div>
+                  </dl>
+                  <p className="mt-2 text-[11px] leading-snug text-navy-500">
+                    Before New Jersey sales tax, title, and registration.
+                  </p>
+                </div>
               </div>
 
               <div className="mt-5 flex flex-col gap-2.5">
@@ -371,7 +410,7 @@ export default function VehicleDetail({
                     {label}
                   </dt>
                   <dd
-                    className="truncate text-sm font-medium text-ink"
+                    className="break-words text-sm font-medium text-ink"
                     title={value}
                   >
                     {value}

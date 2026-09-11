@@ -34,7 +34,7 @@ function categoryFaqs(c: VehicleCategory): Faq[] {
     },
     {
       q: "Are the online prices the real prices?",
-      a: "Yes. The price shown is the selling price. New Jersey sales tax, title, registration, and one $499 documentary fee are added at signing — that's the entire list. No prep fee and no mandatory add-ons.",
+      a: "Yes. The unit price shown is the selling price. An $890 documentary fee, plus New Jersey sales tax, title, and registration, are added at signing. There is no prep fee and no mandatory add-on package.",
     },
     {
       q: "Can I finance a purchase at Bergen Car Company?",
@@ -85,7 +85,7 @@ export const HOME_SEO: SeoBlock = {
   heading: "Used cars in Lodi, NJ — the short version",
   kicker: "About Bergen Car Company",
   intro: [
-    "Bergen Car Company is a family-owned used car dealership at 22 US 46 East in Lodi, New Jersey, run by the Ferrante family since 2008. We specialize in [work vans](/used-cargo-vans-lodi-nj), [police cars](/used-police-cars-lodi-nj), and [handicap-accessible vehicles](/used-handicap-accessible-vehicles-lodi-nj), and we also keep a full lot of sedans, SUVs, trucks, and everyday used cars. Every car in our [inventory](/inventory) is priced on the window with no surprise add-ons, and sold with a 3-month / 3,000-mile [warranty](/warranty). History reports are available on request.",
+    "Bergen Car Company is a family-owned used car dealership at 22 US 46 East in Lodi, New Jersey, run by the Ferrante family since 2008. We specialize in [work vans](/used-cargo-vans-lodi-nj), [police cars](/used-police-cars-lodi-nj), and [handicap-accessible vehicles](/used-handicap-accessible-vehicles-lodi-nj), and we also keep a full lot of sedans, SUVs, trucks, and everyday used cars. Every car in our [inventory](/inventory) lists its unit price and the $890 doc fee up front, and is sold with a 3-month / 3,000-mile [warranty](/warranty). History reports are available on request.",
     "We handle the purchase in one place: [financing](/financing) across multiple lenders for any credit situation, and a fair written offer on your [trade-in](/trade) or an [outright purchase](/sell) of your car. We don't operate a repair shop — for maintenance, use a shop you trust. You can [schedule a test drive](/test-drive), check this month's [specials](/specials), or read what customers say in our [reviews](/reviews).",
     "Most of our buyers come from Bergen, Passaic, Hudson, and Essex counties — see the town-by-town details on our [service areas](/service-areas) page, or browse every question we get on the [FAQ](/faq).",
   ],
@@ -96,7 +96,7 @@ export const HOME_SEO: SeoBlock = {
     },
     {
       q: "Are the online prices the real out-the-door prices?",
-      a: "The price shown is the selling price. New Jersey sales tax, title, registration, and one $499 documentary fee are added at signing — that's the entire list. No prep fee, no mandatory add-ons. See [this month's specials](/specials) for current markdowns.",
+      a: "The unit price shown is the selling price. An $890 documentary fee, plus New Jersey sales tax, title, and registration, are added at signing. There is no prep fee and no mandatory add-on package. See [this month's specials](/specials) for current markdowns.",
     },
     {
       q: "Do you help with financing and bad credit?",
@@ -116,14 +116,14 @@ export const HOME_SEO: SeoBlock = {
 export const INVENTORY_SEO: SeoBlock = {
   heading: "Buying a used car at Bergen Car Company",
   intro: [
-    "Every vehicle in our Lodi [inventory](/inventory) is a used car we've bought and priced against the current North Jersey market. The number you see online is the selling price — New Jersey sales tax, title, registration, and a $499 documentary fee are the only additions, and no dealer add-on is a condition of the sale.",
+    "Every vehicle in our Lodi [inventory](/inventory) is a used car we've bought and priced against the current North Jersey market. The number you see online is the unit selling price — an $890 documentary fee, plus New Jersey sales tax, title, and registration, are added at signing.",
     "You can line up [financing](/financing) before you visit, get a written value on your [trade-in](/trade), and [book a test drive](/test-drive) so the car is up front with plates on. Every car also includes a [3-month / 3,000-mile warranty](/warranty).",
     "Stock changes constantly. If the car you want has sold, tell us what you were after and we'll watch the auctions for the next one — or check the [specials](/specials) page for current price drops.",
   ],
   faqs: [
     {
       q: "Are the prices on the website the real prices?",
-      a: "Yes. The price shown is the selling price. New Jersey tax, title, registration, and one $499 documentary fee are added at signing — that's the entire list. There is no prep fee, no mandatory warranty, and no market adjustment.",
+      a: "Yes. The unit price shown is the selling price. An $890 documentary fee, plus New Jersey tax, title, and registration, are added at signing. There is no prep fee, no mandatory warranty purchase, and no market adjustment.",
     },
     {
       q: "Can I see a history report before I come in?",
@@ -341,7 +341,7 @@ export const AREAS_SEO: SeoBlock = {
   faqs: [
     {
       q: "Do you charge more for out-of-town buyers?",
-      a: "No. One lot, one price on the window. New Jersey tax, title, registration, and a $499 documentary fee are the only additions, the same for everyone.",
+      a: "No. One lot, one unit price on the window. An $890 documentary fee, plus New Jersey tax, title, and registration, are added at signing — the same for everyone.",
     },
     {
       q: "How far do people typically drive to buy from you?",
@@ -357,7 +357,7 @@ export const AREAS_SEO: SeoBlock = {
 export const REVIEWS_SEO: SeoBlock = {
   heading: "What customers say about Bergen Car Company",
   intro: [
-    "Customers write about the same things they care about before they buy: no hidden fees, [financing](/financing) that doesn't play games, and a [warranty](/warranty) after they leave. We reply to every review, including the critical ones.",
+    "Customers write about the same things they care about before they buy: clear pricing, [financing](/financing) that doesn't play games, and a [warranty](/warranty) after they leave. We reply to every review, including the critical ones.",
     "Reviews are the honest picture of a used-car lot. When you're ready, browse the [inventory](/inventory), check the [warranty](/warranty) that comes on every car, or [book a test drive](/test-drive).",
   ],
   faqs: [
@@ -412,7 +412,7 @@ export function citySeo(area: ServiceArea): SeoBlock {
       },
       {
         q: `Are prices different for buyers from ${city}?`,
-        a: "No. One lot, one price on the window. New Jersey tax, title, registration, and a $499 documentary fee are the only additions, the same for everyone regardless of where you live.",
+        a: "No. One lot, one unit price on the window. An $890 documentary fee, plus New Jersey tax, title, and registration, are added at signing — the same for everyone regardless of where you live.",
       },
       {
         q: `Can I get financing arranged before I drive over from ${city}?`,

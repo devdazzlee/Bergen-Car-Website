@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 const SITE = "https://bergencarcompany.com";
 
-export const dynamic = "force-static";
+export const revalidate = 86400;
 
 /** Serves /robots.txt */
 export default function robots(): MetadataRoute.Robots {

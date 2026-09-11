@@ -119,7 +119,7 @@ export default function Hero({
             className="mt-8 flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-center"
           >
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
-              <span>No hidden fees</span>
+              <span>Clear pricing</span>
               <span className="hidden h-3.5 w-px bg-white/25 sm:block" />
               <span>Financing available</span>
               <span className="hidden h-3.5 w-px bg-white/25 sm:block" />

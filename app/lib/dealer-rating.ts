@@ -22,7 +22,7 @@ export async function getDealerRating(): Promise<DealerRating | null> {
   const url = `${resolveApiBase()}/api/rating`;
   try {
     const res = await fetch(url, {
-      cache: "force-cache",
+      next: { revalidate: 300, tags: ["dealer-rating"] },
     });
     if (!res.ok) return null;
     const body = (await res.json()) as { data?: DealerRating | null };

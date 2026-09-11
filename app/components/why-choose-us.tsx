@@ -31,8 +31,8 @@ const POINTS = [
   },
   {
     icon: IconKey,
-    title: "The price is the price",
-    body: "What you see on the window and online is what you pay, plus the usual state fees. No surprise add-ons once you sit down.",
+    title: "Pricing you can check",
+    body: "Unit price and the $890 doc fee are listed on every vehicle. New Jersey tax, title, and registration are added at signing — we'll walk the numbers with you before you commit.",
   },
   {
     icon: IconGauge,

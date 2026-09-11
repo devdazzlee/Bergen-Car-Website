@@ -8,7 +8,7 @@ import { vehiclePath } from "./lib/vehicle-slug";
 
 const SITE = "https://bergencarcompany.com";
 
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
 /** Serves /sitemap.xml */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

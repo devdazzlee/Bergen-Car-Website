@@ -45,7 +45,7 @@ const MILESTONES = [
   },
   {
     year: "2012",
-    text: "The lot grows. More cars on the window, same rule: the price you see is the price you pay.",
+    text: "The lot grows. More cars on the window, same rule: unit price and the doc fee listed up front.",
   },
   {
     year: "2013",
@@ -57,7 +57,7 @@ const MILESTONES = [
   },
   {
     year: "Today",
-    text: "Same lot, same idea: the price on the window is the price you pay, and Sal still does most of the appraisals himself.",
+    text: "Same lot, same idea: clear unit pricing with the doc fee listed up front, and Sal still does most of the appraisals himself.",
   },
 ];
 
@@ -70,7 +70,7 @@ const VALUES = [
   {
     icon: IconWallet,
     title: "The price is the price",
-    body: "What's on the window is what you pay. New Jersey tax, title, registration, and one $499 documentary fee — that's the entire list, and we'll show it to you before you sit down.",
+    body: "Unit price plus an $890 documentary fee, then New Jersey tax, title, and registration — we'll show you the full breakdown before you sit down.",
   },
   {
     icon: IconGauge,
@@ -115,8 +115,8 @@ const AVATAR = ["bg-navy", "bg-red", "bg-gold-600", "bg-navy-600", "bg-navy"];
 
 const TRUST = [
   {
-    title: "No hidden fees",
-    body: "Window price plus tax, title, registration, and one documentary fee. That's the whole list.",
+    title: "Clear, itemized pricing",
+    body: "Unit price plus the $890 doc fee, then tax, title, and registration. We'll walk the numbers with you before you buy.",
   },
   {
     title: "Financing available",

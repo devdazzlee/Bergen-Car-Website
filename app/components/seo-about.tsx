@@ -28,7 +28,7 @@ const SEARCHES = [
 ];
 
 const FACTS = [
-  { big: "No hidden fees", small: "Window price is the price you pay" },
+  { big: "Itemized pricing", small: "Unit price + $890 doc fee shown up front" },
   { big: "Financing", small: "Soft-pull pre-qualification available" },
   { big: "Warranty", small: "Coverage included on every car" },
 ];
@@ -74,9 +74,10 @@ export default function SeoAbout() {
                 the kids around in — used SUVs, sedans, trucks, and hatchbacks
                 from Toyota, Honda, Ford, Nissan, Hyundai, and Subaru, with a few
                 nicer models mixed in. History reports are available on request,
-                and every car is backed by a limited warranty. The price you see
-                is the price you pay, plus New Jersey tax, title, registration,
-                and one documentary fee. You're welcome to have any car checked
+                and every car is backed by a limited warranty. The unit price you
+                see online, plus an $890 documentary fee, is what we charge —
+                New Jersey tax, title, and registration are added at signing.
+                You&apos;re welcome to have any car checked
                 by a mechanic you trust before you buy.
               </p>
             </StaggerItem>

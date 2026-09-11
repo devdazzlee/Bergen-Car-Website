@@ -44,7 +44,7 @@ async function fetchBuffer(url: string): Promise<Buffer | null> {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      cache: "force-cache",
+      next: { revalidate: 86400 },
       headers: { Accept: "image/*" },
     });
     if (!res.ok) return null;

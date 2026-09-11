@@ -2,11 +2,11 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 import { IconCheck, IconClose } from "./icons";
 
 const ROWS = [
-  "The price online is the price you pay",
+  "Itemized pricing before you sign",
   "History report available on request",
   "One application sent to multiple lenders",
   "Written trade-in offer in about 20 minutes",
-  "No surprise add-ons or reconditioning fees",
+  "Doc fee disclosed up front — no reconditioning fees",
   "3-month / 3,000-mile warranty included",
   "You're welcome to have it inspected first",
   "Soft credit check to get pre-qualified",

@@ -4,8 +4,8 @@ import type { DealerRating } from "../lib/dealer-rating";
 
 const POINTS = [
   {
-    title: "No hidden fees",
-    body: "The price on the window is the price you pay. Tax, title, registration, and one documentary fee — that's the whole list.",
+    title: "Clear, itemized pricing",
+    body: "Unit price and the $890 doc fee are listed before you sit down. New Jersey tax, title, and registration are added at signing.",
   },
   {
     title: "Financing available",

@@ -28,7 +28,7 @@ export const FEATURED: Review = {
   rating: 5,
   dept: "Sales",
   vehicle: "2019 Honda CR-V",
-  text: "I put off replacing my car for two years because I dreaded the dealership part of it. My brother-in-law told me to just go see the people at Bergen. The price on the window was the price I paid — I kept waiting for the fees to show up and they never did. They pointed out a scratch on the bumper I hadn't even noticed and knocked a little off for it. Financing was done before I got there because I'd filled out the form online. I was in and out in about an hour with a car I actually like. I've since sent my mom and a coworker, and both had the same experience. This is how it should work everywhere.",
+  text: "I put off replacing my car for two years because I dreaded the dealership part of it. My brother-in-law told me to just go see the people at Bergen. They walked me through the unit price and the doc fee on paper before I sat down — I knew what I was signing. They pointed out a scratch on the bumper I hadn't even noticed and knocked a little off for it. Financing was done before I got there because I'd filled out the form online. I was in and out in about an hour with a car I actually like. I've since sent my mom and a coworker, and both had the same experience. This is how it should work everywhere.",
 };
 
 export const REVIEWS: Review[] = [
@@ -284,7 +284,7 @@ export const REVIEWS: Review[] = [
     rating: 5,
     dept: "Sales",
     vehicle: "2016 Hyundai Elantra",
-    text: "Needed something simple to commute. They didn't invent extra fees at the desk and the window price held. In and out without the usual runaround.",
+    text: "Needed something simple to commute. They went over the buyer's order line by line and the window price held. In and out without the usual runaround.",
   },
   {
     id: "r26",

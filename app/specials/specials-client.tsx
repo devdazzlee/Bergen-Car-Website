@@ -63,7 +63,7 @@ const HOW = [
 ];
 
 const FINE_PRINT = [
-  "All prices exclude New Jersey sales tax, title, registration, and a $499 documentary fee. No add-ons are required to get the advertised price — one car, one price.",
+  "All prices exclude New Jersey sales tax, title, registration, and an $890 documentary fee. The advertised unit price is the selling price before those items.",
   "A \"was\" price shown on a vehicle is our own earlier advertised price for that specific car, not a manufacturer MSRP or a competitor's price. Markdowns are current as of the date shown at the top of this page.",
   "Advertised APRs and down-payment offers require credit approval and are not available to every buyer. Rate, term, and payment depend on your credit, the lender, and the vehicle. We'll show you the real numbers before you sign anything.",
   "A financing special and a vehicle markdown can't always be combined. When they can't, we'll calculate both and give you whichever comes out better for you.",

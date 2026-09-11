@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import SiteHeader from "../../components/site-header";
 import SiteFooter from "../../components/site-footer";
 import { currency, getInventory } from "../../lib/inventory";
@@ -8,20 +8,16 @@ import {
   findVehicleBySegment,
   vehiclePath,
 } from "../../lib/vehicle-slug";
-import LegacyUrlRedirect from "./legacy-url-redirect";
 import VehicleDetail from "./vehicle-detail";
 
 type Params = { params: Promise<{ slug: string }> };
 
+/** Prebuild current listings; new cars still resolve at request time. */
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const vehicles = await getInventory();
-  // Two pages per vehicle: the descriptive slug we link to now, plus the bare
-  // database id we linked to before. A static export has no server to issue a
-  // 301, so the old URL has to exist as a page that redirects itself.
-  return vehicles.flatMap((v) => {
-    const slug = buildVehicleSlug(v);
-    return slug === v.id ? [{ slug }] : [{ slug }, { slug: v.id }];
-  });
+  return vehicles.map((v) => ({ slug: buildVehicleSlug(v) }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -36,7 +32,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     description: `${name} for sale at Bergen Car Company in Lodi, NJ. ${v.mileage.toLocaleString(
       "en-US",
     )} miles, ${v.drivetrain}, with a limited warranty.`,
-    // Always the slugged URL, so the legacy id pages consolidate onto it.
     alternates: { canonical: vehiclePath(v) },
   };
 }
@@ -47,13 +42,9 @@ export default async function VehiclePage({ params }: Params) {
   const vehicle = findVehicleBySegment(vehicles, slug);
   if (!vehicle) notFound();
 
-  if (slug !== buildVehicleSlug(vehicle)) {
-    return (
-      <LegacyUrlRedirect
-        to={`${vehiclePath(vehicle)}/`}
-        name={`${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim}`}
-      />
-    );
+  const canonical = buildVehicleSlug(vehicle);
+  if (slug !== canonical) {
+    redirect(`${vehiclePath(vehicle)}/`);
   }
 
   const similar = vehicles

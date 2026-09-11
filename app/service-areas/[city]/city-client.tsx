@@ -64,8 +64,8 @@ export default function CityClient({
               {area.intro}
             </p>
             <p className="mt-4 text-[15px] leading-7 text-navy-600">
-              Everything on the lot is priced on the window with no surprise
-              add-ons, and backed by a 3-month / 3,000-mile warranty. The
+              Everything on the lot lists its unit price and the $890 doc fee up
+              front, and is backed by a 3-month / 3,000-mile warranty. The
               number you see from {area.city}{" "}
               is the same number a neighbor down the street would see.
             </p>

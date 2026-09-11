@@ -203,11 +203,11 @@ export default function ReviewsClient({
             <div className="grid gap-5 sm:grid-cols-3">
               <div>
                 <p className="font-heading text-lg font-bold text-ink">
-                  No hidden fees
+                  Clear, itemized pricing
                 </p>
                 <p className="mt-1.5 text-[13px] leading-6 text-navy-600">
-                  The window price is the price you pay, plus tax, title,
-                  registration, and one documentary fee.
+                  Unit price and the $890 doc fee are listed up front, plus New
+                  Jersey tax, title, and registration at signing.
                 </p>
               </div>
               <div>

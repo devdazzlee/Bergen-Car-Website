@@ -10,7 +10,7 @@ const REVIEWS = [
     initials: "MD",
     city: "Garfield, NJ",
     car: "2019 Honda CR-V",
-    text: "I was dreading the whole thing and it turned out fine. The price was the price, no surprises, and they had my financing worked out before I got there.",
+    text: "I was dreading the whole thing and it turned out fine. They walked me through every line on the buyer's order, and they had my financing worked out before I got there.",
   },
   {
     name: "Kevin R.",

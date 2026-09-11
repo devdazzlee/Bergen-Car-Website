@@ -131,6 +131,9 @@ export function featuredOf(vehicles: Vehicle[], count = 12): Vehicle[] {
   return vehicles.slice(0, count);
 }
 
+/** Flat documentation fee added to every purchase (NJ dealers are uncapped). */
+export const DOC_FEE = 890;
+
 export const currency = (n: number) =>
   n.toLocaleString("en-US", {
     style: "currency",
@@ -162,14 +165,15 @@ export function estMonthly(price: number): number {
   return Math.round(m / 5) * 5;
 }
 
+/** Revalidate often enough that sold/new cars show up without a redeploy. */
+const INVENTORY_REVALIDATE_SECONDS = 60;
+
 export async function fetchInventory(): Promise<Vehicle[]> {
   const url = `${resolveApiBase()}/api/inventory`;
   let res: Response;
   try {
     res = await fetch(url, {
-      // Static HTML export cannot prerender a no-store fetch. The lot is
-      // snapshotted at build time; the Bergen API still refreshes every 30 min.
-      cache: "force-cache",
+      next: { revalidate: INVENTORY_REVALIDATE_SECONDS, tags: ["inventory"] },
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "network error";
@@ -185,13 +189,6 @@ export async function fetchInventory(): Promise<Vehicle[]> {
   return body.data.map(inferVehicleFlags);
 }
 
-let inflight: Promise<Vehicle[]> | null = null;
-
-/** Dedupes inventory fetches during a production/static build pass. */
 export function getInventory(): Promise<Vehicle[]> {
-  if (process.env.NODE_ENV !== "production") {
-    return fetchInventory();
-  }
-  if (!inflight) inflight = fetchInventory();
-  return inflight;
+  return fetchInventory();
 }

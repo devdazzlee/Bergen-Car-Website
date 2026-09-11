@@ -26,7 +26,7 @@ export const BLUNT: { q: string; a: string }[] = [
   },
   {
     q: "Are the prices online the real prices?",
-    a: "Yes. The number on the website is the selling price. New Jersey tax, title, registration, and one $499 documentary fee are added at signing — that's the whole list. No prep fee, no mandatory warranty, no \"market adjustment.\"",
+    a: "Yes. The number on the website is the unit selling price. An $890 documentary fee, plus New Jersey tax, title, and registration, are added at signing. There is no prep fee, no mandatory warranty purchase, and no \"market adjustment.\"",
   },
   {
     q: "What if I find a problem after I buy?",
